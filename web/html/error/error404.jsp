@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>ERROR</title>
-    <link rel="stylesheet" type="text/css" href="../../css/error_1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/error_style.css" />
 </head>
 <body>
     <h1>ERROR404</h1>

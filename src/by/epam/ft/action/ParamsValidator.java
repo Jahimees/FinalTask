@@ -7,7 +7,7 @@ public class ParamsValidator {
     /**
      * Clear input string clears the line of the form: "<script>"
      * to script
-     * @param s - String with banned symbols '<' and '>'
+     * @param s - String with banned symbols '<' and '>'.
      * @return cleared string
      */
     public static String validateParams(String s){
