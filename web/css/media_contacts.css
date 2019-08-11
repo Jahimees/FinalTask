@@ -1,0 +1,46 @@
+@media all and (max-width: 1280px) {
+	.content {
+		margin: 2% 15%;		
+		padding: 0px;
+	}
+	p {
+		font-size: 15px;
+	}
+	
+	table {
+		padding: 0px;
+	}	
+	
+	.title {
+		font-size: 30px;
+	}
+	
+	h1 {
+		font-size: 18px;
+	}
+}
+
+
+@media all and (max-width: 800px) {	
+
+	.content {
+		margin: 2% 5%;		
+		padding: 0px;
+	}
+	
+	p {
+		font-size: 13px;
+	}
+	
+	table {
+		padding: 0px;
+	}	
+	
+	h1 {
+		font-size: 16px;
+	}	
+	
+	.footer {
+		font-size: 10px;
+	}
+}

@@ -1,0 +1,1 @@
+SELECT count(true) WHERE EXISTS(SELECT * FROM selection WHERE idSelection=104);

@@ -1,0 +1,254 @@
+package by.epam.ft.dao;
+
+import by.epam.ft.connection.ConnectionPool;
+import by.epam.ft.entity.Account;
+import by.epam.ft.entity.Candidate;
+import org.apache.log4j.Logger;
+
+import java.sql.*;
+import java.util.List;
+
+import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
+import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
+import static by.epam.ft.constant.PreparedConstant.*;
+
+/**
+ * manages data in the Account table
+ */
+public class AccountDAO implements DAO<Account> {
+    private static final Logger logger = Logger.getLogger(AccountDAO.class);
+
+    /**
+     * @see DAO
+     * @param id
+     * @param query
+     * @return Account object
+     */
+    @Override
+    public Account showById(int id, String query) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Account account = new Account();
+        try {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                account.setIdAccount(rs.getInt(1));
+                account.setLogin(rs.getString(2));
+                account.setPassword(rs.getString(3));
+                account.setName(rs.getString(4));
+                account.setSurname(rs.getString(5));
+                account.setBirthday(rs.getDate(6));
+                account.setEmail(rs.getString(7));
+            }
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+            }
+        }
+        return account;
+    }
+
+    /**
+     * show id of account by login
+     * @param login
+     * @return Account id
+     */
+    public int showIdAccountByLogin(String login) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        int idAccount = 0;
+        try {
+            PreparedStatement statementForId = connection.prepareStatement(GET_ID_ACCOUNT_BY_LOGIN);
+            statementForId.setString(1, login);
+            ResultSet rsInner = statementForId.executeQuery();
+
+            if (rsInner.next()) {
+                idAccount = rsInner.getInt(1);
+            }
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+            }
+        }
+        return idAccount;
+    }
+
+    /**
+     * Shows encrypted password by username
+     * @param login
+     * @return encrypted password
+     */
+    public String showPasswordByLogin(String login){
+        String passwordFromDB ="";
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_PASSWORD_BY_LOGIN);
+            statement.setString(1, login);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                passwordFromDB = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+            }
+        }
+        return passwordFromDB;
+    }
+
+    /**
+     * Show Account by id candidate or id HR
+     * @param id
+     * @param isHr
+     * @return Account object
+     */
+    public Account showByIdUser(int id, boolean isHr) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Account account = new Account();
+            try {
+                PreparedStatement statement = null;
+                if (id!=0) {
+                    if (isHr) {
+                        statement = connection.prepareStatement(GET_ACCOUNT_BY_HR_ID);
+                    } else {
+                        statement = connection.prepareStatement(GET_ACCOUNT_BY_CANDIDATE_ID);
+                    }
+                    statement.setInt(1, id);
+                    ResultSet rs = statement.executeQuery();
+                    if (rs.next()) {
+                        account.setIdAccount(rs.getInt(1));
+                        account.setPassword(rs.getString(3));
+                        account.setName(rs.getString(4));
+                        account.setSurname(rs.getString(5));
+                    }
+                }
+            } catch (SQLException e) {
+                logger.error(e + SQL_DAO_EXCEPTION);
+            } finally {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                }
+            }
+        return account;
+    }
+
+    /**
+     * Changes password in database
+     * @param idAccount
+     * @param password
+     * @return true - if successful, otherwise - false;
+     */
+    public boolean changePassword(int idAccount, String password) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        boolean result = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_PASSWORD);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, idAccount);
+            result = preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * No implementation needed
+     * @deprecated
+     * @return
+     */
+    @Override
+    public List<Account> showAll() {
+        return null;
+    }
+
+    /**
+     * No implementation needed
+     * @deprecated
+     * @return
+     */
+    @Override
+    public boolean updateInfo(Account account, String query) {
+        return false;
+    }
+
+    /**
+     * No implementation needed
+     * @deprecated
+     * @return
+     */
+    @Override
+    public boolean deleteInfo(Account account, String query) {
+        return false;
+    }
+
+    /**
+     * Create new account in database
+     * @return
+     */
+    @Override
+    public boolean insertInfo(Account account, String query) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        boolean result = false;
+        try {
+            String login = account.getLogin();
+            String password = account.getPassword();
+            String name = account.getName();
+            String surname = account.getSurname();
+            Date birthday = account.getBirthday();
+            String email = account.getEmail();
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, login);
+            statement.setString(2, password);
+            statement.setString(3, name);
+            statement.setString(4, surname);
+            statement.setDate(5, birthday);
+            statement.setString(6, email);
+            statement.execute();
+
+            statement = connection.prepareStatement(GET_ID_ACCOUNT_BY_LOGIN);
+            statement.setString(1, login);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int idAccount = rs.getInt(1);
+                Candidate candidate = new Candidate();
+                candidate.setIdAccount(idAccount);
+                statement = connection.prepareStatement(INSERT_INTO_CANDIDATE);
+                statement.setInt(1, idAccount);
+                statement.execute();
+            }
+            result = true;
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+            }
+        }
+        return result;
+    }
+
+}

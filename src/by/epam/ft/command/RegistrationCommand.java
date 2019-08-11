@@ -1,0 +1,69 @@
+package by.epam.ft.command;
+
+import by.epam.ft.cryption.Encryption;
+import by.epam.ft.dao.AccountDAO;
+import by.epam.ft.entity.Account;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
+
+import static by.epam.ft.action.ParamsValidator.validateParams;
+import static by.epam.ft.constant.AttributeAndParameterConstant.*;
+import static by.epam.ft.constant.LogConstant.LOGIN_ALREADY_EXISTS;
+import static by.epam.ft.constant.LogConstant.NEW_ACCOUNT_CREATED;
+import static by.epam.ft.constant.PageConstant.AUTHORIZATION_PAGE;
+import static by.epam.ft.constant.PageConstant.REGISTER_PAGE;
+import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_ACCOUNT;
+import static javax.management.timer.Timer.ONE_DAY;
+
+/**
+ * Class-command which register the new user
+ * implements ActionCommand interface
+ * @see ActionCommand
+ */
+public class RegistrationCommand implements ActionCommand {
+    Logger logger = Logger.getLogger(RegistrationCommand.class);
+
+    @Override
+    public String execute(HttpServletRequest request) {
+        String page = null;
+
+        String login = request.getParameter(LOGIN);
+
+        AccountDAO accountDao = new AccountDAO();
+        int id = accountDao.showIdAccountByLogin(login);
+        if (id != 0) {
+            request.setAttribute(ERROR_MESSAGE, LOGIN_ALREADY_EXISTS);
+            page = REGISTER_PAGE;
+            return page;
+        }
+
+        String password = request.getParameter(PASSWORD);
+        password = Encryption.encrypt(password);
+
+        String name = validateParams(request.getParameter(NAME));
+
+        String surname = validateParams(request.getParameter(SURNAME));
+
+        String birthday = request.getParameter(AGE);
+        Date birth = Date.valueOf(birthday);
+        birth = new Date(birth.getTime()+ONE_DAY);
+
+        String email = validateParams(request.getParameter(MAIL));
+        Account account = new Account();
+        account.setLogin(login);
+        account.setPassword(password);
+        account.setName(name);
+        account.setSurname(surname);
+        account.setBirthday(birth);
+        account.setEmail(email);
+
+        AccountDAO dao = new AccountDAO();
+        dao.insertInfo(account, INSERT_INTO_ACCOUNT);
+        logger.info(NEW_ACCOUNT_CREATED);
+        page = AUTHORIZATION_PAGE;
+        return page;
+
+    }
+}

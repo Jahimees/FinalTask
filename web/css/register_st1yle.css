@@ -1,0 +1,124 @@
+
+body {
+	
+    background-color: #fff; /* Цвет фона */	
+}
+
+h1 {
+	margin: 3% 0% 1% 0%;
+}
+
+header {
+	margin-top: 0px;
+	font-family: "Cuprum", "Arial", san-serif;
+	
+}
+
+.title {
+	text-align: center;
+	font-family: "Cuprum", "Arial", san-serif;
+	font-size: 50px;
+	background: #225e83;
+	border: 1px solid #5b5b5b;	
+	margin: 0 10%;
+	padding: 1%;
+	color: #fff;
+	
+}
+
+.content {	
+	margin: 3% 10%;
+}
+
+.field {
+	font-family: Cuprum, Arial, san-serif;
+	display:block;
+	margin:0 auto;
+	border-radius: 10px;
+	width: 40%;
+	justify-content: center;
+	height: 40px;
+	text-align: center;
+	border: 2px solid #4d4d4d;
+	background: #b4c2cb;
+	outline: none;
+	color: #fff;
+	font-size: 20px;
+	padding: 0 18px;
+	transition: all 0.3s ease;
+	font-style: italic;
+}
+
+.field_names {
+	text-align: center;
+	font-family: Cuprum, Arial, san-serif;
+	color: #222;
+	margin: 0 auto;
+	padding: 0 auto;
+}
+
+.registration {
+	justify-content: center;
+	margin: 0% 10% 0% 10%;	
+	border: 1px solid #225e83;
+	border-top: 0px;
+	padding: 1% 0% 3% 0%;
+	background-color: #fff;	
+}
+
+.field:focus {
+	width: 50%;
+	border: 3px solid black;
+	transition: all 0.3s ease;
+	background: #eee;	
+	color: #000;
+}
+
+.button {
+	padding: 10px 15px;
+	text-decoration: none;	
+	text-align: center;
+	display: block;
+	margin: 5% auto 0;
+	border: 2px solid #898989;
+	background: #ccc;
+	font-size: 35px;
+	width: 50%;
+	
+	border-radius: 8px;
+	color: #222222;
+	box-shadow: 0px -3px 5px rgba(0,0,0,0.5); /* Параметры тени */
+	font-family: Cuprum, Arial, san-serif;
+	transition: all 0.3s ease;
+}
+
+.button:hover {
+	background: #aaa;
+	transition: all 0.5s ease;
+	color: #fff;
+	box-shadow: 0px 7px 5px rgba(0,0,0,0.5); /* Параметры тени */
+}
+
+.box button{
+	float: left;
+	padding: 10px 3px;
+    width: 100px;
+	border: 0;
+    background: #a3b1ba;
+    display: block;
+    margin: -43px -43px -43px 5%;;
+    text-align: center;
+    border: 2px solid #4d4d4d;
+    outline: none;
+    color: white;
+    border-radius: 30px;
+    transition: 0.25s;
+}
+
+.footer {
+	color: #6b6b6b;
+	text-align: center;
+	margin-top: 0%;
+	margin-bottom: 3%;
+	font-family: Courier new, san-serif;
+}

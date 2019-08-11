@@ -1,0 +1,17 @@
+.error_img {
+    margin: 0 auto;
+    display: block;
+    width: 50%;
+}
+
+h1 {
+    margin-left: 10%;
+    font-family: "Courier New" ,san-serif;
+    font-size: 30px;
+}
+
+p {
+    margin-left: 13%;
+    font-family: "Courier New", san-serif;
+    font-size: 25px;
+}

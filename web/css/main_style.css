@@ -1,0 +1,98 @@
+
+body {
+	border-color: #2f4f4f;
+}
+
+header {
+	margin: 0px;
+	
+	font-family: "Cuprum", "Arial", san-serif;	
+}
+
+p {
+	font-size: 18px;
+	font-weight: bold;
+	color: #343434;
+	text-align: center;
+	padding: 0px 10%;
+}
+
+.hat {
+	margin-left: 2.5%;
+	margin-right: 2.5%;
+}
+
+.content {
+	margin: 3% 8% 5% 8%;
+	padding: 3px 5px 20px 18px;
+	border: 3px solid #2f4f4f;
+}
+
+.title {
+	text-align: center;
+	border-bottom: 2px solid #c4c4c5;
+	font-size: 18px;
+	padding-bottom: 1px;
+	font-family: "Cuprum", "Arial", sun-san-serif;
+}
+
+.txt {	
+	
+	justify-content: center;
+	font-family: Courier new, san-serif;
+	background: white;
+	color: black;
+}
+
+.txt_contact {	
+	justify-content: left;
+	text-align: left;
+	font-family: Courier new, san-serif;
+	background: white;
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+	color: #343434;
+	padding: 0px 10%;
+}
+
+.pic {
+	padding: 0 5px 0 0;
+	transition: all 0.3s ease;
+}
+
+.pic:active {	
+	width: 55%;	
+	transition: all 0.3s ease;
+}
+
+.ico {
+	padding: 0 5px 0 0;
+	transform: rotate(0deg);
+	transition: all 1.5s ease;
+}
+
+.pic_container {
+	text-align: center;
+	margin: 3% 0% 1%;
+}
+
+.feature-projects {
+  padding-top: 60px;
+  background-image: url("../img/projects.png");
+  background-repeat: no-repeat;
+  
+}
+.ico:hover {
+	transform: rotate(360deg);
+	transition: all 1.5s ease;
+	
+}
+
+.footer {
+	color: #6b6b6b;
+	text-align: center;
+	margin-top: 0%;
+	margin-bottom: 3%;
+	font-family: Courier new, san-serif;
+}
