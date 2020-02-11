@@ -16,6 +16,7 @@ public abstract class PreparedConstant {
             " account.name, account.surname, account.birthday, account.email" +
             " FROM account, hr WHERE hr.idHR=? and hr.idAccount=account.idAccount;";
     public static final String GET_HR_BY_ID_ACCOUNT = "SELECT * FROM hr WHERE idAccount=?;";
+    public static final String GET_ACCOUNT_BY_NAMES = "SELECT * FROM account WHERE name=? and surname=?;";
     public static final String GET_VACANCY = "SELECT * FROM vacancy WHERE idVacancy=?;";
     public static final String GET_CANDIDATE_BY_ACCOUNT_ID = "SELECT candidate.idCandidate, candidate.idAccount FROM" +
             " account, candidate WHERE candidate.idAccount=account.idAccount and candidate.idAccount=?;";
@@ -23,9 +24,15 @@ public abstract class PreparedConstant {
     public static final String GET_ID_ACCOUNT_BY_LOGIN = "SELECT idAccount FROM account WHERE login=?;";
     public static final String GET_CANDIDATE_VACANCIES = "SELECT idSelection, idHR, selection.idCandidate, selectionDate," +
             " idVacancy, status FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=?;";
+    public static final String GET_HR_VACANCIES = "SELECT idSelection, hr.idHR, selection.idCandidate, selectionDate," +
+            " idVacancy, status FROM selection, hr WHERE hr.idHR=selection.idHR and hr.idHr=?;";
     public static final String GET_SELECTION_BY_VACANCY = "SELECT * FROM selection WHERE idVacancy=?;";
     public static final String GET_SELECTION_BY_IDS = "SELECT idSelection FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=? and idVacancy=?;";
     public static final String GET_SELECTION_BY_ID = "SELECT * FROM selection WHERE idSelection=?;";
+    public static final String GET_SELECTION_BY_STATUS = "SELECT * FROM selection WHERE status=?;";
+    public static final String GET_SELECTION_WITHOUT_HR = "SELECT * FROM selection WHERE idHR is null;";
+    public static final String GET_POPULAR_VACANCIES = "select count(*), name from vacancy join selection on " +
+            "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
 
     /////////////////////////////INSERT////////////////////
     public static final String INSERT_INTO_ACCOUNT = "INSERT INTO account(login, password, name, surname, birthday, email) VALUES (?, ?, ?, ?, ?, ?);";

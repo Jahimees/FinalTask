@@ -9,7 +9,7 @@
 		<title>IT ROAD</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="../css/main_style.css" type="text/css">		
-		<link rel="stylesheet" href="../css/menu.css" type="text/css">
+		<link rel="stylesheet" href="../css/menu1.css" type="text/css">
 		<link rel="stylesheet" href="../css/media.css" type="text/css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap"> 

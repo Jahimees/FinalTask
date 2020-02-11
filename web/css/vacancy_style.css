@@ -32,7 +32,6 @@ table {
     border-collapse: collapse;
     justify-content: center;
     text-align: center;
-    margin: 2% auto;
 
     font-family: courier new, san-serif;
 }
@@ -81,17 +80,17 @@ td::selection {
 
 .button {
     text-decoration: none;
-    padding: 10% 3%;
+    padding: 5px 30px;
     text-align: center;
     justify-content: left;
-    font-size: 16px;
+    font-size: 14px;
     display: block;
     color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     font-family: "Courier New", san-serif;
     background: #2f4f6f;
-    width: 80%;
-    margin: 0 auto;
+    width: 50%;
+    margin: 10px;
 }
 
 
@@ -121,10 +120,9 @@ td::selection {
 }
 
 .content {
-    margin: 15%;
+    margin: 10%;
     margin-bottom: 5%;
     margin-top: 3%;
-    padding: 0px 0px 20px 0px;
     border: 3px solid #2f4f4f;
 }
 

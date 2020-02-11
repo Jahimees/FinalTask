@@ -8,7 +8,7 @@
 		<meta charset="UTF-8"/>
 		<title>IT ROAD. Авторизация</title>
 		<link rel="stylesheet" href="../css/register_style.css" type="text/css"/>
-		<link rel="stylesheet" href="../css/menu.css" type="text/css"> 
+		<link rel="stylesheet" href="../css/menu1.css" type="text/css">
 		<link rel="stylesheet" href="../css/media.css" type="text/css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap"> 	

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.INVALID_LOGIN_OR_PASSWORD;
 import static by.epam.ft.constant.PageConstant.AUTHORIZATION_PAGE;
+import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
 
 /**
  * Сlass-command that authorizes the user if was entered the correct username and password
@@ -32,8 +33,7 @@ public class LoginCommand implements ActionCommand {
 
         if (passwordFromDB.equals(passwordFromJSP)) {
             initSession(request, login);
-            OpenAccountCommand command = new OpenAccountCommand();
-            page = command.execute(request);
+            page = MAIN_PAGE;
             return page;
         }
         request.setAttribute(ERROR_MESSAGE, INVALID_LOGIN_OR_PASSWORD);

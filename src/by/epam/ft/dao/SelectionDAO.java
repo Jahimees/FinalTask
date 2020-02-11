@@ -20,7 +20,7 @@ import static by.epam.ft.constant.PreparedConstant.*;
  * manages data in the Selection table
  */
 public class SelectionDAO implements DAO<Selection> {
-    private static final Logger logger = Logger.getLogger(AccountDAO.class);
+    private static final Logger logger = Logger.getLogger(SelectionDAO.class);
 
     /**
      * @see DAO
@@ -33,18 +33,45 @@ public class SelectionDAO implements DAO<Selection> {
         return null;
     }
 
-    /**
-     * Shows all vacancies which candidate register for
-     * @param idCandidate
-     * @param query
-     * @return
-     */
-    public List<Selection> showSelections(int idCandidate, String query) {
+    public List<Selection> showSelections(String status) {
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, idCandidate);
+            PreparedStatement statement = connection.prepareStatement(GET_SELECTION_BY_STATUS);
+            statement.setString(1, status);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Selection selection = new Selection();
+                selection.setSelectionDate(rs.getDate(SELECTION_DATE));
+                selection.setIdSelection(rs.getInt(ID_SELECTION));
+                selection.setIdCandidate(rs.getInt(ID_CANDIDATE));
+                selection.setIdHr(rs.getInt(ID_HR));
+                selection.setIdVacancy(rs.getInt(ID_VACANCY));
+                selection.setStatus(rs.getString(STATUS));
+                selections.add(selection);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return selections;
+    }
+
+    /**
+     * Shows all vacancies which candidate register for
+     * @param idHrOrCandidate
+     * @return
+     */
+    public List<Selection> showSelections(int idHrOrCandidate, boolean isHr) {
+        List<Selection> selections = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement;
+            if (isHr) {
+                statement = connection.prepareStatement(GET_HR_VACANCIES);
+            } else {
+                statement = connection.prepareStatement(GET_CANDIDATE_VACANCIES);
+            }
+            statement.setInt(1, idHrOrCandidate);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Selection selection = new Selection();
@@ -58,6 +85,36 @@ public class SelectionDAO implements DAO<Selection> {
             }
         } catch (SQLException e) {
             logger.error(e + SQL_DAO_EXCEPTION);
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                e.printStackTrace();
+            }
+        }
+        return selections;
+    }
+
+    public List<Selection> showSelectionsWithoutHr() {
+        List<Selection> selections = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_SELECTION_WITHOUT_HR);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Selection selection = new Selection();
+                selection.setIdSelection(resultSet.getInt(ID_SELECTION));
+                selection.setIdHr(resultSet.getInt(ID_HR));
+                selection.setSelectionDate(resultSet.getDate(SELECTION_DATE));
+                selection.setIdCandidate(resultSet.getInt(ID_CANDIDATE));
+                selection.setStatus(resultSet.getString(STATUS));
+                selection.setIdVacancy(resultSet.getInt(ID_VACANCY));
+                selections.add(selection);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         } finally {
             try {
                 connection.close();

@@ -1,12 +1,15 @@
 package by.epam.ft.dao;
 
 import by.epam.ft.connection.ConnectionPool;
+import by.epam.ft.entity.TopVacancy;
 import by.epam.ft.entity.Vacancy;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.*;
@@ -44,6 +47,32 @@ public class VacancyDAO implements DAO<Vacancy> {
         }
 
         return null;
+    }
+
+    public LinkedHashMap<String, Integer> takePopularVacancies() {
+        LinkedHashMap<String, Integer> topList = new LinkedHashMap<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_POPULAR_VACANCIES);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+//                TopVacancy vacancy = new TopVacancy();
+//                vacancy.setCount(resultSet.getInt("count(*)"));
+//                vacancy.setName(resultSet.getString("name"));
+                topList.put(resultSet.getString("name"), resultSet.getInt("count(*)"));
+//                topList.add(vacancy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return topList;
     }
 
     /**

@@ -89,7 +89,7 @@ function emailVerify(event) {
     email.setCustomValidity("");
     allIsOk();
   } else {
-      email.setCustomValidity("Email не имеет не верный формат");
+      email.setCustomValidity("Email имеет неверный формат");
      event.target.style.borderColor = "red";
      allEmailsOk = false;
   }

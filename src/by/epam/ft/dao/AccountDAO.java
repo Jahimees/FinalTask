@@ -3,9 +3,11 @@ package by.epam.ft.dao;
 import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
+import by.epam.ft.entity.Hr;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
@@ -71,11 +73,13 @@ public class AccountDAO implements DAO<Account> {
             }
         } catch (SQLException e) {
             logger.error(e + SQL_DAO_EXCEPTION);
+            e.printStackTrace();
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                e.printStackTrace();
             }
         }
         return idAccount;
@@ -132,6 +136,7 @@ public class AccountDAO implements DAO<Account> {
                         account.setPassword(rs.getString(3));
                         account.setName(rs.getString(4));
                         account.setSurname(rs.getString(5));
+                        account.setEmail(rs.getString(7));
                     }
                 }
             } catch (SQLException e) {
@@ -171,6 +176,31 @@ public class AccountDAO implements DAO<Account> {
         }
         return result;
     }
+
+    public List<Account> showByNameAndSurname(String name, String surname) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        List<Account> accounts = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ACCOUNT_BY_NAMES);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Account account = new Account();
+                account.setIdAccount(resultSet.getInt("idAccount"));
+                account.setLogin(resultSet.getString("login"));
+                account.setName(resultSet.getString("name"));
+                account.setSurname(resultSet.getString("surname"));
+                account.setBirthday(resultSet.getDate("birthday"));
+                account.setEmail(resultSet.getString("email"));
+                accounts.add(account);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accounts;
+    }
+
 
     /**
      * No implementation needed

@@ -8,18 +8,50 @@
 		<meta charset="UTF-8"/>
 		<title>IT ROAD. Аккаунт</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="../css/account_style.css" type="text/css">
-		<link rel="stylesheet" href="../css/menu.css" type="text/css"> 
+		<link rel="stylesheet" href="../css/account_style1.css" type="text/css">
+		<link rel="stylesheet" href="../css/menu1.css" type="text/css">
 		<link rel="stylesheet" href="../css/media.css" type="text/css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap">
-		<link rel="stylesheet" type="text/css" href="../css/modal_contact.css" />
+		<link rel="stylesheet" type="text/css" href="../css/modal_cont1act1.css" />
+		<link rel="stylesheet" type="text/css" href="../css/pagination.css" />
 		<style>
 
 		</style>
+
 	</head>
 	
 	<body>
+	<jsp:useBean id="vacancyDao" class="by.epam.ft.dao.VacancyDAO"  scope="session"/>
+	<c:set var="topVacancies" value="${vacancyDao.takePopularVacancies()}"/>
+	<script src="https://www.google.com/jsapi"></script>
+	<script>
+
+		google.load("visualization", "1", {packages:["corechart"]});
+		google.setOnLoadCallback(drawChart);
+		function drawChart() {
+			var data1 = new Map();
+			data1.set('Название', 'Значение');
+			<c:forEach var="item" items="${topVacancies}" >
+				data1.set('${item.getKey()}', '${item.getValue()}');
+
+			</c:forEach>
+
+			var data = google.visualization.arrayToDataTable([
+				['Название', 'Значение'],
+				<c:forEach var="item" items="${topVacancies}" >
+					['${item.getKey()}', ${item.getValue()}],
+				</c:forEach>
+			]);
+			var options = {
+				title: 'Самые популярные вакансии',
+				is3D: true,
+				pieResidueSliceLabel: 'Остальное'
+			};
+			var chart = new google.visualization.PieChart(document.getElementById('air'));
+			chart.draw(data, options);
+		}
+	</script>
 	<c:if test="${id==null}">
 		<c:redirect url="/html/authorization.jsp"/>;
 	</c:if>
@@ -120,67 +152,52 @@
 							${birthday}
 						</td>
 					</tr>
-					
+
 			</table>
 
 			<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"  scope="session"/>
 			<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO"/>
-			<c:set var="vacList" value="${vacDao.showAll()}"  scope="session"/>
-
-			<table class="vacancies">
-				<caption><l:locale name="avacancies"/></caption>
-				<tr>
-					<th><l:locale name="aidvac"/></th>
-					<th><l:locale name="avac"/></th>
-					<th><l:locale name="ahdescription"/></th>
-					<th><l:locale name="ahdelete"/></th>
-				</tr>
-				<c:forEach var="item" items="${vacList}">
-					<tr>
-						<td>${item.idVacancy}</td>
-						<td>${item.name}</td>
-						<td>${item.description}</td>
-						<td>
-							<a type="button" class="simple-btn" href='/html/controller?command=delete_vacancy&idVacancy=${item.idVacancy}'><l:locale name="ahdeletevac"/></a>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-
-			<a class="show-btn" href="javascript:void(0)" onclick = "document.getElementById('envelope').style.display='block';document.getElementById('show-btn').style.display='none'" id="show-btn"><l:locale name="ahaddvac"/></a>
-			<div id="envelope" class="envelope">
-				<form method="post" action="/html/controller?command=add_vacancy">
-					<a class="close-btn" href="javascript:void(0)" onclick = "document.getElementById('envelope').style.display='none';document.getElementById('show-btn').style.display='block'"><l:locale name="ahclose"/></a>
-					<p class="txt vacancy-name"><l:locale name="ahnvacname"/></p>
-					<input type="text" name="vacName" class="vacancy-name input_fields" required/>
-					<p class="txt vacancy-name"><l:locale name="ahnvacdescription"/></p>
-					<input type="text" name="description" class="vacancy-name input_fields" required/>
-					<input type="submit" name="send" value="<l:locale name="ahadd"/>" class="confirm_modified">
-				</form>
-			</div>
+			<%--<c:set var="vacList" value="${vacDao.showAll()}"  scope="session"/>--%>
 
 			<jsp:useBean id="selectionDao" class="by.epam.ft.dao.SelectionDAO"/>
-			<c:set var="selectionList" value="${selectionDao.showAll()}"/>
+				<c:choose>
+					<c:when test="${request_filter == null || request_filter == \"\"}">
+						<c:set var="selectionList" value="${selectionDao.showAll()}"/>
+					</c:when>
+					<c:otherwise>
+						<c:set var="selectionList" value="${selectionDao.showSelectionsByIdVacancy(4)}"/>
+					</c:otherwise>
+				</c:choose>
+
+				<div id="air" style="margin: 0 auto;"></div>
+
 			<form method="post">
 				<table class="vacancies">
 					<caption><l:locale name="ahrequest"/></caption>
 					<tr>
 						<th><l:locale name="ahidrequest"/></th>
 						<th><l:locale name="ahnamesurnamecand"/></th>
+						<td><l:locale name="usermail"/></td>
 						<th><l:locale name="avac"/></th>
 						<th><l:locale name="ahnamesurnamehr"/></th>
 						<th><l:locale name="astatus"/></th>
 						<th><l:locale name="aselectiondate"/></th>
 						<th><l:locale name="ahdelete"/></th>
 					</tr>
+                    <c:choose>
+                        <c:when test="${filter_list != null}">
+                            <c:set var="selectionList" value="${filter_list}"/>
+                        </c:when>
+                    </c:choose>
 					<c:forEach var="item" items="${selectionList}">
 						<c:set var="accountCandidate" value="${accountDao.showByIdUser(item.idCandidate, false)}"/>
 						<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
 						<tr>
 							<td>${item.idSelection}</td>
 							<td>${accountCandidate.name} ${accountCandidate.surname}</td>
+							<td>${accountCandidate.email}</td>
 							<td>${vacDao.showById(item.idVacancy).name}</td>
-							<td name="changable">
+							<td>
 								<c:set var="nameSurname" value="${accountHR.name} ${accountHR.surname}"/>
 								<c:choose>
 									<c:when test="${accountHR.name==null&&accountHR.surname==null}">
@@ -191,17 +208,35 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td name="changable">${item.status}</td>
-							<td name="changable">${item.selectionDate}</td>
+							<td>${item.status}</td>
+							<td>${item.selectionDate}</td>
 							<td>
 								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
 							</td>
 						</tr>
 					</c:forEach>
 				</table>
-
 			</form>
-			<!-- Модальное окно -->
+				<!-- Модальное окно фильтрации-->
+				<a href="#x" class="overlay" id="win2"></a>
+				<div class="popup">
+					<div class="ipopup">
+						<form>
+							<h1><l:locale name="afilter"/></h1>
+							<p><l:locale name="ahnamesurnamehr"/></p>
+							<input type="text" class="inputp" name="hr_name" />
+							<p><l:locale name="ahnamesurnamecand"/></p>
+							<input type="text" class="inputp" name="candidate_name"/>
+							<p><l:locale name="astatus"/></p>
+							<input type="text" name="status" class="inputp"/>
+							<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
+						</form>
+					</div>
+					<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
+				</div>
+				<a type="button" href='#win2' class="show-btn"><l:locale name="afilter"/></a>
+
+			<!-- Модальное окно изменения -->
 			<a href="#x" class="overlay" id="win1"></a>
 			<div class="popup">
 				<div class="ipopup">

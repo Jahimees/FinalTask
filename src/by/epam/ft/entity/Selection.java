@@ -1,6 +1,7 @@
 package by.epam.ft.entity;
 
 import java.sql.Date;
+import java.util.Objects;
 
 public class Selection extends MyEntity {
     private int idSelection;
@@ -9,6 +10,24 @@ public class Selection extends MyEntity {
     private Date selectionDate;
     private int idVacancy;
     private String status;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Selection)) return false;
+        Selection selection = (Selection) o;
+        return getIdSelection() == selection.getIdSelection() &&
+                getIdHr() == selection.getIdHr() &&
+                getIdCandidate() == selection.getIdCandidate() &&
+                getIdVacancy() == selection.getIdVacancy() &&
+                Objects.equals(getSelectionDate(), selection.getSelectionDate()) &&
+                Objects.equals(getStatus(), selection.getStatus());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIdSelection(), getIdHr(), getIdCandidate(), getSelectionDate(), getIdVacancy(), getStatus());
+    }
 
     public void setIdVacancy(int idVacancy) {
         this.idVacancy = idVacancy;

@@ -31,7 +31,7 @@ public class OpenVacancyCommand implements ActionCommand  {
         request.setAttribute(HR, "false");
         if (candidate != null) {
             SelectionDAO selectionDAO = new SelectionDAO();
-            List<Selection> selections = selectionDAO.showSelections(candidate.getIdCandidate(), GET_CANDIDATE_VACANCIES);
+            List<Selection> selections = selectionDAO.showSelections(candidate.getIdCandidate(), false);
 
             if (selections.size() != 0) {
                 int[] idVacancies = pullIdVacancies(selections);

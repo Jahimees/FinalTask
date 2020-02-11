@@ -8,12 +8,12 @@
 		<meta charset="UTF-8"/>
 		<title>IT ROAD. Аккаунт</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="../css/account_style.css" type="text/css">
-		<link rel="stylesheet" href="../css/menu.css" type="text/css"> 
+		<link rel="stylesheet" href="../css/account_style1.css" type="text/css">
+		<link rel="stylesheet" href="../css/menu1.css" type="text/css">
 		<link rel="stylesheet" href="../css/media.css" type="text/css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap">
-		<link rel="stylesheet" type="text/css" href="../css/modal_contact.css" />
+		<link rel="stylesheet" type="text/css" href="../css/modal_cont1act1.css" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	
@@ -125,9 +125,9 @@
 				</tr>
 				<c:forEach var="selection" items="${selections}">
 					<tr>
-						<c:set var="accountHR" value="${accountDao.showByIdUser(selection.idHr, true)}"/>
 						<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"/>
 						<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO"/>
+                        <c:set var="accountHR" value="${accountDao.showByIdUser(selection.idHr, true)}"/>
 
 						<td>${vacDao.showById(selection.idVacancy).idVacancy}</td>
 						<td>${vacDao.showById(selection.idVacancy).name}</td>

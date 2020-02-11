@@ -34,6 +34,7 @@ public class ConnectionPool {
      * Singleton realization
      */
     public static ConnectionPool getInstance(){
+
         if (instance==null) {
             instance = new ConnectionPool();
             logger.info(CONNECTION_POOL_CREATED);
