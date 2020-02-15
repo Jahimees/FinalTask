@@ -57,6 +57,7 @@ public class ConnectionPool {
             logger.error(e + CONNECTION_POOL_PROBLEMS);
         } catch (SQLException e) {
             logger.error(e + CONNECTION_POOL_PROBLEMS);
+            e.printStackTrace();
         }
         return c;
     }
