@@ -31,7 +31,8 @@ public abstract class PreparedConstant {
     public static final String GET_SELECTION_BY_ID = "SELECT * FROM selection WHERE idSelection=?;";
     public static final String GET_SELECTION_BY_STATUS = "SELECT * FROM selection WHERE status=?;";
     public static final String GET_SELECTION_WITHOUT_HR = "SELECT * FROM selection WHERE idHR is null;";
-    public static final String GET_POPULAR_VACANCIES = "select count(*), name from vacancy join selection on " +
+    public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
+            " from vacancy join selection on " +
             "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
 
     /////////////////////////////INSERT////////////////////

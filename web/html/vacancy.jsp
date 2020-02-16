@@ -37,6 +37,7 @@
 					<th><l:locale name="aidvac"/></th>
 					<th><l:locale name="ahnvacname"/></th>
 					<th><l:locale name="ahnvacdescription"/></th>
+                    <th><l:locale name="candidatecount"/></th>
 					<th></th>
 				</tr>
 				<c:forEach var="row" items="${resultList}">
@@ -44,6 +45,7 @@
 						<td><p><c:out value="${row.idVacancy}"/></p></td>
 						<td><p><c:out value="${row.name}"/></p></td>
 						<td><p><c:out value="${row.description}"/></p></td>
+						<td><p><c:out value="${row.candidateCount}"/></p></td>
 						<td>
 							<c:choose>
 								<c:when test="${hr.equals('false')}">

@@ -4,6 +4,7 @@ public class Vacancy extends MyEntity {
     private int idVacancy;
     private String name;
     private String description;
+    private int candidateCount;
 
     public String getDescription() {
         return description;
@@ -28,4 +29,8 @@ public class Vacancy extends MyEntity {
     public void setIdVacancy(int idVacancy) {
         this.idVacancy = idVacancy;
     }
+
+    public int getCandidateCount() { return candidateCount; }
+
+    public void setCandidateCount(int candidateCount) { this.candidateCount = candidateCount; }
 }
