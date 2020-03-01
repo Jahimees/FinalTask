@@ -61,53 +61,45 @@ public class OpenAccountCommand implements ActionCommand {
 
     public List<Selection> filterChecking(HttpServletRequest request) {
         String hrName = request.getParameter("hr_name");
-        String requestId = request.getParameter("request_id");
         String candidateName = request.getParameter("candidate_name");
         String status = request.getParameter("status");
 
+        boolean ignoreByHr = true;
+        boolean ignoreByCandidate = true;
+        boolean ignoreByStatus = true;
+
         List<Selection> selections = new ArrayList<>();
         Set<Selection> byHrName = new HashSet<>();
-        Set<Selection> byRequestId = new HashSet<>();
         Set<Selection> byCandidateName = new HashSet<>();
         Set<Selection> byStatus = new HashSet<>();
         Set<Selection> returnable = new HashSet<>();
 
-       byCandidateName = Utils.getSelectionsByCandidateName(candidateName);
-       if (hrName != null) {
-           byHrName = Utils.getSelectionsByHrName(hrName);
-       }
-       if (status != null) {
-           byStatus = Utils.getSelectionsByStatus(status);
-       }
-       if (byCandidateName.size() != 0) {
-           returnable = byCandidateName;
-       }
-       if (byHrName.size() != 0) {
+        if (candidateName != null && !candidateName.equals("")) {
+            byCandidateName = Utils.getSelectionsByCandidateName(candidateName);
+            returnable = byCandidateName;
+            ignoreByCandidate = false;
+        }
+        if (hrName != null && !hrName.equals("")) {
+            byHrName = Utils.getSelectionsByHrName(hrName);
+            returnable = byHrName;
+            ignoreByHr = false;
+        }
+        if (status != null && !status.equals("")) {
+            byStatus = Utils.getSelectionsByStatus(status);
+            returnable = byStatus;
+            ignoreByStatus = false;
+        }
 
-           if (returnable.size() != 0) {
-               returnable.retainAll(byHrName);
-           } else {
-               returnable = byHrName;
-           }
-       }
-       if (byStatus.size() != 0) {
-           if (returnable.size() != 0) {
-               returnable.retainAll(byStatus);
-           } else {
-               returnable = byStatus;
-           }
-       }
-//
-//        if (byCandidateName.size() != 0 && byHrName.size() != 0) {
-//            byCandidateName.retainAll(byHrName);
-//            selections.addAll(byCandidateName);
-//        } else {
-//            if (byCandidateName.size() == 0) {
-//                selections.addAll(byHrName);
-//            } else {
-//                selections.addAll(byCandidateName);
-//            }
-//        }
+        if (!ignoreByCandidate) {
+            returnable.retainAll(byCandidateName);
+        }
+        if (!ignoreByHr) {
+            returnable.retainAll(byHrName);
+        }
+        if (!ignoreByStatus) {
+            returnable.retainAll(byStatus);
+        }
+
         selections.addAll(returnable);
         System.out.println(selections);
         if (selections.size() == 0) {
@@ -115,7 +107,6 @@ public class OpenAccountCommand implements ActionCommand {
         } else {
             return selections;
         }
-        //return null;
     }
 }
 
