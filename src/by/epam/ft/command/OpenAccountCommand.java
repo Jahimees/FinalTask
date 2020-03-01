@@ -63,15 +63,18 @@ public class OpenAccountCommand implements ActionCommand {
         String hrName = request.getParameter("hr_name");
         String candidateName = request.getParameter("candidate_name");
         String status = request.getParameter("status");
+        String vacancyName = request.getParameter("vacancy_name");
 
         boolean ignoreByHr = true;
         boolean ignoreByCandidate = true;
         boolean ignoreByStatus = true;
+        boolean ignoreByVacancy = true;
 
         List<Selection> selections = new ArrayList<>();
         Set<Selection> byHrName = new HashSet<>();
         Set<Selection> byCandidateName = new HashSet<>();
         Set<Selection> byStatus = new HashSet<>();
+        Set<Selection> byVacancyName = new HashSet<>();
         Set<Selection> returnable = new HashSet<>();
 
         if (candidateName != null && !candidateName.equals("")) {
@@ -89,6 +92,11 @@ public class OpenAccountCommand implements ActionCommand {
             returnable = byStatus;
             ignoreByStatus = false;
         }
+        if (vacancyName != null && !vacancyName.equals("")) {
+            byVacancyName = Utils.getSelectionByVacancy(vacancyName);
+            returnable = byVacancyName;
+            ignoreByVacancy = false;
+        }
 
         if (!ignoreByCandidate) {
             returnable.retainAll(byCandidateName);
@@ -98,6 +106,9 @@ public class OpenAccountCommand implements ActionCommand {
         }
         if (!ignoreByStatus) {
             returnable.retainAll(byStatus);
+        }
+        if (!ignoreByVacancy) {
+            returnable.retainAll(byVacancyName);
         }
 
         selections.addAll(returnable);
@@ -109,6 +120,3 @@ public class OpenAccountCommand implements ActionCommand {
         }
     }
 }
-
-
-

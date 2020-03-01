@@ -34,6 +34,7 @@ public abstract class PreparedConstant {
     public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
             " from vacancy join selection on " +
             "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
+    public static final String GET_VACANCIES_BY_NAME = "SELECT * FROM vacancy where name=?;";
 
     /////////////////////////////INSERT////////////////////
     public static final String INSERT_INTO_ACCOUNT = "INSERT INTO account(login, password, name, surname, birthday, email) VALUES (?, ?, ?, ?, ?, ?);";

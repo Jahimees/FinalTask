@@ -4,6 +4,7 @@ import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Vacancy;
 import org.apache.log4j.Logger;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -45,6 +46,28 @@ public class VacancyDAO implements DAO<Vacancy> {
         }
 
         return null;
+    }
+
+    public List<Vacancy> showByName(String name) {
+        List<Vacancy> vacancies = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(GET_VACANCIES_BY_NAME);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Vacancy vacancy = new Vacancy();
+                vacancy.setName(resultSet.getString(NAME));
+                vacancy.setIdVacancy(resultSet.getInt(ID_VACANCY));
+                vacancy.setDescription(resultSet.getString(DESCRIPTION));
+
+                vacancies.add(vacancy);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return vacancies;
     }
 
     public LinkedHashMap<String, Integer> takePopularVacancies() {

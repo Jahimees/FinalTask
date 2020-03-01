@@ -188,6 +188,8 @@
 							<input type="text" class="inputp" name="candidate_name"/>
 							<p><l:locale name="astatus"/></p>
 							<input type="text" name="status" class="inputp"/>
+							<p><l:locale name="ahnvacname"/></p>
+							<input type="text" name="vacancy_name" class="inputp"/>
 							<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
 						</form>
 					</div>

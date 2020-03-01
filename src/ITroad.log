@@ -517,3 +517,32 @@ The last packet sent successfully to the server was 0 milliseconds ago. The driv
 12:50:00,040  INFO http-nio-8080-exec-2 EmptyCommand:execute:20 - Empty command
 13:06:33,110  INFO http-nio-8080-exec-1 ChangeSelectionCommand:execute:58 - Selection 153 was successfully changed
 22:08:34,235  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
+22:36:11,279  INFO http-nio-8080-exec-5 ConnectionPool:getInstance:40 - Connection pool was created
+09:31:46,949  INFO http-nio-8080-exec-10 ConnectionPool:getInstance:40 - Connection pool was created
+09:45:43,281  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
+09:46:44,171  INFO http-nio-8080-exec-8 RevokeVacancyCommand:execute:35 - Vacancy was revoked
+09:52:39,334  INFO http-nio-8080-exec-9 ChangeSelectionCommand:execute:58 - Selection 155 was successfully changed
+09:58:06,080  INFO http-nio-8080-exec-4 ChangeSelectionCommand:execute:58 - Selection 155 was successfully changed
+09:58:34,399  WARN http-nio-8080-exec-8 DeleteVacancyCommand:execute:31 - 16 vacancy was deleted!
+09:58:34,448  WARN http-nio-8080-exec-8 DeleteVacancyCommand:execute:38 - 146 selection was deleted!
+00:04:53,652  INFO http-nio-8080-exec-7 ConnectionPool:getInstance:40 - Connection pool was created
+00:31:59,466  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
+00:39:17,194  INFO http-nio-8080-exec-3 ConnectionPool:getConnection:56 - 50
+00:39:31,300  INFO http-nio-8080-exec-10 ConnectionPool:getConnection:56 - 50
+10:16:45,762  INFO http-nio-8080-exec-6 ConnectionPool:getInstance:40 - Connection pool was created
+10:22:36,244  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
+13:01:26,573  INFO http-nio-8080-exec-9 ConnectionPool:getInstance:40 - Connection pool was created
+15:13:15,998  INFO http-nio-8080-exec-3 ConnectionPool:getInstance:40 - Connection pool was created
+15:16:39,473  INFO http-nio-8080-exec-8 EmptyCommand:execute:20 - Empty command
+15:17:56,048  INFO http-nio-8080-exec-1 ConnectionPool:getInstance:40 - Connection pool was created
+15:24:06,646  INFO http-nio-8080-exec-5 EmptyCommand:execute:20 - Empty command
+15:24:12,808  INFO http-nio-8080-exec-6 EmptyCommand:execute:20 - Empty command
+15:24:15,247  INFO http-nio-8080-exec-10 EmptyCommand:execute:20 - Empty command
+15:45:02,689  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
+15:53:44,901  INFO http-nio-8080-exec-2 ConnectionPool:getInstance:40 - Connection pool was created
+16:20:42,185  INFO http-nio-8080-exec-6 EmptyCommand:execute:20 - Empty command
+16:20:44,727  INFO http-nio-8080-exec-9 EmptyCommand:execute:20 - Empty command
+16:21:22,917  INFO http-nio-8080-exec-7 ConnectionPool:getInstance:40 - Connection pool was created
+13:48:26,207  INFO http-nio-8080-exec-7 ConnectionPool:getInstance:40 - Connection pool was created
+13:51:01,769  INFO http-nio-8080-exec-5 ConnectionPool:getInstance:40 - Connection pool was created
+17:16:03,607  INFO http-nio-8080-exec-8 ConnectionPool:getInstance:40 - Connection pool was created
