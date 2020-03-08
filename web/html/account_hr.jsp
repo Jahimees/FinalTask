@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap">
 		<link rel="stylesheet" type="text/css" href="../css/modal_contact.css" />
 		<link rel="stylesheet" type="text/css" href="../css/pagination.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	
 	<body>
@@ -142,6 +143,7 @@
 						<th><l:locale name="astatus"/></th>
 						<th><l:locale name="aselectiondate"/></th>
 						<th><l:locale name="aregistrationdate"/></th>
+                        <th><l:locale name="mchange"/></th>
 						<th><l:locale name="ahdelete"/></th>
 					</tr>
                     <c:choose>
@@ -187,6 +189,11 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
+                            <td>
+                                <a type="button" href='#win1' id="changeBtn_${item.idSelection}" class="simple-btn">
+                                    <l:locale name="mchange"/>
+                                </a>
+                            </td>
 							<td>
 								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
 							</td>
@@ -226,12 +233,12 @@
 					<form>
 						<h1><l:locale name="mchangerequest"/></h1>
 						<p><l:locale name="mnumberrequest"/></p>
-						<input type="text" class="inputp" name="idSelection" required/>
+						<input type="text" class="inputp" name="idSelection" id="idSelection" required readonly/>
 						<p>ID HR</p>
 						<input type="text" class="inputp" name="idHr" placeholder="<l:locale name="murid"/> ${Hr.idHr}"/>
 						<p><l:locale name="astatus"/></p>
 						<select name="status" class="status">
-							<option value="Заявка на рассмотрении"selected><l:locale name="mreqconsid"/></option>
+							<option value="Заявка на рассмотрении" selected><l:locale name="mreqconsid"/></option>
 							<option value="Ожидание собеседования"><l:locale name="mwaiting"/></option>
 							<option value="Не прошел собеседование"><l:locale name="mnotpass"/></option>
 							<option value="Прошел собеседование"><l:locale name="mpass"/></option>
@@ -243,7 +250,6 @@
 				</div>
 				<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
 			</div>
-			<a type="button" href='#win1' class="show-btn"><l:locale name="mchange"/></a>
 
 				<form action="/html/controller?command=change_password" name = "vform" method="post">
 					<div class="password_change">
@@ -266,4 +272,15 @@
 	</body>
 	<script type="text/javascript" src = "../js/back_security.js"></script>
 	<script type="text/javascript" src = "../js/change_password_script.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            //Подстановка значения id заявки при изменении значения
+            <c:forEach items="${selectionList}" var="selection">
+                $("#changeBtn_${selection.idSelection}").on('click', function () {
+                    $("#idSelection").attr("value", "${selection.idSelection}");
+                });
+            </c:forEach>
+        });
+    </script>
 </html>
