@@ -190,6 +190,8 @@
 							<input type="text" name="status" class="inputp"/>
 							<p><l:locale name="ahnvacname"/></p>
 							<input type="text" name="vacancy_name" class="inputp"/>
+							<p><l:locale name="aselectiondate"/></p>
+							<input type="date" name="selection_date" class="date"/>
 							<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
 						</form>
 					</div>

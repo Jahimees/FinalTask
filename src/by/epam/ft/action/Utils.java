@@ -3,7 +3,6 @@ package by.epam.ft.action;
 import by.epam.ft.dao.*;
 import by.epam.ft.entity.*;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -66,5 +65,12 @@ public final class Utils {
             byVacancy.addAll(selectionDAO.showSelectionsByIdVacancy(vacancy.getIdVacancy()));
         }
         return byVacancy;
+    }
+
+    public static Set<Selection> getSelectionsByDate(String date) {
+        Set<Selection> selections = new HashSet<>();
+        SelectionDAO selectionDAO = new SelectionDAO();
+        selections.addAll(selectionDAO.showSelectionsByDate(date));
+        return selections;
     }
 }

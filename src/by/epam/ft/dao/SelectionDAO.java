@@ -42,12 +42,7 @@ public class SelectionDAO implements DAO<Selection> {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Selection selection = new Selection();
-                selection.setSelectionDate(rs.getDate(SELECTION_DATE));
-                selection.setIdSelection(rs.getInt(ID_SELECTION));
-                selection.setIdCandidate(rs.getInt(ID_CANDIDATE));
-                selection.setIdHr(rs.getInt(ID_HR));
-                selection.setIdVacancy(rs.getInt(ID_VACANCY));
-                selection.setStatus(rs.getString(STATUS));
+                setSelectionParams(selection, rs);
                 selections.add(selection);
             }
         } catch (SQLException e) {
@@ -231,12 +226,7 @@ public class SelectionDAO implements DAO<Selection> {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Selection selection = new Selection();
-                selection.setIdSelection(resultSet.getInt(ID_SELECTION));
-                selection.setIdCandidate(resultSet.getInt(ID_CANDIDATE));
-                selection.setIdHr(resultSet.getInt(ID_HR));
-                selection.setStatus(resultSet.getString(STATUS));
-                selection.setSelectionDate(resultSet.getDate(SELECTION_DATE));
-                selection.setIdVacancy(resultSet.getInt(ID_VACANCY));
+                setSelectionParams(selection, resultSet);
                 resultList.add(selection);
             }
         } catch (SQLException e) {
@@ -332,6 +322,41 @@ public class SelectionDAO implements DAO<Selection> {
             }
         }
         return result;
+    }
+
+    public List<Selection> showSelectionsByDate(String date) {
+        List<Selection> selections = new ArrayList<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_SELECTION_BY_DATE);
+            preparedStatement.setString(1, date);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Selection selection = new Selection();
+                setSelectionParams(selection, resultSet);
+                selections.add(selection);
+            }
+        } catch (SQLException e) {
+            logger.error(e + SQL_DAO_EXCEPTION);
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                e.printStackTrace();
+            }
+        }
+        return  selections;
+    }
+
+    private void setSelectionParams(Selection targetSelection, ResultSet resultSet) throws SQLException {
+        targetSelection.setIdSelection(resultSet.getInt(ID_SELECTION));
+        targetSelection.setIdCandidate(resultSet.getInt(ID_CANDIDATE));
+        targetSelection.setIdHr(resultSet.getInt(ID_HR));
+        targetSelection.setStatus(resultSet.getString(STATUS));
+        targetSelection.setSelectionDate(resultSet.getDate(SELECTION_DATE));
+        targetSelection.setIdVacancy(resultSet.getInt(ID_VACANCY));
     }
 
 }
