@@ -39,5 +39,6 @@ public class AttributeAndParameterConstant {
     public static final String CHANGE_LOCALE_S = "change_locale";
     public static final String REGISTER = "register";
     public static final String CONSIDERATION = "Заявка на рассмотрении";
+    public static final String REGISTRATION_DATE = "registrationDate";
     public static final long ONE_DAY = 1000*60*60*24;
 }

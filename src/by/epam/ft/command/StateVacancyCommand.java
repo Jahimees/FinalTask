@@ -35,6 +35,7 @@ public class StateVacancyCommand implements ActionCommand {
             selection.setIdVacancy(Integer.parseInt(idVacancy.toString()));
             selection.setIdCandidate(candidate.getIdCandidate());
             selection.setStatus(CONSIDERATION);
+            selection.setRegistrationDate(new java.sql.Date(new java.util.Date().getTime()));
             selectionDAO.insertInfo(selection, INSERT_INTO_SELECTION);
             page = command.execute(request);
             return page;

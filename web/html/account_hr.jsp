@@ -141,6 +141,7 @@
 						<th><l:locale name="ahnamesurnamehr"/></th>
 						<th><l:locale name="astatus"/></th>
 						<th><l:locale name="aselectiondate"/></th>
+						<th><l:locale name="aregistrationdate"/></th>
 						<th><l:locale name="ahdelete"/></th>
 					</tr>
                     <c:choose>
@@ -168,7 +169,24 @@
 								</c:choose>
 							</td>
 							<td>${item.status}</td>
-							<td>${item.selectionDate}</td>
+							<td><c:choose>
+								<c:when test="${item.selectionDate!=null}">
+									<c:out value="${item.selectionDate}"/>
+								</c:when>
+								<c:otherwise>
+									<c:out value="--"/>
+								</c:otherwise>
+							</c:choose></td>
+							<td>
+								<c:choose>
+									<c:when test="${item.registrationDate!=null}">
+										<c:out value="${item.registrationDate}"/>
+									</c:when>
+									<c:otherwise>
+										<c:out value="--"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
 							<td>
 								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
 							</td>

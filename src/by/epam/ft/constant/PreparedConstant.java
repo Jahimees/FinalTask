@@ -23,9 +23,9 @@ public abstract class PreparedConstant {
     public static final String GET_PASSWORD_BY_LOGIN = "SELECT password FROM account WHERE login=?;";
     public static final String GET_ID_ACCOUNT_BY_LOGIN = "SELECT idAccount FROM account WHERE login=?;";
     public static final String GET_CANDIDATE_VACANCIES = "SELECT idSelection, idHR, selection.idCandidate, selectionDate," +
-            " idVacancy, status FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=?;";
+            " idVacancy, status, registrationDate FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=?;";
     public static final String GET_HR_VACANCIES = "SELECT idSelection, hr.idHR, selection.idCandidate, selectionDate," +
-            " idVacancy, status FROM selection, hr WHERE hr.idHR=selection.idHR and hr.idHr=?;";
+            " idVacancy, status, registrationDate FROM selection, hr WHERE hr.idHR=selection.idHR and hr.idHr=?;";
     public static final String GET_SELECTION_BY_VACANCY = "SELECT * FROM selection WHERE idVacancy=?;";
     public static final String GET_SELECTION_BY_IDS = "SELECT idSelection FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=? and idVacancy=?;";
     public static final String GET_SELECTION_BY_ID = "SELECT * FROM selection WHERE idSelection=?;";
@@ -41,7 +41,7 @@ public abstract class PreparedConstant {
     /////////////////////////////INSERT////////////////////
     public static final String INSERT_INTO_ACCOUNT = "INSERT INTO account(login, password, name, surname, birthday, email) VALUES (?, ?, ?, ?, ?, ?);";
     public static final String INSERT_INTO_CANDIDATE = "INSERT INTO candidate(idAccount) VALUES (?)";
-    public static final String INSERT_INTO_SELECTION = "INSERT INTO selection (idCandidate, idVacancy, status) VALUES (?, ?, ?);";
+    public static final String INSERT_INTO_SELECTION = "INSERT INTO selection (idCandidate, idVacancy, status, registrationDate) VALUES (?, ?, ?, ?);";
     public static final String INSERT_INTO_VACANCY = "INSERT INTO vacancy (name, description) VALUES (?, ?)";
 
     /////////////////////////////DELETE////////////////////

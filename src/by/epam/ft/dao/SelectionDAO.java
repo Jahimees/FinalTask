@@ -70,12 +70,7 @@ public class SelectionDAO implements DAO<Selection> {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Selection selection = new Selection();
-                selection.setIdSelection(rs.getInt(ID_SELECTION));
-                selection.setIdHr(rs.getInt(ID_HR));
-                selection.setIdCandidate(rs.getInt(ID_CANDIDATE));
-                selection.setSelectionDate(rs.getDate(SELECTION_DATE));
-                selection.setIdVacancy(rs.getInt(ID_VACANCY));
-                selection.setStatus(rs.getString(STATUS));
+                setSelectionParams(selection, rs);
                 selections.add(selection);
             }
         } catch (SQLException e) {
@@ -100,12 +95,7 @@ public class SelectionDAO implements DAO<Selection> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Selection selection = new Selection();
-                selection.setIdSelection(resultSet.getInt(ID_SELECTION));
-                selection.setIdHr(resultSet.getInt(ID_HR));
-                selection.setSelectionDate(resultSet.getDate(SELECTION_DATE));
-                selection.setIdCandidate(resultSet.getInt(ID_CANDIDATE));
-                selection.setStatus(resultSet.getString(STATUS));
-                selection.setIdVacancy(resultSet.getInt(ID_VACANCY));
+                setSelectionParams(selection, resultSet);
                 selections.add(selection);
             }
         } catch (SQLException e) {
@@ -134,12 +124,7 @@ public class SelectionDAO implements DAO<Selection> {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Selection selection = new Selection();
-                selection.setIdCandidate(rs.getInt(ID_CANDIDATE));
-                selection.setIdHr(rs.getInt(ID_HR));
-                selection.setIdSelection(rs.getInt(ID_SELECTION));
-                selection.setSelectionDate(rs.getDate(SELECTION_DATE));
-                selection.setStatus(rs.getString(STATUS));
-                selection.setIdVacancy(rs.getInt(ID_VACANCY));
+                setSelectionParams(selection, rs);
                 selections.add(selection);
             }
         } catch (SQLException e) {
@@ -257,7 +242,6 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setString(3, selection.getStatus());
             preparedStatement.setInt(4, selection.getIdSelection());
 
-
             result = preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e + SQL_DAO_EXCEPTION);
@@ -311,6 +295,7 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setInt(1, selection.getIdCandidate());
             preparedStatement.setInt(2, selection.getIdVacancy());
             preparedStatement.setString(3, selection.getStatus());
+            preparedStatement.setDate(4, selection.getRegistrationDate());
             result = preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(e + SQL_DAO_EXCEPTION);
@@ -357,6 +342,6 @@ public class SelectionDAO implements DAO<Selection> {
         targetSelection.setStatus(resultSet.getString(STATUS));
         targetSelection.setSelectionDate(resultSet.getDate(SELECTION_DATE));
         targetSelection.setIdVacancy(resultSet.getInt(ID_VACANCY));
+        targetSelection.setRegistrationDate(resultSet.getDate(REGISTRATION_DATE));
     }
-
 }

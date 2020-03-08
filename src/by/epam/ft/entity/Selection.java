@@ -10,6 +10,7 @@ public class Selection extends MyEntity {
     private Date selectionDate;
     private int idVacancy;
     private String status;
+    private Date registrationDate;
 
     @Override
     public boolean equals(Object o) {
@@ -21,7 +22,8 @@ public class Selection extends MyEntity {
                 getIdCandidate() == selection.getIdCandidate() &&
                 getIdVacancy() == selection.getIdVacancy() &&
                 Objects.equals(getSelectionDate(), selection.getSelectionDate()) &&
-                Objects.equals(getStatus(), selection.getStatus());
+                Objects.equals(getStatus(), selection.getStatus()) &&
+                Objects.equals(getRegistrationDate(), selection.getRegistrationDate());
     }
 
     @Override
@@ -73,5 +75,13 @@ public class Selection extends MyEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
     }
 }

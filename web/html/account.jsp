@@ -81,6 +81,7 @@
 						<th><l:locale name="astatus"/></th>
 						<th>HR</th>
 						<th width="15%"><l:locale name="aselectiondate"/></th>
+						<th><l:locale name="aregistrationdate"/></th>
 						<th><l:locale name="arevoke"/></th>
 					</tr>
 					<c:forEach var="selection" items="${selections}">
@@ -111,6 +112,17 @@
 										<c:out value="${selection.selectionDate}"/>
 									</c:when>
 									<c:otherwise>
+										<c:out value="--"/>
+									</c:otherwise>
+								</c:choose>
+							</td>
+							<td>
+								<c:choose>
+									<c:when test="${selection.registrationDate!=null}">
+										<c:out value="${selection.registrationDate}"/>
+									</c:when>
+									<c:otherwise>
+										<c:out value="${selection.registrationDate}"/>
 										<c:out value="--"/>
 									</c:otherwise>
 								</c:choose>
