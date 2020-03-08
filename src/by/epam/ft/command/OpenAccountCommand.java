@@ -72,19 +72,23 @@ public class OpenAccountCommand implements ActionCommand {
         String status = request.getParameter("status");
         String vacancyName = request.getParameter("vacancy_name");
         String selectionDate = request.getParameter("selection_date");
+        String registrationDate = request.getParameter("registration_date");
 
         boolean ignoreByHr = true;
         boolean ignoreByCandidate = true;
         boolean ignoreByStatus = true;
         boolean ignoreByVacancy = true;
-        boolean ignoreByDate = true;
+        boolean ignoreBySelectionDate = true;
+        boolean ignoreByRegistrationDate = true;
 
         Set<Selection> byHrName = new HashSet<>();
         Set<Selection> byCandidateName = new HashSet<>();
         Set<Selection> byStatus = new HashSet<>();
         Set<Selection> byVacancyName = new HashSet<>();
         Set<Selection> bySelectionDate = new HashSet<>();
+        Set<Selection> byRegistrationDate = new HashSet<>();
         Set<Selection> returnable = new HashSet<>();
+
 
         if (candidateName != null && !candidateName.equals("")) {
             byCandidateName = Utils.getSelectionsByCandidateName(candidateName);
@@ -111,10 +115,16 @@ public class OpenAccountCommand implements ActionCommand {
             logger.info("Filtering by vacancy name defined");
         }
         if (selectionDate != null && !selectionDate.equals("")) {
-            bySelectionDate = Utils.getSelectionsByDate(selectionDate);
+            bySelectionDate = Utils.getSelectionsByDate(selectionDate, false);
             returnable = bySelectionDate;
-            ignoreByDate = false;
+            ignoreBySelectionDate = false;
             logger.info("Filtering by selection date defined");
+        }
+        if (registrationDate != null && !registrationDate.equals("")) {
+            byRegistrationDate = Utils.getSelectionsByDate(registrationDate, true);
+            returnable = byRegistrationDate;
+            ignoreByRegistrationDate = false;
+            logger.info("Filtering by registration date defined");
         }
 
         if (!ignoreByCandidate) {
@@ -129,8 +139,11 @@ public class OpenAccountCommand implements ActionCommand {
         if (!ignoreByVacancy) {
             returnable.retainAll(byVacancyName);
         }
-        if (!ignoreByDate) {
+        if (!ignoreBySelectionDate) {
             returnable.retainAll(bySelectionDate);
+        }
+        if (!ignoreByRegistrationDate) {
+            returnable.retainAll(byRegistrationDate);
         }
 
         List<Selection> selections = new ArrayList<>(returnable);

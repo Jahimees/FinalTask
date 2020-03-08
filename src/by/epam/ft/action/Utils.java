@@ -67,10 +67,10 @@ public final class Utils {
         return byVacancy;
     }
 
-    public static Set<Selection> getSelectionsByDate(String date) {
+    public static Set<Selection> getSelectionsByDate(String date, boolean isRegistration) {
         Set<Selection> selections = new HashSet<>();
         SelectionDAO selectionDAO = new SelectionDAO();
-        selections.addAll(selectionDAO.showSelectionsByDate(date));
+        selections.addAll(selectionDAO.showSelectionsByDate(date, isRegistration));
         return selections;
     }
 }

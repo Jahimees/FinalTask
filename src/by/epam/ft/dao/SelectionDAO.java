@@ -309,11 +309,16 @@ public class SelectionDAO implements DAO<Selection> {
         return result;
     }
 
-    public List<Selection> showSelectionsByDate(String date) {
+    public List<Selection> showSelectionsByDate(String date, boolean isRegistration) {
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(GET_SELECTION_BY_DATE);
+            PreparedStatement preparedStatement;
+            if (isRegistration) {
+                preparedStatement = connection.prepareStatement(GET_SELECTION_BY_REGISTRATION_DATE);
+            } else {
+                preparedStatement = connection.prepareStatement(GET_SELECTION_BY_DATE);
+            }
             preparedStatement.setString(1, date);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
