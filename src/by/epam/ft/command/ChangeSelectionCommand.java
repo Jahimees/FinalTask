@@ -39,7 +39,7 @@ public class ChangeSelectionCommand implements ActionCommand {
                 try {
                     idHr = Integer.parseInt(idHrStr);
                 } catch (InvalidEnterInformationException ex) {
-                    logger.error(ex + INVALID_ENTER_INFORMATION);
+                    logger.error(INVALID_ENTER_INFORMATION, ex);
                     idHr = 0;
                 }
             }

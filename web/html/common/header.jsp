@@ -13,7 +13,15 @@
         <ul>
             <li><a href="/html/main.jsp"><i class="fa fa-bookmark"></i><l:locale name="navMain"/></a></li>
             <li><a href="/html/contacts.jsp"><i class="fa fa-address-book"></i><l:locale name="navContacts"/></a></li>
-            <li><a href="/html/controller?command=open_vacancies"><i class="fa fa-list-ul"></i><l:locale name="navVacancies"/></a></li>
+            <li>
+                <input type="checkbox" name="toggle" class="toggleSubmenu" id="sub_m0">
+                <a href=""><i class="fa fa-list-ul"></i><l:locale name="navVacancies"/></a>
+                <label for="sub_m0" class="toggleSubmenu"><i class="fa"></i></label>
+                <ul>
+                    <li><a href="/html/controller?command=load_page_opened_vacancies"><l:locale name="openedvacancies"/></a></li>
+                    <li><a href="/html/controller?command=load_page_closed_vacancies"><l:locale name="closedvacancies"/></a></li>
+                </ul>
+            </li>
             <li>
                 <input type="checkbox" name="toggle" class="toggleSubmenu" id="sub_m1">
                 <a href="/html/controller?command=open_account"><i class="fa fa-laptop"></i><l:locale name="navAccount"/></a>

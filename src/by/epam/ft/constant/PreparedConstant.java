@@ -36,6 +36,12 @@ public abstract class PreparedConstant {
     public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
             " from vacancy join selection on " +
             "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
+    public static final String GET_OPENED_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(selection.idVacancy), name, description, vacancy.status" +
+            " from vacancy left outer join selection on " +
+            "vacancy.idVacancy=selection.idVacancy where vacancy.status = 'opened' group by vacancy.idVacancy order by count(selection.idVacancy) desc;";
+    public static final String GET_CLOSED_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(selection.idVacancy), name, description, vacancy.status" +
+            " from vacancy left outer join selection on " +
+            "vacancy.idVacancy=selection.idVacancy where vacancy.status = 'closed' group by vacancy.idVacancy order by count(selection.idVacancy) desc;";
     public static final String GET_VACANCIES_BY_NAME = "SELECT * FROM vacancy where name=?;";
 
 
@@ -47,7 +53,8 @@ public abstract class PreparedConstant {
 
     /////////////////////////////DELETE////////////////////
     public static final String DELETE_SELECTION_BY_ID = "DELETE FROM selection WHERE idSelection=?";
-    public static final String DELETE_VACANCY_BY_ID = "DELETE FROM vacancy WHERE idVacancy=?";
+    public static final String CLOSE_VACANCY_BY_ID = "UPDATE vacancy SET status = 'closed' WHERE idVacancy=?";
+    public static final String OPEN_VACANCY_BY_ID = "UPDATE vacancy SET status = 'opened' WHERE idVacancy=?";
 
     ////////////////////////////UPDATE/////////////////////
     public static final String UPDATE_SELECTION = "UPDATE selection SET idHr=?, selectionDate=?, status=? WHERE idSelection=?";

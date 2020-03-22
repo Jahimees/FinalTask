@@ -14,7 +14,6 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap">
 		<link rel="stylesheet" type="text/css" href="../css/modal_contact.css" />
-		<link rel="stylesheet" type="text/css" href="../css/pagination.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	
@@ -120,25 +119,19 @@
 			<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"  scope="session" />
 			<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO" />
 			<jsp:useBean id="selectionDao" class="by.epam.ft.dao.SelectionDAO" />
-			<c:choose>
-				<c:when test="${request_filter == null || request_filter == \"\"}">
-					<c:set var="selectionList" value="${selectionDao.showAll()}"/>
-				</c:when>
-				<c:otherwise>
-					<c:set var="selectionList" value="${selectionDao.showSelectionsByIdVacancy(4)}"/>
-				</c:otherwise>
-			</c:choose>
+			<c:set var="selectionList" value="${selectionDao.showAll()}"/>
 
 			<div id="air" style="margin: 0 auto;"></div>
 
 			<form method="post">
 				<table class="vacancies">
 					<caption><l:locale name="ahrequest"/></caption>
-					<tr>
+					<tr bgcolor="#225e83" style="color: white">
 						<th><l:locale name="ahidrequest"/></th>
 						<th><l:locale name="ahnamesurnamecand"/></th>
 						<td><l:locale name="usermail"/></td>
 						<th><l:locale name="avac"/></th>
+						<th><l:locale name="vacstatus"/></th>
 						<th><l:locale name="ahnamesurnamehr"/></th>
 						<th><l:locale name="astatus"/></th>
 						<th><l:locale name="aselectiondate"/></th>
@@ -159,6 +152,18 @@
 							<td>${accountCandidate.name} ${accountCandidate.surname}</td>
 							<td>${accountCandidate.email}</td>
 							<td>${vacDao.showById(item.idVacancy).name}</td>
+							<c:choose>
+								<c:when test="${vacancyDao.showById(item.idVacancy).status.equals('closed')}">
+									<td bgcolor="#ffdab9">
+										<l:locale name="closed"/>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td bgcolor="#afffaa">
+										<l:locale name="opened"/>
+									</td>
+								</c:otherwise>
+							</c:choose>
 							<td>
 								<c:set var="nameSurname" value="${accountHR.name} ${accountHR.surname}"/>
 								<c:choose>

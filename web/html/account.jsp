@@ -75,9 +75,10 @@
 				</table>
 				<table class="vacancies">
 					<caption><l:locale name="avacancies"/></caption>
-					<tr>
+					<tr bgcolor="#225e83" style="color: white">
 						<th><l:locale name="aidvac"/></th>
 						<th><l:locale name="avac"/></th>
+						<th><l:locale name="vacstatus"/></th>
 						<th><l:locale name="astatus"/></th>
 						<th>HR</th>
 						<th width="15%"><l:locale name="aselectiondate"/></th>
@@ -92,6 +93,18 @@
 
 							<td>${vacDao.showById(selection.idVacancy).idVacancy}</td>
 							<td>${vacDao.showById(selection.idVacancy).name}</td>
+							<c:choose>
+								<c:when test="${vacDao.showById(selection.idVacancy).status.equals('closed')}">
+									<td bgcolor="#ffdab9">
+										<l:locale name="closed"/>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td bgcolor="#afffaa">
+										<l:locale name="opened"/>
+									</td>
+								</c:otherwise>
+							</c:choose>
 							<td>
 								<c:out value="${selection.status}"/>
 							</td>

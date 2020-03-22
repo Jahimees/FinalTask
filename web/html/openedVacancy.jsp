@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>IT ROAD. Вакансии</title>
+		<title>IT ROAD. Открытые вакансии</title>
 		<meta charset="UTF-8"/>		
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="../css/menu.css" type="text/css"/>
@@ -30,7 +30,7 @@
 			</div>
 
 			<jsp:useBean id="daoVacancy" class="by.epam.ft.dao.VacancyDAO" scope="session" />
-			<c:set var="resultList" value="${daoVacancy.showAll()}" scope="session"/>
+			<c:set var="resultList" value="${daoVacancy.showVacancies(true)}" scope="session"/>
 
 			<table id="vacancyTable" name="thetable">
 				<tr>
@@ -65,7 +65,7 @@
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									<a type="button" class="button" href='/html/controller?command=delete_vacancy&idVacancy=${row.idVacancy}'><l:locale name="ahdeletevac"/></a>
+									<a type="button" class="button" href='/html/controller?command=close_vacancy&idVacancy=${row.idVacancy}'><l:locale name="ahdeletevac"/></a>
 								</c:otherwise>
 							</c:choose>
 						</td>

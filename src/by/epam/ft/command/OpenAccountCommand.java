@@ -47,7 +47,6 @@ public class OpenAccountCommand implements ActionCommand {
         request.setAttribute(BIRTHDAY, account.getBirthday().toString());
 
         request.setAttribute("filter_list", filterChecking(request));
-        request.setAttribute("request_filter", request.getParameter("request_filter"));
         if (role.equals(HR)) {
             page = ACCOUNT_HR_PAGE;
             logger.info("Open HR account page...");

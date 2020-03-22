@@ -54,10 +54,9 @@ public class ConnectionPool {
             DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mainPool");
             c = ds.getConnection();
         } catch (NamingException e) {
-            logger.error(e + CONNECTION_POOL_PROBLEMS);
+            logger.error(CONNECTION_POOL_PROBLEMS, e);
         } catch (SQLException e) {
-            logger.error(e + CONNECTION_POOL_PROBLEMS);
-            e.printStackTrace();
+            logger.error(CONNECTION_POOL_PROBLEMS, e);
         }
         return c;
     }

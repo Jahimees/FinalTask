@@ -46,7 +46,13 @@ public class SelectionDAO implements DAO<Selection> {
                 selections.add(selection);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
         }
         return selections;
     }
@@ -74,14 +80,12 @@ public class SelectionDAO implements DAO<Selection> {
                 selections.add(selection);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
-                e.printStackTrace();
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return selections;
@@ -99,12 +103,12 @@ public class SelectionDAO implements DAO<Selection> {
                 selections.add(selection);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return selections;
@@ -128,12 +132,12 @@ public class SelectionDAO implements DAO<Selection> {
                 selections.add(selection);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return selections;
@@ -159,12 +163,12 @@ public class SelectionDAO implements DAO<Selection> {
             }
             return false;
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return false;
@@ -187,12 +191,12 @@ public class SelectionDAO implements DAO<Selection> {
             }
             return false;
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return false;
@@ -215,12 +219,12 @@ public class SelectionDAO implements DAO<Selection> {
                 resultList.add(selection);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return resultList;
@@ -244,12 +248,12 @@ public class SelectionDAO implements DAO<Selection> {
 
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -270,12 +274,12 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setInt(1, selection.getIdSelection());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -298,12 +302,12 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setDate(4, selection.getRegistrationDate());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -327,14 +331,12 @@ public class SelectionDAO implements DAO<Selection> {
                 selections.add(selection);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
-                e.printStackTrace();
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return  selections;

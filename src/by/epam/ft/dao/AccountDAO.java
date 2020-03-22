@@ -44,12 +44,12 @@ public class AccountDAO implements DAO<Account> {
                 account.setEmail(rs.getString(7));
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return account;
@@ -72,14 +72,12 @@ public class AccountDAO implements DAO<Account> {
                 idAccount = rsInner.getInt(1);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
-                e.printStackTrace();
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return idAccount;
@@ -101,12 +99,12 @@ public class AccountDAO implements DAO<Account> {
                 passwordFromDB = rs.getString(1);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return passwordFromDB;
@@ -140,12 +138,12 @@ public class AccountDAO implements DAO<Account> {
                     }
                 }
             } catch (SQLException e) {
-                logger.error(e + SQL_DAO_EXCEPTION);
+                logger.error(SQL_DAO_EXCEPTION, e);
             } finally {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                    logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
                 }
             }
         return account;
@@ -166,12 +164,12 @@ public class AccountDAO implements DAO<Account> {
             preparedStatement.setInt(2, idAccount);
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -196,7 +194,13 @@ public class AccountDAO implements DAO<Account> {
                 accounts.add(account);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
         }
         return accounts;
     }
@@ -270,12 +274,12 @@ public class AccountDAO implements DAO<Account> {
             }
             result = true;
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;

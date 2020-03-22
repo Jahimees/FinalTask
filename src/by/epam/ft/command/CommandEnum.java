@@ -19,9 +19,14 @@ public enum CommandEnum {
             this.command = new OpenAccountCommand();
         }
     },
-    OPEN_VACANCIES {
+    LOAD_PAGE_OPENED_VACANCIES {
         {
-            this.command = new OpenVacancyCommand();
+            this.command = new LoadOpenedVacancyPageCommand();
+        }
+    },
+    LOAD_PAGE_CLOSED_VACANCIES {
+        {
+            this.command = new LoadClosedVacancyPageCommand();
         }
     },
     REGISTER {
@@ -44,9 +49,14 @@ public enum CommandEnum {
             this.command = new AddVacancyCommand();
         }
     },
-    DELETE_VACANCY {
+    CLOSE_VACANCY {
         {
-            this.command = new DeleteVacancyCommand();
+            this.command = new CloseVacancyCommand();
+        }
+    },
+    OPEN_VACANCY {
+        {
+            this.command = new OpenVacancyCommand();
         }
     },
     CHANGE_SELECTION {

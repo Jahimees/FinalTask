@@ -40,7 +40,6 @@ input[type=text] {
 	color: #787474;
 	padding-left: 10px;
 	
-	height:33px;
 	border-color:rgb(182,182,182);
 	border-width:1px;
 	border-style:solid;
@@ -201,7 +200,7 @@ input[type=text]:focus{
 	display: block;
 	width: 80%;
 	vertical-align: baseline;
-	margin: 2% auto 1%;
+	margin: 4% auto 1%;
 	outline: none;
 	cursor: pointer;
 	text-align: center;

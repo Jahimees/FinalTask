@@ -31,17 +31,18 @@ public class VacancyDAO implements DAO<Vacancy> {
                 Vacancy vacancy = new Vacancy();
                 vacancy.setIdVacancy(resultSet.getInt(ID_VACANCY));
                 vacancy.setDescription(resultSet.getString(DESCRIPTION));
+                vacancy.setStatus(resultSet.getString(STATUS));
                 vacancy.setName(resultSet.getString(NAME));
 
                 return vacancy;
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
 
@@ -65,7 +66,13 @@ public class VacancyDAO implements DAO<Vacancy> {
                 vacancies.add(vacancy);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
         }
         return vacancies;
     }
@@ -81,12 +88,12 @@ public class VacancyDAO implements DAO<Vacancy> {
                 topList.put(resultSet.getString("name"), resultSet.getInt(COUNT_STAR));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return topList;
@@ -102,45 +109,67 @@ public class VacancyDAO implements DAO<Vacancy> {
         return null;
     }
 
+    @Override
+    public List<Vacancy> showAll() {
+        return null;
+    }
+
     /**
      * @see DAO
      * @return List<Vacancy>
      */
-    @Override
-    public List<Vacancy> showAll() {
+    public List<Vacancy> showVacancies(boolean opened) {
+        logger.info("Searching vacancies by query...");
         List<Vacancy> result = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_VACANCIES_WITH_COUNT);
+            PreparedStatement statement;
+            if (opened) {
+                statement = connection.prepareStatement(GET_OPENED_VACANCIES_WITH_COUNT);
+            } else {
+                statement = connection.prepareStatement(GET_CLOSED_VACANCIES_WITH_COUNT);
+            }
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 Vacancy vacancy = new Vacancy();
-                vacancy.setIdVacancy(resultSet.getInt(ID_VACANCY));
-                vacancy.setName(resultSet.getString(NAME));
-                vacancy.setDescription(resultSet.getString(DESCRIPTION));
-                vacancy.setCandidateCount(resultSet.getInt(COUNT_STAR));
+                setVacancyParams(vacancy, resultSet);
                 result.add(vacancy);
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info("Found vacancies: " + result.size());
         return result;
     }
 
     /**
-     * No implementation needed
-     * @deprecated
+     * Update vacancy
      * @return
      */
     @Override
     public boolean updateInfo(Vacancy vacancy, String query) {
-        return false;
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        boolean result = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, vacancy.getIdVacancy());
+            result = preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return result;
     }
 
     /**
@@ -149,23 +178,9 @@ public class VacancyDAO implements DAO<Vacancy> {
      * @param query
      * @return
      */
+    @Deprecated
     public boolean deleteInfo(Vacancy vacancy, String query) {
-        Connection connection = ConnectionPool.getInstance().getConnection();
-        boolean result = false;
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, vacancy.getIdVacancy());
-            result = preparedStatement.execute();
-        } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
-        } finally {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
-            }
-        }
-        return result;
+        return false;
     }
 
     /**
@@ -183,15 +198,23 @@ public class VacancyDAO implements DAO<Vacancy> {
             preparedStatement.setString(2, vacancy.getDescription());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
+    }
+
+    private void setVacancyParams(Vacancy targetVacancy, ResultSet resultSet) throws SQLException {
+        targetVacancy.setIdVacancy(resultSet.getInt(ID_VACANCY));
+        targetVacancy.setName(resultSet.getString(NAME));
+        targetVacancy.setDescription(resultSet.getString(DESCRIPTION));
+        targetVacancy.setStatus(resultSet.getString(STATUS));
+        targetVacancy.setCandidateCount(resultSet.getInt(COUNT_ID_VACANCY));
     }
 
 }

@@ -9,6 +9,7 @@ public class AttributeAndParameterConstant {
     public static final String VACANCY_NAME = "vacName";
     public static final String DESCRIPTION = "description";
     public static final String COUNT_STAR = "count(*)";
+    public static final String COUNT_ID_VACANCY = "count(selection.idVacancy)";
     public static final String PASSWORD = "password";
     public static final String OLD_PASSWORD = "oldpass";
     public static final String ID = "id";

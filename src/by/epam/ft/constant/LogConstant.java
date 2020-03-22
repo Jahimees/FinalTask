@@ -15,7 +15,8 @@ public class LogConstant {
     public static final String CONNECTION_POOL_PROBLEMS = " The pool of connections has problems with Datasource";
     public static final String CONNECTION_POOL_CREATED = "Connection pool was created";
     public static final String LOGIN_ALREADY_EXISTS = "This login is used by another user";
-    public static final String VACANCY_WAS_DELETED = " vacancy was deleted!";
+    public static final String VACANCY_WAS_CLOSE = " vacancy was close!";
+    public static final String VACANCY_WAS_OPEN = " vacancy was open!";
     public static final String SELECTION_WAS_DELETED = " selection was deleted!";
     public static final String ADDED_NEW_VACANCY = "New vacancy was added";
     public static final String VACANCY_WAS_REVOKED = "Vacancy was revoked";

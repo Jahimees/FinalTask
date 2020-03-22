@@ -51,12 +51,12 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
                 return candidate;
             }
         } catch (SQLException e) {
-            logger.error(e + SQL_DAO_EXCEPTION);
+            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(e + SQL_CLOSE_CONNECTION_EXCEPTION);
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return null;

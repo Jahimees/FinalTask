@@ -32,7 +32,7 @@ public class ActionFactory {
             current = currentEnum.getCurrentCommand();
         } catch (UnknownCommandException e) {
             request.setAttribute(WRONG_ACTION, action);
-            logger.error(e + INVALID_COMMAND);
+            logger.error(INVALID_COMMAND, e);
         }
         return current;
     }

@@ -26,7 +26,7 @@ public class StateVacancyCommand implements ActionCommand {
         CandidateDAO candidateDAO = new CandidateDAO();
         Candidate candidate = candidateDAO.showByAccountId((int) idSession);
         SelectionDAO selectionDAO = new SelectionDAO();
-        OpenVacancyCommand command = new OpenVacancyCommand();
+        LoadOpenedVacancyPageCommand command = new LoadOpenedVacancyPageCommand();
         if (selectionDAO.checkForExists(candidate.getIdCandidate(), Integer.parseInt(idVacancy.toString()))) {
             page = command.execute(request);
             return page;

@@ -133,7 +133,6 @@ input {
 .date {
 	width: 80%;
 	font-family: "Courier New", san-serif;
-	margin-bottom: 5%;
 }
 
 
@@ -290,7 +289,7 @@ input {
 	-ms-transform: translate(-50%, 0);
 	-o-transform: translate(-50%, 0);
 	transform: translate(-50%, 0);
-	top: 10%;
+	top: 5%;
 }
 
 .close {

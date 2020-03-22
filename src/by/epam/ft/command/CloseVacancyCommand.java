@@ -7,12 +7,17 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_VACANCY;
-import static by.epam.ft.constant.LogConstant.VACANCY_WAS_OPEN;
-import static by.epam.ft.constant.PreparedConstant.OPEN_VACANCY_BY_ID;
+import static by.epam.ft.constant.LogConstant.VACANCY_WAS_CLOSE;
+import static by.epam.ft.constant.PreparedConstant.CLOSE_VACANCY_BY_ID;
 
-public class OpenVacancyCommand implements ActionCommand {
+/**
+ * Class-command which delete chosen vacancy from database
+ * implements ActionCommand interface
+ * @see ActionCommand
+ */
+public class CloseVacancyCommand implements ActionCommand {
 
-    private final Logger logger = Logger.getLogger(OpenVacancyCommand.class);
+    private final Logger logger = Logger.getLogger(CloseVacancyCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
@@ -22,11 +27,12 @@ public class OpenVacancyCommand implements ActionCommand {
         Vacancy vacancy = new Vacancy();
         vacancy.setIdVacancy(idVacancy);
         VacancyDAO vacancyDAO = new VacancyDAO();
-        vacancyDAO.updateInfo(vacancy, OPEN_VACANCY_BY_ID);
-        logger.info(idVacancy + VACANCY_WAS_OPEN);
+        vacancyDAO.updateInfo(vacancy, CLOSE_VACANCY_BY_ID);
+        logger.info(idVacancy + VACANCY_WAS_CLOSE);
 
-        LoadClosedVacancyPageCommand command = new LoadClosedVacancyPageCommand();
+        LoadOpenedVacancyPageCommand command = new LoadOpenedVacancyPageCommand();
         page = command.execute(request);
         return page;
     }
 }
+
