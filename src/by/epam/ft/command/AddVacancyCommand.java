@@ -21,6 +21,7 @@ public class AddVacancyCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info("Adding vacancy...");
         String page = null;
         String vacName = request.getParameter(VACANCY_NAME);
         vacName = validateParams(vacName);

@@ -18,15 +18,39 @@ import static by.epam.ft.constant.LogConstant.*;
  * manages data in the Candidate table
  */
 public class CandidateDAO implements DAO<Candidate>, UserDAO {
+
     private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     /**
-     * No implementation needed
-     * @deprecated
+     * Show info about candidate by candidate id
      * @return
      */
     @Override
-    public Candidate showById(int id, String query) {
+    public Candidate showById(int id) {
+        logger.info("Getting candidate by id candidate: " + id);
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        PreparedStatement statement = null;
+        Candidate candidate = new Candidate();
+        try {
+            statement = connection.prepareStatement(PreparedConstant.GET_CANDIDATE_BY_ID);
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                setCandidateFields(resultSet, candidate);
+                logger.info("Candidate found!");
+                return candidate;
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Closing connection...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        logger.info("Candidate not found!");
         return null;
     }
 
@@ -37,6 +61,7 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
      */
     @Override
     public Candidate showByAccountId(int accId) {
+        logger.info("Showing Candidate by account id: " + accId);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement statement = null;
         try {
@@ -45,20 +70,21 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 Candidate candidate = new Candidate();
-                candidate.setIdCandidate(rs.getInt(ID_CANDIDATE));
-                candidate.setIdAccount(rs.getInt(ID_ACCOUNT));
-
+                setCandidateFields(rs, candidate);
+                logger.info("Candidate found!");
                 return candidate;
             }
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info("Candidate not found!");
         return null;
     }
 
@@ -105,5 +131,8 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
         return false;
     }
 
-
+    public void setCandidateFields(ResultSet resultSet, Candidate targetCandidate) throws SQLException {
+        targetCandidate.setIdAccount(resultSet.getInt(ID_ACCOUNT));
+        targetCandidate.setIdCandidate(resultSet.getInt(ID_CANDIDATE));
+    }
 }

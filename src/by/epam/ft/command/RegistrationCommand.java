@@ -23,10 +23,12 @@ import static javax.management.timer.Timer.ONE_DAY;
  * @see ActionCommand
  */
 public class RegistrationCommand implements ActionCommand {
+
     Logger logger = Logger.getLogger(RegistrationCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info("New user trying to register...");
         String page = null;
 
         String login = request.getParameter(LOGIN);
@@ -34,6 +36,7 @@ public class RegistrationCommand implements ActionCommand {
         AccountDAO accountDao = new AccountDAO();
         int id = accountDao.showIdAccountByLogin(login);
         if (id != 0) {
+            logger.error("User tried register with exists login");
             request.setAttribute(ERROR_MESSAGE, LOGIN_ALREADY_EXISTS);
             page = REGISTER_PAGE;
             return page;

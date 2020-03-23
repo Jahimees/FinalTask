@@ -19,6 +19,7 @@ import static by.epam.ft.constant.PreparedConstant.GET_HR_BY_ID_ACCOUNT;
  * manages data in the HR table
  */
 public class HrDAO implements DAO<Hr>, UserDAO {
+
     private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     /**
@@ -27,7 +28,7 @@ public class HrDAO implements DAO<Hr>, UserDAO {
      * @return
      */
     @Override
-    public Hr showById(int id, String query) {
+    public Hr showById(int id) {
         return null;
     }
 
@@ -38,6 +39,7 @@ public class HrDAO implements DAO<Hr>, UserDAO {
      */
     @Override
     public Hr showByAccountId(int id) {
+        logger.info("Showing hr by account id: " + id);
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(GET_HR_BY_ID_ACCOUNT);
@@ -47,17 +49,20 @@ public class HrDAO implements DAO<Hr>, UserDAO {
                 Hr hr = new Hr();
                 hr.setIdAccount(id);
                 hr.setIdHr(resultSet.getInt(ID_HR));
+                logger.info("HR was found!");
                 return hr;
             }
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info("HR was not found!");
         return null;
     }
 
@@ -100,6 +105,4 @@ public class HrDAO implements DAO<Hr>, UserDAO {
     public boolean insertInfo(Hr hr, String query) {
         return false;
     }
-
-
 }

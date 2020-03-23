@@ -12,10 +12,9 @@ public interface DAO<T> {
     /**
      * Show entity by id
      * @param id
-     * @param query
      * @return Entity
      */
-    MyEntity showById(int id, String query);
+    MyEntity showById(int id);
 
     /**
      * Show all Entities

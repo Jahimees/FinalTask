@@ -33,12 +33,13 @@ public class OpenAccountCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info("Try to open account...");
         String page = null;
         HttpSession session = request.getSession();
         Object id = session.getAttribute(ID);
         String role = (String) session.getAttribute(ROLE);
         AccountDAO accountDAO = new AccountDAO();
-        Account account = accountDAO.showById((int) id, GET_ACCOUNT);
+        Account account = accountDAO.showById((int) id);
         request.setAttribute(ID_ACC, account.getIdAccount());
         request.setAttribute(LOGIN, account.getLogin());
         request.setAttribute(NAME, account.getName());

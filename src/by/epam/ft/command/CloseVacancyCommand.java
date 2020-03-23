@@ -23,6 +23,7 @@ public class CloseVacancyCommand implements ActionCommand {
     public String execute(HttpServletRequest request) {
         String page = null;
         int idVacancy = Integer.parseInt(request.getParameter(ID_VACANCY));
+        logger.info("Closing vacancy with id " + idVacancy);
 
         Vacancy vacancy = new Vacancy();
         vacancy.setIdVacancy(idVacancy);

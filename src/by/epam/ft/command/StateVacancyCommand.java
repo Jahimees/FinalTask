@@ -4,6 +4,7 @@ import by.epam.ft.dao.CandidateDAO;
 import by.epam.ft.dao.SelectionDAO;
 import by.epam.ft.entity.Candidate;
 import by.epam.ft.entity.Selection;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,8 +18,12 @@ import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_SELECTION;
  * @see ActionCommand
  */
 public class StateVacancyCommand implements ActionCommand {
+
+    private static final Logger logger = Logger.getLogger(StateVacancyCommand.class);
+
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info("Someone states to vacancy");
         HttpSession session = request.getSession();
         String page = null;
         Object idSession = session.getAttribute(ID);

@@ -13,6 +13,7 @@ import static by.epam.ft.constant.LogConstant.INVALID_COMMAND;
  * a request and is converted to one of the objects of the command class
  */
 public class ActionFactory {
+
     Logger logger = Logger.getLogger(ActionFactory.class);
 
     /**

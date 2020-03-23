@@ -28,6 +28,7 @@ public class ChangeSelectionCommand implements ActionCommand {
         String idSelectionStr = request.getParameter(ID_SELECTION);
         String idHrStr = request.getParameter(ID_HR);
         String status = request.getParameter(STATUS);
+        logger.info("Changing selection with id " + idSelectionStr + " by HR with id " + idHrStr);
         String selectionDate = request.getParameter(SELECTION_DATE);
         if (idSelectionStr!=null && selectionDAO.checkForExists(Integer.parseInt(idSelectionStr))) {
             int idSelection = Integer.parseInt(idSelectionStr);

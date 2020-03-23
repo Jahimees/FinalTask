@@ -21,6 +21,7 @@ public class RevokeVacancyCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
+        logger.info("Someone revokes vacancy");
         String page = null;
         HttpSession session = request.getSession();
         Object idSession = session.getAttribute(ID);
@@ -38,6 +39,5 @@ public class RevokeVacancyCommand implements ActionCommand {
             logger.warn(APPLICATION_NO_LONGER_EXISTS);
         }
         return page;
-
     }
 }

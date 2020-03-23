@@ -20,6 +20,7 @@ public abstract class PreparedConstant {
     public static final String GET_VACANCY = "SELECT * FROM vacancy WHERE idVacancy=?;";
     public static final String GET_CANDIDATE_BY_ACCOUNT_ID = "SELECT candidate.idCandidate, candidate.idAccount FROM" +
             " account, candidate WHERE candidate.idAccount=account.idAccount and candidate.idAccount=?;";
+    public static final String GET_CANDIDATE_BY_ID = "SELECT * FROM candidate WHERE idCandidate=?;";
     public static final String GET_PASSWORD_BY_LOGIN = "SELECT password FROM account WHERE login=?;";
     public static final String GET_ID_ACCOUNT_BY_LOGIN = "SELECT idAccount FROM account WHERE login=?;";
     public static final String GET_CANDIDATE_VACANCIES = "SELECT idSelection, idHR, selection.idCandidate, selectionDate," +
@@ -27,6 +28,7 @@ public abstract class PreparedConstant {
     public static final String GET_HR_VACANCIES = "SELECT idSelection, hr.idHR, selection.idCandidate, selectionDate," +
             " idVacancy, status, registrationDate FROM selection, hr WHERE hr.idHR=selection.idHR and hr.idHr=?;";
     public static final String GET_SELECTION_BY_VACANCY = "SELECT * FROM selection WHERE idVacancy=?;";
+    public static final String GET_SELECTIONS_BY_VACANCY_AND_STATUS = "SELECT * FROM selection WHERE idVacancy=? AND status=?;";
     public static final String GET_SELECTION_BY_IDS = "SELECT idSelection FROM selection, candidate WHERE candidate.idCandidate=selection.idCandidate and candidate.idCandidate=? and idVacancy=?;";
     public static final String GET_SELECTION_BY_ID = "SELECT * FROM selection WHERE idSelection=?;";
     public static final String GET_SELECTION_BY_STATUS = "SELECT * FROM selection WHERE status=?;";

@@ -69,13 +69,6 @@ public class Account extends MyEntity {
 
     @Override
     public String toString() {
-        return "Account{" +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", birthday=" + birthday +
-                ", email='" + email + '\'' +
-                '}';
+        return name + " " + surname;
     }
 }

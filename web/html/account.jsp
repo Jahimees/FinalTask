@@ -85,16 +85,16 @@
 						<th><l:locale name="aregistrationdate"/></th>
 						<th><l:locale name="arevoke"/></th>
 					</tr>
-					<c:forEach var="selection" items="${selections}">
+					<c:forEach var="vacancy" items="${selections}">
 						<tr>
 							<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"/>
 							<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO"/>
-	                        <c:set var="accountHR" value="${accountDao.showByIdUser(selection.idHr, true)}"/>
+	                        <c:set var="accountHR" value="${accountDao.showByIdUser(vacancy.idHr, true)}"/>
 
-							<td>${vacDao.showById(selection.idVacancy).idVacancy}</td>
-							<td>${vacDao.showById(selection.idVacancy).name}</td>
+							<td>${vacDao.showById(vacancy.idVacancy).idVacancy}</td>
+							<td>${vacDao.showById(vacancy.idVacancy).name}</td>
 							<c:choose>
-								<c:when test="${vacDao.showById(selection.idVacancy).status.equals('closed')}">
+								<c:when test="${vacDao.showById(vacancy.idVacancy).status.equals('closed')}">
 									<td bgcolor="#ffdab9">
 										<l:locale name="closed"/>
 									</td>
@@ -106,7 +106,7 @@
 								</c:otherwise>
 							</c:choose>
 							<td>
-								<c:out value="${selection.status}"/>
+								<c:out value="${vacancy.status}"/>
 							</td>
 							<td>
 								<c:set var="nameSurname" value="${accountHR.name} ${accountHR.surname}"/>
@@ -121,8 +121,8 @@
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${selection.selectionDate!=null}">
-										<c:out value="${selection.selectionDate}"/>
+									<c:when test="${vacancy.selectionDate!=null}">
+										<c:out value="${vacancy.selectionDate}"/>
 									</c:when>
 									<c:otherwise>
 										<c:out value="--"/>
@@ -131,17 +131,17 @@
 							</td>
 							<td>
 								<c:choose>
-									<c:when test="${selection.registrationDate!=null}">
-										<c:out value="${selection.registrationDate}"/>
+									<c:when test="${vacancy.registrationDate!=null}">
+										<c:out value="${vacancy.registrationDate}"/>
 									</c:when>
 									<c:otherwise>
-										<c:out value="${selection.registrationDate}"/>
+										<c:out value="${vacancy.registrationDate}"/>
 										<c:out value="--"/>
 									</c:otherwise>
 								</c:choose>
 							</td>
 							<td>
-								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}'><l:locale name="arevoke"/></a>
+								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${vacancy.idSelection}'><l:locale name="arevoke"/></a>
 							</td>
 							</c:forEach>
 						</tr>

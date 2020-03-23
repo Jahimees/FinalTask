@@ -209,6 +209,7 @@
 				<!-- Модальное окно фильтрации-->
 				<a href="#x" class="overlay" id="win2"></a>
 				<div class="popup">
+					<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
 					<div class="ipopup">
 						<form>
 							<h1><l:locale name="afilter"/></h1>
@@ -227,13 +228,13 @@
 							<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
 						</form>
 					</div>
-					<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
 				</div>
 				<a type="button" href='#win2' class="show-btn"><l:locale name="afilter"/></a>
 
 			<!-- Модальное окно изменения -->
 			<a href="#x" class="overlay" id="win1"></a>
 			<div class="popup">
+				<a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
 				<div class="ipopup">
 					<form>
 						<h1><l:locale name="mchangerequest"/></h1>
@@ -253,7 +254,6 @@
 						<input type="submit" formaction="/html/controller?command=change_selection" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
 					</form>
 				</div>
-				<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
 			</div>
 
 				<form action="/html/controller?command=change_password" name = "vform" method="post">

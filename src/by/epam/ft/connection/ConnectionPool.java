@@ -34,7 +34,7 @@ public class ConnectionPool {
      * Singleton realization
      */
     public static ConnectionPool getInstance(){
-
+        logger.info("Getting instance of connection pool...");
         if (instance==null) {
             instance = new ConnectionPool();
             logger.info(CONNECTION_POOL_CREATED);
@@ -47,18 +47,18 @@ public class ConnectionPool {
      * @return connection
      */
     public Connection getConnection(){
+        logger.info("Getting connection to database...");
         Context ctx;
         Connection c = null;
         try {
             ctx = new InitialContext();
             DataSource ds = (DataSource)ctx.lookup("java:comp/env/jdbc/mainPool");
             c = ds.getConnection();
-        } catch (NamingException e) {
+        } catch (NamingException | SQLException e) {
             logger.error(CONNECTION_POOL_PROBLEMS, e);
-        } catch (SQLException e) {
-            logger.error(CONNECTION_POOL_PROBLEMS, e);
+            return null;
         }
+        logger.info("Connection successfully opened!");
         return c;
     }
-
 }

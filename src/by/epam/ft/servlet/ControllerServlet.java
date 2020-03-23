@@ -36,7 +36,6 @@ public class ControllerServlet extends HttpServlet {
         if (page != null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(request, response);
-
         } else {
             page = MAIN_PAGE;
             response.sendRedirect(request.getContextPath() + page);

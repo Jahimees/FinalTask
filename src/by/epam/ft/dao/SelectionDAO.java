@@ -20,20 +20,21 @@ import static by.epam.ft.constant.PreparedConstant.*;
  * manages data in the Selection table
  */
 public class SelectionDAO implements DAO<Selection> {
+
     private static final Logger logger = Logger.getLogger(SelectionDAO.class);
 
     /**
      * @see DAO
      * @param id
-     * @param query
      * @return
      */
     @Override
-    public Selection showById(int id, String query) {
+    public Selection showById(int id) {
         return null;
     }
 
     public List<Selection> showSelections(String status) {
+        logger.info("Searching selections by status " + status);
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -49,11 +50,13 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info(selections.size() + " selections found!");
         return selections;
     }
 
@@ -63,6 +66,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return
      */
     public List<Selection> showSelections(int idHrOrCandidate, boolean isHr) {
+        logger.info("Searching selection by id hr or candidate...");
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -83,15 +87,18 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info(selections.size() + " selections found!");
         return selections;
     }
 
     public List<Selection> showSelectionsWithoutHr() {
+        logger.info("Searching selections without hr...");
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -106,11 +113,13 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info(selections.size() + " selections found!");
         return selections;
     }
 
@@ -120,6 +129,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return List<Selection>
      */
     public List<Selection> showSelectionsByIdVacancy(int idVacancy) {
+        logger.info("Searching selections by id vacancy: " + idVacancy);
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -131,6 +141,36 @@ public class SelectionDAO implements DAO<Selection> {
                 setSelectionParams(selection, rs);
                 selections.add(selection);
             }
+            logger.info(selections.size() + " selections found!");
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Connection closing...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return selections;
+    }
+
+    public List<Selection> showSelectionsByIdVacancyAndStatus(int idVacancy, String status) {
+        logger.info("Searching selections by id " + idVacancy + " and status " + status);
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        List<Selection> resultList = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_SELECTIONS_BY_VACANCY_AND_STATUS);
+            statement.setInt(1, idVacancy);
+            statement.setString(2, status);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Selection selection = new Selection();
+                setSelectionParams(selection, resultSet);
+                resultList.add(selection);
+            }
+            logger.info(resultList.size() + " selections found!");
+            return resultList;
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
@@ -140,9 +180,9 @@ public class SelectionDAO implements DAO<Selection> {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        return selections;
+        logger.info("Selections not found!");
+        return resultList;
     }
-
 
     /**
      * Check selection for exists by candidate id and vacancy id
@@ -151,6 +191,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return true - if exists, otherwise - false;
      */
     public boolean checkForExists(int idCandidate, int idVacancy) {
+        logger.info("Checking for exists selection by candidate id " + idCandidate + " and id vacancy " + idVacancy);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -166,6 +207,7 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
@@ -180,6 +222,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return true if exists. false - otherwise
      */
     public boolean checkForExists(int idSelection) {
+        logger.info("Check for exists by id selection: " + idSelection);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -194,6 +237,7 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
@@ -208,6 +252,7 @@ public class SelectionDAO implements DAO<Selection> {
      */
     @Override
     public List<Selection> showAll() {
+        logger.info("Getting all selections...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         List<Selection> resultList = new ArrayList<>();
         try {
@@ -222,11 +267,13 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info(resultList.size() + " selections was found!");
         return resultList;
     }
 
@@ -237,6 +284,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return true - if successful, otherwise - false;
      */
     public boolean updateInfo(Selection selection, String query) {
+        logger.info("Updating selection info...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -247,6 +295,7 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setInt(4, selection.getIdSelection());
 
             result = preparedStatement.execute();
+            logger.info("Updating was successful!");
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
@@ -267,16 +316,19 @@ public class SelectionDAO implements DAO<Selection> {
      * @return true - if successful, false - otherwise
      */
     public boolean deleteInfo(Selection selection, String query) {
+        logger.info("Deleting selection...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, selection.getIdSelection());
             result = preparedStatement.execute();
+            logger.info("Deleting was successful!");
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
@@ -292,6 +344,7 @@ public class SelectionDAO implements DAO<Selection> {
      * @return true - if successful, false - otherwise
      */
     public boolean insertInfo(Selection selection, String query) {
+        logger.info("New selection info inserting...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -301,10 +354,12 @@ public class SelectionDAO implements DAO<Selection> {
             preparedStatement.setString(3, selection.getStatus());
             preparedStatement.setDate(4, selection.getRegistrationDate());
             result = preparedStatement.execute();
+            logger.info("New selection was created successful!");
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
@@ -314,6 +369,7 @@ public class SelectionDAO implements DAO<Selection> {
     }
 
     public List<Selection> showSelectionsByDate(String date, boolean isRegistration) {
+        logger.info("Searching selections by date: " + date);
         List<Selection> selections = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -334,11 +390,13 @@ public class SelectionDAO implements DAO<Selection> {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
+                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
                 logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
+        logger.info(selections.size() + " selections was found!");
         return  selections;
     }
 
