@@ -16,7 +16,7 @@
 		<link rel="stylesheet" type="text/css" href="../css/modal_contact.css" />
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
-	
+
 	<body>
 		<jsp:useBean id="vacancyDao" class="by.epam.ft.dao.VacancyDAO"  scope="session"/>
 		<c:set var="topVacancies" value="${vacancyDao.takePopularVacancies()}"/>
@@ -147,7 +147,7 @@
 					<c:forEach var="item" items="${selectionList}">
 						<c:set var="accountCandidate" value="${accountDao.showByIdUser(item.idCandidate, false)}"/>
 						<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
-						<tr>
+						<tr id="selection_row_${item.idSelection}">
 							<td>${item.idSelection}</td>
 							<td>${accountCandidate.name} ${accountCandidate.surname}</td>
 							<td>${accountCandidate.email}</td>
@@ -175,15 +175,17 @@
 									</c:otherwise>
 								</c:choose>
 							</td>
-							<td>${item.status}</td>
-							<td><c:choose>
-								<c:when test="${item.selectionDate!=null}">
-									<c:out value="${item.selectionDate}"/>
-								</c:when>
-								<c:otherwise>
-									<c:out value="--"/>
-								</c:otherwise>
-							</c:choose></td>
+							<td class="selectionStatus_table">${item.status}</td>
+							<td class="selectionDate_table">
+                                <c:choose>
+								    <c:when test="${item.selectionDate!=null}">
+								    	<c:out value="${item.selectionDate}"/>
+								    </c:when>
+								    <c:otherwise>
+								    	<c:out value="--"/>
+								    </c:otherwise>
+							    </c:choose>
+                            </td>
 							<td>
 								<c:choose>
 									<c:when test="${item.registrationDate!=null}">
@@ -195,7 +197,7 @@
 								</c:choose>
 							</td>
                             <td>
-                                <a type="button" href='#win1' id="changeBtn_${item.idSelection}" class="simple-btn">
+                                <a type="button" href='#changeSelectionForm' id="changeBtn_${item.idSelection}" class="simple-btn">
                                     <l:locale name="mchange"/>
                                 </a>
                             </td>
@@ -207,7 +209,7 @@
 				</table>
 			</form>
 				<!-- Модальное окно фильтрации-->
-				<a href="#x" class="overlay" id="win2"></a>
+				<a href="#x" class="overlay" id="filterForm"></a>
 				<div class="popup">
 					<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
 					<div class="ipopup">
@@ -229,28 +231,28 @@
 						</form>
 					</div>
 				</div>
-				<a type="button" href='#win2' class="show-btn"><l:locale name="afilter"/></a>
+				<a type="button" href='#filterForm' class="show-btn"><l:locale name="afilter"/></a>
 
 			<!-- Модальное окно изменения -->
-			<a href="#x" class="overlay" id="win1"></a>
+			<a href="#x" class="overlay" id="changeSelectionForm"></a>
 			<div class="popup">
 				<a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
 				<div class="ipopup">
 					<form>
 						<h1><l:locale name="mchangerequest"/></h1>
 						<p><l:locale name="mnumberrequest"/></p>
-						<input type="text" class="inputp" name="idSelection" id="idSelection" required readonly/>
+						<input type="text" class="inputp" name="idSelection" id="idSelection_change" required readonly/>
 						<p>ID HR</p>
-						<input type="text" class="inputp" name="idHr" placeholder="<l:locale name="murid"/> ${Hr.idHr}"/>
+						<input type="text" class="inputp" name="idHr" id="idHr_change" placeholder="<l:locale name="murid"/> ${Hr.idHr}"/>
 						<p><l:locale name="astatus"/></p>
-						<select name="status" class="status">
+						<select name="status" class="status" id="selectionStatus_change">
 							<option value="Заявка на рассмотрении" selected><l:locale name="mreqconsid"/></option>
 							<option value="Ожидание собеседования"><l:locale name="mwaiting"/></option>
 							<option value="Не прошел собеседование"><l:locale name="mnotpass"/></option>
 							<option value="Прошел собеседование"><l:locale name="mpass"/></option>
 						</select>
-						<p><l:locale name="aselectiondate"/></p>
-						<input type="date" name="selectionDate" class="date"/>
+						<p id="selectionDateLabel_change"><l:locale name="aselectiondate"/></p>
+						<input type="date" name="selectionDate" class="date" id="selectionDateInput_change"/>
 						<input type="submit" formaction="/html/controller?command=change_selection" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
 					</form>
 				</div>
@@ -273,7 +275,7 @@
 		</main>
 
 		<jsp:include page="common/footer.jsp" />
-	
+
 	</body>
 	<script type="text/javascript" src = "../js/back_security.js"></script>
 	<script type="text/javascript" src = "../js/change_password_script.js"></script>
@@ -283,9 +285,48 @@
             //Подстановка значения id заявки при изменении значения
             <c:forEach items="${selectionList}" var="selection">
                 $("#changeBtn_${selection.idSelection}").on('click', function () {
-                    $("#idSelection").attr("value", "${selection.idSelection}");
+                    $("#idSelection_change").attr("value", "${selection.idSelection}");
+                    $("#idHr_change").attr("value", "${selection.idHr != 0 ? selection.idHr : ""}");
+                    fillTheFields(${selection.idSelection});
+                    checkStatusPicker();
                 });
             </c:forEach>
-        });
+
+            $("#selectionStatus_change").on('change', function () {
+                fillTheFields($("#idSelection_change")[0].value);
+                checkStatusPicker()
+            });
+
+            function fillTheFields(idSelection) {
+                var status = $("#selection_row_" + idSelection + " > .selectionStatus_table")[0].innerText;
+                var date = $("#selection_row_" + idSelection + " > .selectionDate_table")[0].innerText;
+                $("#selectionStatus_change")[0].value = status;
+                $("#selectionDateInput_change").attr("value", date);
+            }
+
+            function checkStatusPicker() {
+                switch ($("#selectionStatus_change")[0].value) {
+                    case "Заявка на рассмотрении": {
+                        $("#selectionDateInput_change").hide();
+                        $("#selectionDateLabel_change").hide();
+                        break;
+                    }
+                    case "Ожидание собеседования": {
+                        $("#selectionDateInput_change").show();
+                        $("#selectionDateLabel_change").show();
+                        break;
+                    }
+                    case "Не прошел собеседование": {
+                        $("#selectionDateInput_change").hide();
+                        $("#selectionDateLabel_change").hide();
+                        break;
+                    }
+                    case "Прошел собеседование": {
+                        $("#selectionDateInput_change").hide();
+                        $("#selectionDateLabel_change").hide();
+                    }
+                }
+            }
+        })
     </script>
 </html>
