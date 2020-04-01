@@ -287,8 +287,10 @@
                 $("#changeBtn_${selection.idSelection}").on('click', function () {
                     $("#idSelection_change").attr("value", "${selection.idSelection}");
                     $("#idHr_change").attr("value", "${selection.idHr != 0 ? selection.idHr : ""}");
-                    fillTheFields(${selection.idSelection});
-                    checkStatusPicker();
+					fillTheFields(${selection.idSelection});
+					var status = $("#selection_row_${selection.idSelection} > .selectionStatus_table")[0].innerText;
+					$("#selectionStatus_change")[0].value = status;
+					checkStatusPicker();
                 });
             </c:forEach>
 
@@ -298,9 +300,7 @@
             });
 
             function fillTheFields(idSelection) {
-                var status = $("#selection_row_" + idSelection + " > .selectionStatus_table")[0].innerText;
                 var date = $("#selection_row_" + idSelection + " > .selectionDate_table")[0].innerText;
-                $("#selectionStatus_change")[0].value = status;
                 $("#selectionDateInput_change").attr("value", date);
             }
 
