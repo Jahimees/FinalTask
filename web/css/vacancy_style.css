@@ -12,14 +12,13 @@ h1::selection {
     background: transparent;
 }
 
-p {
+.p_simple {
     font-size: 17px;
     font-weight: bold;
     color: #343434;
     text-align: left;
     padding: 10px 5px;
     padding-right: 0px;
-
 }
 
 p::selection {

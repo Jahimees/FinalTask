@@ -28,7 +28,7 @@ public class CloseVacancyCommand implements ActionCommand {
         Vacancy vacancy = new Vacancy();
         vacancy.setIdVacancy(idVacancy);
         VacancyDAO vacancyDAO = new VacancyDAO();
-        vacancyDAO.updateInfo(vacancy, CLOSE_VACANCY_BY_ID);
+        vacancyDAO.updateStatus(vacancy, CLOSE_VACANCY_BY_ID);
         logger.info(idVacancy + VACANCY_WAS_CLOSE);
 
         LoadOpenedVacancyPageCommand command = new LoadOpenedVacancyPageCommand();

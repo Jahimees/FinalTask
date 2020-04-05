@@ -16,17 +16,15 @@ public class OpenVacancyCommand implements ActionCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = null;
         int idVacancy = Integer.parseInt(request.getParameter(ID_VACANCY));
 
         Vacancy vacancy = new Vacancy();
         vacancy.setIdVacancy(idVacancy);
         VacancyDAO vacancyDAO = new VacancyDAO();
-        vacancyDAO.updateInfo(vacancy, OPEN_VACANCY_BY_ID);
+        vacancyDAO.updateStatus(vacancy, OPEN_VACANCY_BY_ID);
         logger.info(idVacancy + VACANCY_WAS_OPEN);
 
         LoadClosedVacancyPageCommand command = new LoadClosedVacancyPageCommand();
-        page = command.execute(request);
-        return page;
+        return command.execute(request);
     }
 }
