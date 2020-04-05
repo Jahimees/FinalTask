@@ -54,6 +54,7 @@ public abstract class PreparedConstant {
     /////////////////////////////UPDATE//////////////////////
     public static final String CLOSE_VACANCY_BY_ID = "UPDATE vacancy SET status = 'closed' WHERE idVacancy=?";
     public static final String OPEN_VACANCY_BY_ID = "UPDATE vacancy SET status = 'opened' WHERE idVacancy=?";
+    public static final String UPDATE_VACANCY = "UPDATE vacancy SET name=?, description=? WHERE idVacancy=?";
 
 
 

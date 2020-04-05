@@ -279,10 +279,20 @@ input {
 
 .inputp {
 	width: 80%;
-	font-size: 30px;
+	font-size: 20px;
 	text-align: center;
 }
 
+.inputh {
+	font-size: 17px;
+	text-align: center;
+}
+
+.input_text {
+	width: 80%;
+	font-size: 20px;
+	text-align: justify;
+}
 
 .overlay:target+.popup {
 	-webkit-transform: translate(-50%, 0);

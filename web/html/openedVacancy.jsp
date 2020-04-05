@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
 		<link rel="stylesheet" href="../css/menu.css" type="text/css"/>
 		<link rel="stylesheet" href="../css/media.css" type="text/css"/>
+        <link rel="stylesheet" href="../css/account_style.css" type="text/css">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cuprum&display=swap"/>
 		<link rel="stylesheet" href="../css/vacancy_style.css" type="text/css"/>
@@ -39,13 +40,14 @@
 					<th><l:locale name="ahnvacdescription"/></th>
                     <th><l:locale name="candidatecount"/></th>
 					<th></th>
+                    <th></th>
 				</tr>
 				<c:forEach var="row" items="${resultList}">
 					<tr>
-						<td><p><c:out value="${row.idVacancy}"/></p></td>
-						<td><p><c:out value="${row.name}"/></p></td>
-						<td><p><c:out value="${row.description}"/></p></td>
-						<td><p><c:out value="${row.candidateCount}"/></p></td>
+						<td><p class="p_simple"><c:out value="${row.idVacancy}"/></p></td>
+						<td><p class="p_simple"><c:out value="${row.name}"/></p></td>
+						<td><p class="p_simple"><c:out value="${row.description}"/></p></td>
+						<td><p class="p_simple"><c:out value="${row.candidateCount}"/></p></td>
 						<td>
 							<c:choose>
 								<c:when test="${hr.equals('false')}">
@@ -60,7 +62,7 @@
 											<a type="button" class="button" href='/html/controller?command=state_vacancy&idVacancy=${row.idVacancy}'><l:locale name="registration"/></a>
 										</c:when>
 										<c:otherwise>
-											<p><l:locale name="alreadyregistered"/></p>
+											<p class="p_simple"><l:locale name="alreadyregistered"/></p>
 										</c:otherwise>
 									</c:choose>
 								</c:when>
@@ -69,6 +71,11 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
+                        <td>
+                            <a type="button" href='#changeVacancyForm' id="changeBtn_${row.idVacancy}" class="button">
+                                <l:locale name="mchange"/>
+                            </a>
+                        </td>
 					</tr>
 				</c:forEach>
 			</table>
@@ -87,6 +94,26 @@
 					</div>
 				</c:when>
 			</c:choose>
+
+            <!-- Модальное окно изменения -->
+            <a href="#x" class="overlay" id="changeVacancyForm"></a>
+            <div class="popup">
+                <a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
+                <div class="ipopup">
+                    <form>
+                        <h1><l:locale name="changevacancy"/></h1>
+                        <p class="inputh"><l:locale name="aidvac"/></p>
+                        <input type="text" class="inputp" name="idVacancy" id="idVacancy_change" required readonly/>
+                        <p class="inputh"><l:locale name="ahnvacname"/></p>
+                        <input type="text" class="inputp" name="vacName" id="vacancyName_change"/>
+						<p class="inputh"><l:locale name="ahnvacdescription"/></p>
+                        <textarea rows="5" class="input_text" name="description" id="vacancyDescription_change"></textarea>
+
+                        <input type="submit" formaction="/html/controller?command=change_vacancy" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
+                    </form>
+                </div>
+            </div>
+
 			<div class="pic_container">
 				<img class="pic" src="../img/vacancy.png" width="50.5%" />
 			</div>
@@ -99,3 +126,17 @@
 	<script type="text/javascript" src = "../js/back_security.js"></script>
 
 </html>
+
+<script>
+    $(document).ready(function () {
+
+        //Подстановка значения id вакансии при изменении значения
+        <c:forEach items="${resultList}" var="vacancy">
+            $("#changeBtn_${vacancy.idVacancy}").on('click', function () {
+                $("#idVacancy_change").attr("value", "${vacancy.idVacancy}");
+                $("#vacancyName_change").attr("value", "${vacancy.name}");
+                $("#vacancyDescription_change")[0].value = "${vacancy.description}"
+            });
+        </c:forEach>
+    })
+</script>

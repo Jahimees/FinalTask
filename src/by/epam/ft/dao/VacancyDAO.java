@@ -147,18 +147,41 @@ public class VacancyDAO implements DAO<Vacancy> {
         return result;
     }
 
+    public boolean updateStatus(Vacancy vacancy, String query) {
+        logger.info("Updating vacancy...");
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        boolean result = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, vacancy.getIdVacancy());
+            result = preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Closing connection...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return result;
+    }
+
     /**
      * Update vacancy
      * @return
      */
     @Override
     public boolean updateInfo(Vacancy vacancy, String query) {
-        logger.info("Updating vacancy vacancy");
+        logger.info("Updating vacancy...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, vacancy.getIdVacancy());
+            preparedStatement.setString(1, vacancy.getName());
+            preparedStatement.setString(2, vacancy.getDescription());
+            preparedStatement.setInt(3, vacancy.getIdVacancy());
             result = preparedStatement.execute();
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);

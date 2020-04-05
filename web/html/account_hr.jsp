@@ -63,200 +63,176 @@
 			<jsp:useBean id="hrDao" class="by.epam.ft.dao.HrDAO"/>
 			<c:set var="Hr" value="${hrDao.showByAccountId(idAcc)}"/>
 			<div>
-			<table class="info">
-				<caption><l:locale name="ainfo"/></caption>
-					<tr>
-						<td>
-							<l:locale name="ahuridhr"/>
-						</td>
-						<td>
-							${Hr.idHr}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<l:locale name="alogin"/>
-						</td>
-						<td>
-							${login}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<l:locale name="aname"/>
-						</td>
-						<td>
-							${name}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<l:locale name="asur"/>
-						</td>
-						<td>
-							${surname}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							Email
-						</td>
-						<td>
-							${mail}
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<l:locale name="abirthday"/>
-						</td>
-						<td>
-							${birthday}
-						</td>
-					</tr>
+			    <table class="info">
+			    	<caption><l:locale name="ainfo"/></caption>
+			    	<tr>
+			    		<td><l:locale name="ahuridhr"/></td>
+			    		<td>${Hr.idHr}</td>
+			    	</tr>
+			    	<tr>
+			    		<td><l:locale name="alogin"/></td>
+			    		<td>${login}</td>
+			    	</tr>
+			    	<tr>
+			    		<td><l:locale name="aname"/></td>
+			    		<td>${name}</td>
+			    	</tr>
+			    	<tr>
+			    		<td><l:locale name="asur"/></td>
+			    		<td>${surname}</td>
+			    	</tr>
+			    	<tr>
+			    		<td>Email</td>
+			    		<td>${mail}</td>
+			    	</tr>
+			    	<tr>
+			    		<td><l:locale name="abirthday"/></td>
+			    		<td>${birthday}</td>
+			    	</tr>
+			    </table>
 
-			</table>
+			    <jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"  scope="session" />
+			    <jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO" />
+			    <jsp:useBean id="selectionDao" class="by.epam.ft.dao.SelectionDAO" />
+			    <c:set var="selectionList" value="${selectionDao.showAll()}"/>
 
-			<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"  scope="session" />
-			<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO" />
-			<jsp:useBean id="selectionDao" class="by.epam.ft.dao.SelectionDAO" />
-			<c:set var="selectionList" value="${selectionDao.showAll()}"/>
+			    <div id="air" style="margin: 0 auto;"></div>
 
-			<div id="air" style="margin: 0 auto;"></div>
+			    <form method="post">
+			    	<table class="vacancies">
+			    		<caption><l:locale name="ahrequest"/></caption>
+			    		<tr bgcolor="#225e83" style="color: white">
+			    			<th><l:locale name="ahidrequest"/></th>
+			    			<th><l:locale name="ahnamesurnamecand"/></th>
+			    			<td><l:locale name="usermail"/></td>
+			    			<th><l:locale name="avac"/></th>
+			    			<th><l:locale name="vacstatus"/></th>
+			    			<th><l:locale name="ahnamesurnamehr"/></th>
+			    			<th><l:locale name="astatus"/></th>
+			    			<th><l:locale name="aselectiondate"/></th>
+			    			<th><l:locale name="aregistrationdate"/></th>
+                            <th><l:locale name="mchange"/></th>
+			    			<th><l:locale name="ahdelete"/></th>
+			    		</tr>
+                        <c:choose>
+                            <c:when test="${filter_list != null}">
+                                <c:set var="selectionList" value="${filter_list}"/>
+                            </c:when>
+                        </c:choose>
+			    		<c:forEach var="item" items="${selectionList}">
+			    			<c:set var="accountCandidate" value="${accountDao.showByIdUser(item.idCandidate, false)}"/>
+			    			<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
+			    			<tr id="selection_row_${item.idSelection}">
+			    				<td>${item.idSelection}</td>
+			    				<td>${accountCandidate.name} ${accountCandidate.surname}</td>
+			    				<td>${accountCandidate.email}</td>
+			    				<td>${vacDao.showById(item.idVacancy).name}</td>
+			    				<c:choose>
+			    					<c:when test="${vacancyDao.showById(item.idVacancy).status.equals('closed')}">
+			    						<td bgcolor="#ffdab9">
+			    							<l:locale name="closed"/>
+			    						</td>
+			    					</c:when>
+			    					<c:otherwise>
+			    						<td bgcolor="#afffaa">
+			    							<l:locale name="opened"/>
+			    						</td>
+			    					</c:otherwise>
+			    				</c:choose>
+			    				<td>
+			    					<c:set var="nameSurname" value="${accountHR.name} ${accountHR.surname}"/>
+			    					<c:choose>
+			    						<c:when test="${accountHR.name==null&&accountHR.surname==null}">
+			    							<l:locale name="anohr"/>
+			    						</c:when>
+			    						<c:otherwise>
+			    							<c:out value="${nameSurname}"/>
+			    						</c:otherwise>
+			    					</c:choose>
+			    				</td>
+			    				<td class="selectionStatus_table">${item.status}</td>
+			    				<td class="selectionDate_table">
+                                    <c:choose>
+			    					    <c:when test="${item.selectionDate!=null}">
+			    					    	<c:out value="${item.selectionDate}"/>
+			    					    </c:when>
+			    					    <c:otherwise>
+			    					    	<c:out value="--"/>
+			    					    </c:otherwise>
+			    				    </c:choose>
+                                </td>
+			    				<td>
+			    					<c:choose>
+			    						<c:when test="${item.registrationDate!=null}">
+			    							<c:out value="${item.registrationDate}"/>
+			    						</c:when>
+			    						<c:otherwise>
+			    							<c:out value="--"/>
+			    						</c:otherwise>
+			    					</c:choose>
+			    				</td>
+                                <td>
+                                    <a type="button" href='#changeSelectionForm' id="changeBtn_${item.idSelection}" class="simple-btn">
+                                        <l:locale name="mchange"/>
+                                    </a>
+                                </td>
+			    				<td>
+			    					<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
+			    				</td>
+			    			</tr>
+			    		</c:forEach>
+			    	</table>
+			    </form>
 
-			<form method="post">
-				<table class="vacancies">
-					<caption><l:locale name="ahrequest"/></caption>
-					<tr bgcolor="#225e83" style="color: white">
-						<th><l:locale name="ahidrequest"/></th>
-						<th><l:locale name="ahnamesurnamecand"/></th>
-						<td><l:locale name="usermail"/></td>
-						<th><l:locale name="avac"/></th>
-						<th><l:locale name="vacstatus"/></th>
-						<th><l:locale name="ahnamesurnamehr"/></th>
-						<th><l:locale name="astatus"/></th>
-						<th><l:locale name="aselectiondate"/></th>
-						<th><l:locale name="aregistrationdate"/></th>
-                        <th><l:locale name="mchange"/></th>
-						<th><l:locale name="ahdelete"/></th>
-					</tr>
-                    <c:choose>
-                        <c:when test="${filter_list != null}">
-                            <c:set var="selectionList" value="${filter_list}"/>
-                        </c:when>
-                    </c:choose>
-					<c:forEach var="item" items="${selectionList}">
-						<c:set var="accountCandidate" value="${accountDao.showByIdUser(item.idCandidate, false)}"/>
-						<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
-						<tr id="selection_row_${item.idSelection}">
-							<td>${item.idSelection}</td>
-							<td>${accountCandidate.name} ${accountCandidate.surname}</td>
-							<td>${accountCandidate.email}</td>
-							<td>${vacDao.showById(item.idVacancy).name}</td>
-							<c:choose>
-								<c:when test="${vacancyDao.showById(item.idVacancy).status.equals('closed')}">
-									<td bgcolor="#ffdab9">
-										<l:locale name="closed"/>
-									</td>
-								</c:when>
-								<c:otherwise>
-									<td bgcolor="#afffaa">
-										<l:locale name="opened"/>
-									</td>
-								</c:otherwise>
-							</c:choose>
-							<td>
-								<c:set var="nameSurname" value="${accountHR.name} ${accountHR.surname}"/>
-								<c:choose>
-									<c:when test="${accountHR.name==null&&accountHR.surname==null}">
-										<l:locale name="anohr"/>
-									</c:when>
-									<c:otherwise>
-										<c:out value="${nameSurname}"/>
-									</c:otherwise>
-								</c:choose>
-							</td>
-							<td class="selectionStatus_table">${item.status}</td>
-							<td class="selectionDate_table">
-                                <c:choose>
-								    <c:when test="${item.selectionDate!=null}">
-								    	<c:out value="${item.selectionDate}"/>
-								    </c:when>
-								    <c:otherwise>
-								    	<c:out value="--"/>
-								    </c:otherwise>
-							    </c:choose>
-                            </td>
-							<td>
-								<c:choose>
-									<c:when test="${item.registrationDate!=null}">
-										<c:out value="${item.registrationDate}"/>
-									</c:when>
-									<c:otherwise>
-										<c:out value="--"/>
-									</c:otherwise>
-								</c:choose>
-							</td>
-                            <td>
-                                <a type="button" href='#changeSelectionForm' id="changeBtn_${item.idSelection}" class="simple-btn">
-                                    <l:locale name="mchange"/>
-                                </a>
-                            </td>
-							<td>
-								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</form>
-				<!-- Модальное окно фильтрации-->
-				<a href="#x" class="overlay" id="filterForm"></a>
-				<div class="popup">
-					<a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
-					<div class="ipopup">
-						<form>
-							<h1><l:locale name="afilter"/></h1>
-							<p><l:locale name="ahnamesurnamehr"/></p>
-							<input type="text" class="inputp" name="hr_name" />
-							<p><l:locale name="ahnamesurnamecand"/></p>
-							<input type="text" class="inputp" name="candidate_name"/>
-							<p><l:locale name="astatus"/></p>
-							<input type="text" name="status" class="inputp"/>
-							<p><l:locale name="ahnvacname"/></p>
-							<input type="text" name="vacancy_name" class="inputp"/>
-							<p><l:locale name="aselectiondate"/></p>
-							<input type="date" name="selection_date" class="date"/>
-							<p><l:locale name="aregistrationdate"/></p>
-							<input type="date" name="registration_date" class="date"/>
-							<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
-						</form>
-					</div>
-				</div>
-				<a type="button" href='#filterForm' class="show-btn"><l:locale name="afilter"/></a>
+			    <!-- Модальное окно фильтрации-->
+			    <a href="#x" class="overlay" id="filterForm"></a>
+			    <div class="popup">
+			    	<a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
+			    	<div class="ipopup">
+			    		<form>
+			    			<h1><l:locale name="afilter"/></h1>
+			    			<p><l:locale name="ahnamesurnamehr"/></p>
+			    			<input type="text" class="inputp" name="hr_name" />
+			    			<p><l:locale name="ahnamesurnamecand"/></p>
+			    			<input type="text" class="inputp" name="candidate_name"/>
+			    			<p><l:locale name="astatus"/></p>
+			    			<input type="text" name="status" class="inputp"/>
+			    			<p><l:locale name="ahnvacname"/></p>
+			    			<input type="text" name="vacancy_name" class="inputp"/>
+			    			<p><l:locale name="aselectiondate"/></p>
+			    			<input type="date" name="selection_date" class="date"/>
+			    			<p><l:locale name="aregistrationdate"/></p>
+			    			<input type="date" name="registration_date" class="date"/>
+			    			<input type="submit" formaction="/html/controller?command=open_account" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
+			    		</form>
+			    	</div>
+			    </div>
+			    <a type="button" href='#filterForm' class="show-btn"><l:locale name="afilter"/></a>
 
-			<!-- Модальное окно изменения -->
-			<a href="#x" class="overlay" id="changeSelectionForm"></a>
-			<div class="popup">
-				<a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
-				<div class="ipopup">
-					<form>
-						<h1><l:locale name="mchangerequest"/></h1>
-						<p><l:locale name="mnumberrequest"/></p>
-						<input type="text" class="inputp" name="idSelection" id="idSelection_change" required readonly/>
-						<p>ID HR</p>
-						<input type="text" class="inputp" name="idHr" id="idHr_change" placeholder="<l:locale name="murid"/> ${Hr.idHr}"/>
-						<p><l:locale name="astatus"/></p>
-						<select name="status" class="status" id="selectionStatus_change">
-							<option value="Заявка на рассмотрении" selected><l:locale name="mreqconsid"/></option>
-							<option value="Ожидание собеседования"><l:locale name="mwaiting"/></option>
-							<option value="Не прошел собеседование"><l:locale name="mnotpass"/></option>
-							<option value="Прошел собеседование"><l:locale name="mpass"/></option>
-						</select>
-						<p id="selectionDateLabel_change"><l:locale name="aselectiondate"/></p>
-						<input type="date" name="selectionDate" class="date" id="selectionDateInput_change"/>
-						<input type="submit" formaction="/html/controller?command=change_selection" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
-					</form>
-				</div>
-			</div>
+			    <!-- Модальное окно изменения -->
+			    <a href="#x" class="overlay" id="changeSelectionForm"></a>
+			    <div class="popup">
+			    	<a class="close" title="<l:locale name="ahclose"/>" href="#close"></a>
+			    	<div class="ipopup">
+			    		<form>
+			    			<h1><l:locale name="mchangerequest"/></h1>
+			    			<p><l:locale name="mnumberrequest"/></p>
+			    			<input type="text" class="inputp" name="idSelection" id="idSelection_change" required readonly/>
+			    			<p>ID HR</p>
+			    			<input type="text" class="inputp" name="idHr" id="idHr_change" placeholder="<l:locale name="murid"/> ${Hr.idHr}"/>
+			    			<p><l:locale name="astatus"/></p>
+			    			<select name="status" class="status" id="selectionStatus_change">
+			    				<option value="Заявка на рассмотрении" selected><l:locale name="mreqconsid"/></option>
+			    				<option value="Ожидание собеседования"><l:locale name="mwaiting"/></option>
+			    				<option value="Не прошел собеседование"><l:locale name="mnotpass"/></option>
+			    				<option value="Прошел собеседование"><l:locale name="mpass"/></option>
+			    			</select>
+			    			<p id="selectionDateLabel_change"><l:locale name="aselectiondate"/></p>
+			    			<input type="date" name="selectionDate" class="date" id="selectionDateInput_change"/>
+			    			<input type="submit" formaction="/html/controller?command=change_selection" class="show-btn" formmethod="post" value="<l:locale name="aconfirm"/>"/>
+			    		</form>
+			    	</div>
+			    </div>
 
 				<form action="/html/controller?command=change_password" name = "vform" method="post">
 					<div class="password_change">
@@ -273,10 +249,9 @@
 				</form>
 			</div>
 		</main>
-
 		<jsp:include page="common/footer.jsp" />
-
 	</body>
+
 	<script type="text/javascript" src = "../js/back_security.js"></script>
 	<script type="text/javascript" src = "../js/change_password_script.js"></script>
     <script>

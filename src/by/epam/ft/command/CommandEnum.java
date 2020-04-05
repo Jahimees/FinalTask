@@ -73,6 +73,11 @@ public enum CommandEnum {
         {
             this.command = new LocaleChangerCommand();
         }
+    },
+    CHANGE_VACANCY {
+        {
+            this.command = new ChangeVacancyCommand();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {
