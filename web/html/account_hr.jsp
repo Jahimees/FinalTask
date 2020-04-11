@@ -54,6 +54,7 @@
 			<c:redirect url="/html/authorization.jsp"/>;
 		</c:if>
 		<jsp:include page="common/header.jsp" />
+		<jsp:include page="common/ConfirmPopup.jsp" />
 
 		<main class="content">
 
@@ -177,7 +178,7 @@
                                     </a>
                                 </td>
 			    				<td>
-			    					<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>
+									<a type="button" class="simple-btn" href="#confirmPopup" id="deleteBtn_${item.idSelection}"><l:locale name="arevoke"/></a>
 			    				</td>
 			    			</tr>
 			    		</c:forEach>
@@ -267,6 +268,12 @@
 					$("#selectionStatus_change")[0].value = status;
 					checkStatusPicker();
                 });
+
+				$("#deleteBtn_${selection.idSelection}").on('click', function () {
+					$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+					$("#popup_text")[0].innerText = "<l:locale name="deleting_request"/> ${selection.idSelection}?";
+					$("#popup_confirm").attr("formaction", "/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}");
+				});
             </c:forEach>
 
             $("#selectionStatus_change").on('change', function () {
