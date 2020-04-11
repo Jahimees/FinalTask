@@ -7,8 +7,10 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import static by.epam.ft.constant.AttributeAndParameterConstant.*;
-import static by.epam.ft.constant.LogConstant.*;
+import static by.epam.ft.constant.AttributeAndParameterConstant.ID;
+import static by.epam.ft.constant.AttributeAndParameterConstant.ID_SELECTION;
+import static by.epam.ft.constant.LogConstant.APPLICATION_NO_LONGER_EXISTS;
+import static by.epam.ft.constant.LogConstant.VACANCY_WAS_REVOKED;
 import static by.epam.ft.constant.PreparedConstant.DELETE_SELECTION_BY_ID;
 
 /**
@@ -17,6 +19,7 @@ import static by.epam.ft.constant.PreparedConstant.DELETE_SELECTION_BY_ID;
  * @see ActionCommand
  */
 public class RevokeVacancyCommand implements ActionCommand {
+
     Logger logger = Logger.getLogger(RevokeVacancyCommand.class);
 
     @Override

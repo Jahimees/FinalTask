@@ -3,7 +3,6 @@ package by.epam.ft.dao;
 import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
-import by.epam.ft.entity.Hr;
 import org.apache.log4j.Logger;
 
 import java.sql.*;
@@ -35,13 +34,7 @@ public class AccountDAO implements DAO<Account> {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                account.setIdAccount(rs.getInt(1));
-                account.setLogin(rs.getString(2));
-                account.setPassword(rs.getString(3));
-                account.setName(rs.getString(4));
-                account.setSurname(rs.getString(5));
-                account.setBirthday(rs.getDate(6));
-                account.setEmail(rs.getString(7));
+                setAccountParams(account, rs);
             }
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
@@ -136,11 +129,7 @@ public class AccountDAO implements DAO<Account> {
                     statement.setInt(1, id);
                     ResultSet rs = statement.executeQuery();
                     if (rs.next()) {
-                        account.setIdAccount(rs.getInt(1));
-                        account.setPassword(rs.getString(3));
-                        account.setName(rs.getString(4));
-                        account.setSurname(rs.getString(5));
-                        account.setEmail(rs.getString(7));
+                        setAccountParams(account, rs);
                         logger.info("Account found!");
                         return account;
                     }
@@ -196,12 +185,7 @@ public class AccountDAO implements DAO<Account> {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Account account = new Account();
-                account.setIdAccount(resultSet.getInt("idAccount"));
-                account.setLogin(resultSet.getString("login"));
-                account.setName(resultSet.getString("name"));
-                account.setSurname(resultSet.getString("surname"));
-                account.setBirthday(resultSet.getDate("birthday"));
-                account.setEmail(resultSet.getString("email"));
+                setAccountParams(account, resultSet);
                 accounts.add(account);
             }
         } catch (SQLException e) {
@@ -297,6 +281,43 @@ public class AccountDAO implements DAO<Account> {
             }
         }
         return result;
+    }
+
+    public boolean setConfirmEmailStatus(int idAccount, boolean confirmStatus) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        logger.info("Trying to change email status for " + idAccount + "...");
+        boolean result = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_EMAIL_STATUS);
+            preparedStatement.setInt(1, confirmStatus ? 1 : 0);
+            preparedStatement.setInt(2, idAccount);
+            result = preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error("Cannot to change email status", e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        if (result) {
+            logger.info("Status successfully changed!");
+        } else {
+            logger.info("Status not changed!");
+        }
+        return result;
+    }
+
+    public void setAccountParams(Account account, ResultSet rs) throws SQLException {
+        account.setIdAccount(rs.getInt(1));
+        account.setLogin(rs.getString(2));
+        account.setPassword(rs.getString(3));
+        account.setName(rs.getString(4));
+        account.setSurname(rs.getString(5));
+        account.setBirthday(rs.getDate(6));
+        account.setEmail(rs.getString(7));
+        account.setConfirmed(rs.getBoolean(8));
     }
 
 }

@@ -5,7 +5,8 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.epam.ft.constant.AttributeAndParameterConstant.*;
+import static by.epam.ft.constant.AttributeAndParameterConstant.COMMAND;
+import static by.epam.ft.constant.AttributeAndParameterConstant.WRONG_ACTION;
 import static by.epam.ft.constant.LogConstant.INVALID_COMMAND;
 
 /**

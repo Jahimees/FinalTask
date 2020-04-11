@@ -8,13 +8,13 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
-import static by.epam.ft.service.ParamsValidator.validateParams;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.LOGIN_ALREADY_EXISTS;
 import static by.epam.ft.constant.LogConstant.NEW_ACCOUNT_CREATED;
 import static by.epam.ft.constant.PageConstant.AUTHORIZATION_PAGE;
 import static by.epam.ft.constant.PageConstant.REGISTER_PAGE;
 import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_ACCOUNT;
+import static by.epam.ft.service.ParamsValidator.validateParams;
 import static javax.management.timer.Timer.ONE_DAY;
 
 /**
@@ -29,7 +29,6 @@ public class RegistrationCommand implements ActionCommand {
     @Override
     public String execute(HttpServletRequest request) {
         logger.info("New user trying to register...");
-        String page = null;
 
         String login = request.getParameter(LOGIN);
 
@@ -38,8 +37,7 @@ public class RegistrationCommand implements ActionCommand {
         if (id != 0) {
             logger.error("User tried register with exists login");
             request.setAttribute(ERROR_MESSAGE, LOGIN_ALREADY_EXISTS);
-            page = REGISTER_PAGE;
-            return page;
+            return REGISTER_PAGE;
         }
 
         String password = request.getParameter(PASSWORD);
@@ -65,8 +63,6 @@ public class RegistrationCommand implements ActionCommand {
         AccountDAO dao = new AccountDAO();
         dao.insertInfo(account, INSERT_INTO_ACCOUNT);
         logger.info(NEW_ACCOUNT_CREATED);
-        page = AUTHORIZATION_PAGE;
-        return page;
-
+        return AUTHORIZATION_PAGE;
     }
 }

@@ -4,14 +4,17 @@ import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Vacancy;
 import org.apache.log4j.Logger;
 
-import javax.xml.transform.Result;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
-import static by.epam.ft.constant.LogConstant.*;
+import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
+import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 import static by.epam.ft.constant.PreparedConstant.*;
 
 /**

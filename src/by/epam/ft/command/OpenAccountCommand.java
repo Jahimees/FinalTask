@@ -1,12 +1,12 @@
 package by.epam.ft.command;
 
-import by.epam.ft.service.Utils;
 import by.epam.ft.dao.AccountDAO;
 import by.epam.ft.dao.CandidateDAO;
 import by.epam.ft.dao.SelectionDAO;
 import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
 import by.epam.ft.entity.Selection;
+import by.epam.ft.service.Utils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +45,7 @@ public class OpenAccountCommand implements ActionCommand {
         request.setAttribute(SURNAME, account.getSurname());
         request.setAttribute(MAIL, account.getEmail());
         request.setAttribute(BIRTHDAY, account.getBirthday().toString());
+        request.setAttribute(IS_CONFIRMED, account.isConfirmed());
 
         request.setAttribute("filter_list", filterChecking(request));
         if (role.equals(HR)) {

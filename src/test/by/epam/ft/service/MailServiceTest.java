@@ -22,4 +22,19 @@ public class MailServiceTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void sendMessageToNotExistsEmail() {
+        EmailMessage message = new EmailMessage();
+        message.setMessage("It's test message");
+        message.setReceiver("totonovich.01@mail.ru");
+        message.setTitle("Test fail");
+
+        MailService mailService = new MailService();
+        try {
+            mailService.sendEmail(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

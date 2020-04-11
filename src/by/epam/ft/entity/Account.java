@@ -10,6 +10,7 @@ public class Account extends MyEntity {
     private String surname;
     private Date birthday;
     private String email;
+    private boolean isConfirmed;
 
     public int getIdAccount() {
         return idAccount;
@@ -70,5 +71,13 @@ public class Account extends MyEntity {
     @Override
     public String toString() {
         return name + " " + surname;
+    }
+
+    public boolean isConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(boolean confirmed) {
+        isConfirmed = confirmed;
     }
 }

@@ -35,7 +35,8 @@ public class SessionCheckerFilter implements Filter {
             Object id = session.getAttribute(ID);
             String command = request.getParameter(COMMAND);
             if (id == null &&
-                    !(command.equals(LOGIN) || (command.equals(CHANGE_LOCALE_S)) || (command.equals(REGISTER)))) {
+                    !(command.equals(LOGIN) || (command.equals(CHANGE_LOCALE_S)) || (command.equals(REGISTER)) ||
+                            command.equals(RECEIVE_CONFIRM_EMAIL))) {
                 response.sendRedirect(AUTHORIZATION_PAGE);
                 return;
             } else {

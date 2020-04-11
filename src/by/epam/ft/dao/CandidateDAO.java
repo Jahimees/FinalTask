@@ -1,7 +1,7 @@
 package by.epam.ft.dao;
 
-import by.epam.ft.constant.PreparedConstant;
 import by.epam.ft.connection.ConnectionPool;
+import by.epam.ft.constant.PreparedConstant;
 import by.epam.ft.entity.Candidate;
 import org.apache.log4j.Logger;
 
@@ -11,8 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import static by.epam.ft.constant.AttributeAndParameterConstant.*;
-import static by.epam.ft.constant.LogConstant.*;
+import static by.epam.ft.constant.AttributeAndParameterConstant.ID_ACCOUNT;
+import static by.epam.ft.constant.AttributeAndParameterConstant.ID_CANDIDATE;
+import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
+import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 
 /**
  * manages data in the Candidate table

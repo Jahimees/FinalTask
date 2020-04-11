@@ -2,6 +2,7 @@ package by.epam.ft.service.mail;
 
 import by.epam.ft.entity.EmailMessage;
 import by.epam.ft.service.PropertyService;
+import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -11,6 +12,7 @@ import java.util.Properties;
 public class MailService {
 
     private Properties mailProperties;
+    Logger logger = Logger.getLogger(MailService.class);
 
     public MailService() {
         Properties configProperties = PropertyService.getProperties();
@@ -20,7 +22,6 @@ public class MailService {
         mailProperties.put("mail.smtp.auth", "true");
         mailProperties.put("mail.smtp.ssl.enable", "true");
         mailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-
     }
 
     public Session authenticate() {
@@ -36,11 +37,11 @@ public class MailService {
         InternetAddress emailFrom = new InternetAddress(emailMessage.getSender());
         InternetAddress emailTo = new InternetAddress(emailMessage.getReceiver());
 
-        Message message = new MimeMessage(session);
+        MimeMessage message = new MimeMessage(session);
         message.setFrom(emailFrom);
         message.setRecipient(Message.RecipientType.TO, emailTo);
         message.setSubject(emailMessage.getTitle());
-        ((MimeMessage) message).setText(emailMessage.getMessage(), "UTF-8");
+        message.setContent(emailMessage.getMessage(),"text/html");
 
         Transport.send(message);
     }

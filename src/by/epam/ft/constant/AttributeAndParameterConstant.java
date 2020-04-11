@@ -14,6 +14,7 @@ public class AttributeAndParameterConstant {
     public static final String OLD_PASSWORD = "oldpass";
     public static final String ID = "id";
     public static final String LOGIN = "login";
+    public static final String RECEIVE_CONFIRM_EMAIL = "receive_confirm_email";
     public static final String WRONG_PASSWORD = "wrongPass";
     public static final String ID_SELECTION = "idSelection";
     public static final String ID_HR = "idHr";
@@ -29,6 +30,7 @@ public class AttributeAndParameterConstant {
     public static final String SURNAME = "surname";
     public static final String MAIL = "mail";
     public static final String BIRTHDAY = "birthday";
+    public static final String IS_CONFIRMED = "isConfirmed";
     public static final String AGE = "age";
     public static final String HR = "hr";
     public static final String CANDIDATE = "candidate";
