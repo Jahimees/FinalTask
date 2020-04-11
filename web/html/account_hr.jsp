@@ -178,9 +178,7 @@
                                     </a>
                                 </td>
 			    				<td>
-									<%--По нажатию кнопки - js скрипт, который устанавливает либо через request либо ещё как-то значения, которые подставляются в popup--%>
 									<a type="button" class="simple-btn" href="#confirmPopup" id="deleteBtn_${item.idSelection}"><l:locale name="arevoke"/></a>
-			    					<%--<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${item.idSelection}'><l:locale name="arevoke"/></a>--%>
 			    				</td>
 			    			</tr>
 			    		</c:forEach>
