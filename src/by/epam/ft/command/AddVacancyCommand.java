@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.epam.ft.action.ParamsValidator.validateParams;
+import static by.epam.ft.service.ParamsValidator.validateParams;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.ADDED_NEW_VACANCY;
 import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_VACANCY;

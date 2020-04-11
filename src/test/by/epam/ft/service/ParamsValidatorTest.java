@@ -1,6 +1,6 @@
-package test.by.epam.ft.action;
+package test.by.epam.ft.service;
 
-import by.epam.ft.action.ParamsValidator;
+import by.epam.ft.service.ParamsValidator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;

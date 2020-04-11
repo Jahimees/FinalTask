@@ -1,4 +1,4 @@
-package by.epam.ft.action;
+package by.epam.ft.service;
 
 import by.epam.ft.dao.*;
 import by.epam.ft.entity.*;
@@ -15,7 +15,7 @@ public final class Utils {
     private Utils() {}
 
     public static Set<Selection> getSelectionsByCandidateName(String candidateName) {
-        logger.info("Searching sekections by candidate name: " + candidateName);
+        logger.info("Searching selections by candidate name: " + candidateName);
         Set<Selection> byCandidateName = new HashSet<>();
         String[] names = candidateName.split(" ");
         AccountDAO dao = new AccountDAO();

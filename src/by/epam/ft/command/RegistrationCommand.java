@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
 
-import static by.epam.ft.action.ParamsValidator.validateParams;
+import static by.epam.ft.service.ParamsValidator.validateParams;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.LOGIN_ALREADY_EXISTS;
 import static by.epam.ft.constant.LogConstant.NEW_ACCOUNT_CREATED;

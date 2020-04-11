@@ -1,6 +1,6 @@
 package by.epam.ft.command;
 
-import by.epam.ft.action.Utils;
+import by.epam.ft.service.Utils;
 import by.epam.ft.dao.AccountDAO;
 import by.epam.ft.dao.CandidateDAO;
 import by.epam.ft.dao.SelectionDAO;
@@ -19,7 +19,6 @@ import java.util.Set;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.PageConstant.ACCOUNT_HR_PAGE;
 import static by.epam.ft.constant.PageConstant.ACCOUNT_PAGE;
-import static by.epam.ft.constant.PreparedConstant.GET_ACCOUNT;
 
 /**
  * Class-command which load all info on Account page
