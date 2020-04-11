@@ -67,7 +67,7 @@
 			    <table class="info">
 			    	<caption><l:locale name="ainfo"/></caption>
 			    	<tr>
-			    		<td><l:locale name="ahuridhr"/></td>
+			    		<td width="50%"><l:locale name="ahuridhr"/></td>
 			    		<td>${Hr.idHr}</td>
 			    	</tr>
 			    	<tr>
@@ -84,7 +84,17 @@
 			    	</tr>
 			    	<tr>
 			    		<td>Email</td>
-			    		<td>${mail}</td>
+			    		<td>
+							${mail}
+							<c:choose>
+								<c:when test="${!isConfirmed}">
+									<a type="button" class="red_text" href="#confirmPopup" id="confirmAccountBtn"><l:locale name="click_to_confirm_email" /></a>
+								</c:when>
+								<c:otherwise>
+									<div class="green_text"><l:locale name="email_confirmed" /></div>
+								</c:otherwise>
+							</c:choose>
+						</td>
 			    	</tr>
 			    	<tr>
 			    		<td><l:locale name="abirthday"/></td>
@@ -275,6 +285,14 @@
 					$("#popup_confirm").attr("formaction", "/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}");
 				});
             </c:forEach>
+
+			$("#confirmAccountBtn").on('click', function () {
+				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+				$("#popup_text")[0].innerText = "<l:locale name="send_confirmation_email"/>";
+				$("#popup_small_text")[0].innerText = "<l:locale name="if_message_not_received"/>";
+				$("#popup_confirm").attr("formaction",
+						"/html/controller?command=send_request_confirm_account&email=${mail}&id=${accountDao.showByIdUser(Hr.idHr, true).idAccount}");
+			});
 
             $("#selectionStatus_change").on('change', function () {
                 fillTheFields($("#idSelection_change")[0].value);

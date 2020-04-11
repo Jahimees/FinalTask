@@ -1,4 +1,4 @@
-package by.epam.ft.action;
+package by.epam.ft.service;
 
 /**
  * Class for protection against cross-site scripting

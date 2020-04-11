@@ -66,10 +66,10 @@ public abstract class PreparedConstant {
     public static final String GET_ID_ACCOUNT_BY_LOGIN = "SELECT idAccount FROM account WHERE login=?;";
 
     public static final String GET_ACCOUNT_BY_HR_ID = "SELECT account.idAccount, account.login, account.password," +
-            " account.name, account.surname, account.birthday, account.email" +
+            " account.name, account.surname, account.birthday, account.email, account.isConfirmed" +
             " FROM account, hr WHERE hr.idHR=? and hr.idAccount=account.idAccount;";
     public static final String GET_ACCOUNT_BY_CANDIDATE_ID = "SELECT account.idAccount, account.login, account.password," +
-            " account.name, account.surname, account.birthday, account.email" +
+            " account.name, account.surname, account.birthday, account.email, account.isConfirmed" +
             " FROM account, candidate WHERE candidate.idCandidate=? and candidate.idAccount=account.idAccount;";
 
     /////////////////////////////INSERT//////////////////////
@@ -77,7 +77,7 @@ public abstract class PreparedConstant {
 
     /////////////////////////////UPDATE//////////////////////
     public static final String CHANGE_PASSWORD = "UPDATE account SET password=? WHERE idAccount=?";
-
+    public static final String CHANGE_EMAIL_STATUS = "UPDATE account SET isConfirmed=? WHERE idAccount=?;";
 
 
     ///////////////////////////HR////////////////////////////

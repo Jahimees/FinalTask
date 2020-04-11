@@ -1,6 +1,7 @@
 package by.epam.ft.entity;
 
 import org.apache.log4j.Logger;
+
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;

@@ -1,12 +1,12 @@
 package by.epam.ft.command;
 
-import by.epam.ft.action.Utils;
 import by.epam.ft.dao.AccountDAO;
 import by.epam.ft.dao.CandidateDAO;
 import by.epam.ft.dao.SelectionDAO;
 import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
 import by.epam.ft.entity.Selection;
+import by.epam.ft.service.Utils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,6 @@ import java.util.Set;
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.PageConstant.ACCOUNT_HR_PAGE;
 import static by.epam.ft.constant.PageConstant.ACCOUNT_PAGE;
-import static by.epam.ft.constant.PreparedConstant.GET_ACCOUNT;
 
 /**
  * Class-command which load all info on Account page
@@ -46,6 +45,7 @@ public class OpenAccountCommand implements ActionCommand {
         request.setAttribute(SURNAME, account.getSurname());
         request.setAttribute(MAIL, account.getEmail());
         request.setAttribute(BIRTHDAY, account.getBirthday().toString());
+        request.setAttribute(IS_CONFIRMED, account.isConfirmed());
 
         request.setAttribute("filter_list", filterChecking(request));
         if (role.equals(HR)) {

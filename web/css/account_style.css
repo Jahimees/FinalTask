@@ -206,6 +206,23 @@ input {
 .overlay:target {
 	display: block;
 }
+
+.red_text {
+	font-size: 15px;
+	font-family: "Courier new", san-serif;
+	color: red;
+	display: inline;
+	text-decoration: underline;
+}
+
+.green_text {
+	font-size: 15px;
+	font-family: "Courier new", san-serif;
+	color: green;
+	display: inline;
+	text-decoration: underline;
+}
+
 .simple-btn {
 	text-decoration: none;
 	display: block;

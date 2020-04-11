@@ -6,10 +6,11 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static by.epam.ft.action.ParamsValidator.validateParams;
-import static by.epam.ft.constant.AttributeAndParameterConstant.*;
+import static by.epam.ft.constant.AttributeAndParameterConstant.DESCRIPTION;
+import static by.epam.ft.constant.AttributeAndParameterConstant.VACANCY_NAME;
 import static by.epam.ft.constant.LogConstant.ADDED_NEW_VACANCY;
 import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_VACANCY;
+import static by.epam.ft.service.ParamsValidator.validateParams;
 
 /**
  * Class-command which add new vacancy to database

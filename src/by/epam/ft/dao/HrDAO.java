@@ -8,11 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_HR;
-import static by.epam.ft.constant.LogConstant.*;
+import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
+import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 import static by.epam.ft.constant.PreparedConstant.GET_HR_BY_ID_ACCOUNT;
 
 /**

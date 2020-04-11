@@ -78,6 +78,16 @@ public enum CommandEnum {
         {
             this.command = new ChangeVacancyCommand();
         }
+    },
+    SEND_REQUEST_CONFIRM_ACCOUNT {
+        {
+            this.command = new SendRequestConfirmAccountCommand();
+        }
+    },
+    RECEIVE_CONFIRM_EMAIL {
+        {
+            this.command = new ReceiveConfirmEmail();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {
