@@ -3,7 +3,6 @@
 <%@ taglib uri="/WEB-INF/MyTag.tld" prefix="l"%>
 <!DOCTYPE html>
 <html lang="ru">
-
 	<head>
 		<meta charset="UTF-8"/>
 		<title>IT ROAD. Аккаунт</title>
@@ -325,7 +324,7 @@
                 addConfirmButton(popup_confirm);
 				$("#popup_confirm").attr("formaction",
 						"/html/controller?command=send_request_confirm_account&email=${mail}&id=${accountDao.showByIdUser(Hr.idHr, true).idAccount}");
-                $("#" + popup_confirm).value="<l:locale name="aconfirm"/>";
+				$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
 			});
 
             $("#selectionStatus_change").on('change', function () {

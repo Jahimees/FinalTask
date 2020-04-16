@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_ACCOUNT;
@@ -76,6 +77,37 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
                 logger.info("Candidate found!");
                 return candidate;
             }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Closing connection...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        logger.info("Candidate not found!");
+        return null;
+    }
+
+    public List<Candidate> showCandidatesByVacancyId(int idVacancy) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(PreparedConstant.GET_CANDIDATES_IDS_BY_VACANCY_WITH_WAITING_STATUS);
+            statement.setInt(1, idVacancy);
+            ResultSet rs = statement.executeQuery();
+            List<Integer> candidatesIds = new ArrayList<>();
+            while (rs.next()) {
+                candidatesIds.add(rs.getInt("idCandidate"));
+                logger.info("Candidate found!");
+            }
+
+            List<Candidate> candidateList = new ArrayList<>();
+            for (Integer candidateId: candidatesIds) {
+                candidateList.add(showById(candidateId));
+            }
+            return candidateList;
         } catch (SQLException e) {
             logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
