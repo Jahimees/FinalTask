@@ -78,6 +78,7 @@ public abstract class PreparedConstant {
     /////////////////////////////UPDATE//////////////////////
     public static final String CHANGE_PASSWORD = "UPDATE account SET password=? WHERE idAccount=?";
     public static final String CHANGE_EMAIL_STATUS = "UPDATE account SET isConfirmed=? WHERE idAccount=?;";
+    public static final String UPDATE_ACCOUNT = "UPDATE account SET name=?, surname=?, email=? WHERE idAccount=?;";
 
 
     ///////////////////////////HR////////////////////////////

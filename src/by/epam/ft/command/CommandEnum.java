@@ -88,6 +88,11 @@ public enum CommandEnum {
         {
             this.command = new ReceiveConfirmEmail();
         }
+    },
+    UPDATE_ACCOUNT {
+        {
+            this.command = new UpdateAccountCommand();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {

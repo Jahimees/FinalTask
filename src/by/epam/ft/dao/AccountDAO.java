@@ -213,12 +213,22 @@ public class AccountDAO implements DAO<Account> {
     }
 
     /**
-     * No implementation needed
-     * @deprecated
-     * @return
+     * Updates account info
+     * @return true - success, false - failed
      */
     @Override
     public boolean updateInfo(Account account, String query) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, account.getName());
+            preparedStatement.setString(2, account.getSurname());
+            preparedStatement.setString(3, account.getEmail());
+            preparedStatement.setInt(4, account.getIdAccount());
+            return preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error("Cannot update account info", e);
+        }
         return false;
     }
 
