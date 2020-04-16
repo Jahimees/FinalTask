@@ -17,6 +17,7 @@ import static by.epam.ft.constant.LogConstant.CONNECTION_POOL_PROBLEMS;
  * Realized by pattern Singleton
  */
 public class ConnectionPool {
+
     private static final Logger logger = Logger.getLogger(ConnectionPool.class);
 
     /**
@@ -34,7 +35,6 @@ public class ConnectionPool {
      * Singleton realization
      */
     public static ConnectionPool getInstance(){
-        logger.info("Getting instance of connection pool...");
         if (instance==null) {
             instance = new ConnectionPool();
             logger.info(CONNECTION_POOL_CREATED);
@@ -47,7 +47,6 @@ public class ConnectionPool {
      * @return connection
      */
     public Connection getConnection(){
-        logger.info("Getting connection to database...");
         Context ctx;
         Connection c = null;
         try {

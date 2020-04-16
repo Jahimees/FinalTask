@@ -21,12 +21,11 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
  */
 public class LoginCommand implements ActionCommand {
 
-    private static final Logger logger = Logger.getLogger(AccountDAO.class);
+    private static final Logger logger = Logger.getLogger(LoginCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {
         logger.info("Logging command was activated...");
-        String page = null;
         String login = request.getParameter(LOGIN);
         String passwordFromJSP = request.getParameter(PASSWORD);
         passwordFromJSP = Encryption.encrypt(passwordFromJSP);
@@ -36,13 +35,11 @@ public class LoginCommand implements ActionCommand {
         if (passwordFromDB.equals(passwordFromJSP)) {
             logger.info("Logging complete successfully!");
             initSession(request, login);
-            page = MAIN_PAGE;
-            return page;
+            return MAIN_PAGE;
         }
         logger.warn("Authorize failed!");
         request.setAttribute(ERROR_MESSAGE, INVALID_LOGIN_OR_PASSWORD);
-        page = AUTHORIZATION_PAGE;
-        return page;
+        return AUTHORIZATION_PAGE;
     }
 
     /**

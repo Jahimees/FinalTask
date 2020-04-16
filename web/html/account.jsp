@@ -23,7 +23,7 @@
 		</c:if>
 
 		<jsp:include page="common/header.jsp" />
-		<jsp:include page="common/ConfirmPopup.jsp" />
+        <jsp:include page="common/confirmPopup.jsp" />
 
 		<main class="content">
 			<div class="title">
@@ -33,36 +33,43 @@
 			<div>
 				<table class="info">
 					<caption><l:locale name="ainfo"/></caption>
-						<tr>
-							<td width="50%"><l:locale name="alogin"/></td>
-							<td>${login}</td>
-						</tr>
-						<tr>
-							<td><l:locale name="aname"/></td>
-							<td>${name}</td>
-						</tr>
-						<tr>
-							<td><l:locale name="asur"/></td>
-							<td>${surname}</td>
-						</tr>
-						<tr>
-							<td>Email</td>
-							<td>
-								${mail}
-								<c:choose>
-									<c:when test="${!isConfirmed}">
-										<a type="button" class="red_text" href="#confirmPopup" id="confirmAccountBtn"><l:locale name="click_to_confirm_email" /></a>
-									</c:when>
-									<c:otherwise>
-										<div class="green_text"><l:locale name="email_confirmed" /></div>
-									</c:otherwise>
-								</c:choose>
-							</td>
-						</tr>
-						<tr>
-							<td><l:locale name="abirthday"/></td>
-							<td>${birthday}</td>
-						</tr>
+					<tr>
+						<td width="50%"><l:locale name="alogin"/></td>
+						<td>${login}</td>
+					</tr>
+					<tr>
+						<td><l:locale name="aname"/></td>
+						<td>${name}</td>
+					</tr>
+					<tr>
+						<td><l:locale name="asur"/></td>
+						<td>${surname}</td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td>
+							${mail}
+							<c:choose>
+								<c:when test="${!isConfirmed}">
+									<a type="button" class="red_text" href="#confirmPopup" id="confirmAccountBtn"><l:locale name="click_to_confirm_email" /></a>
+								</c:when>
+								<c:otherwise>
+									<div class="green_text"><l:locale name="email_confirmed" /></div>
+								</c:otherwise>
+							</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<td><l:locale name="abirthday"/></td>
+						<td>${birthday}</td>
+					</tr>
+					<tr>
+						<td><l:locale name="pass"/></td>
+						<td>**********</td>
+					</tr>
+					<tr>
+						<td colspan="2"><a type="button" style="margin: 2% auto" class="simple-btn" href="#confirmPopup" id="changeAccountInfo"><l:locale name="change_account_info"/></a></td>
+					</tr>
 				</table>
 				<table class="vacancies">
 					<caption><l:locale name="avacancies"/></caption>
@@ -156,18 +163,48 @@
 		<jsp:include page="common/footer.jsp" />
 
 	</body>
-
-	<script type="text/javascript" src = "../js/back_security.js"></script>
-	<script type="text/javascript" src = "../js/change_password_script.js"></script>
-	<script>
-		$(document).ready(function () {
-			$("#confirmAccountBtn").on('click', function () {
-				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
-				$("#popup_text")[0].innerText = "<l:locale name="send_confirmation_email"/>";
-				$("#popup_small_text")[0].innerText = "<l:locale name="if_message_not_received"/>";
-				$("#popup_confirm").attr("formaction",
-						"/html/controller?command=send_request_confirm_account&email=${mail}&id=${accountDao.showIdAccountByLogin(login)}");
-			});
-		});
-	</script>
 </html>
+
+<script type="text/javascript" src="../js/popup_generator.js"></script>
+<script type="text/javascript" src = "../js/back_security.js"></script>
+<script type="text/javascript" src = "../js/change_password_script.js"></script>
+<script>
+    $(document).ready(function () {
+
+		$("#changeAccountInfo").on('click', function () {
+			removeDefaultFields();
+
+			addLabelWithInput("p_name_label", "p_name_input", "name");
+			$("#p_name_label")[0].innerText = "<l:locale name="aname"/>";
+			$("#p_name_input")[0].value = "${name}";
+
+			addLabelWithInput("p_surname_label", "p_surname_input", "surname");
+			$("#p_surname_label")[0].innerText = "<l:locale name="asur"/>";
+			$("#p_surname_input")[0].value = "${surname}";
+
+			addLabelWithInput("p_email_label", "p_email_input", "email");
+			$("#p_email_label")[0].innerText = "Email";
+			$("#p_email_input")[0].value = "${mail}";
+
+			var popup_confirm = "popup_confirm";
+			addConfirmButton(popup_confirm);
+			$("#" + popup_confirm).attr("formaction",
+					"/html/controller?command=update_account&id=${accountDao.showIdAccountByLogin(login)}");
+			$("#" + popup_confirm).value="<l:locale name="aconfirm"/>";
+		});
+
+        $("#confirmAccountBtn").on('click', function () {
+
+            $("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+            $("#popup_text")[0].innerText = "<l:locale name="send_confirmation_email"/>";
+            $("#popup_small_text")[0].innerText = "<l:locale name="if_message_not_received"/>";
+
+            var popup_confirm = "popup_confirm";
+            addConfirmButton(popup_confirm);
+            $("#" + popup_confirm).attr("formaction",
+                "/html/controller?command=send_request_confirm_account&email=${mail}&id=${accountDao.showIdAccountByLogin(login)}");
+            $("#" + popup_confirm).value="<l:locale name="aconfirm"/>";
+
+        });
+    });
+</script>

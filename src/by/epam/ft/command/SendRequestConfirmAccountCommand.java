@@ -31,7 +31,7 @@ public class SendRequestConfirmAccountCommand implements ActionCommand {
                     .append("<p style=\"font-size: 25px; font-family: 'Courier new'\">You received this email because you made a request for email confirmation.</p>")
                     .append("<p style=\"font-size: 25px; font-family: 'Courier new'\">If You have not performed any actions on our site, please ignore this email</p>")
                     .append("<p style=\"font-size: 20px; font-family: 'Arial'\">To confirm your email go to the link:</p>")
-                    .append("<p style=\"font-size: 20px; font-family: 'Arial'\">http://192.168.56.1:8080/html/controller?command=receive_confirm_email&id=91</p>");
+                    .append("<p style=\"font-size: 20px; font-family: 'Arial'\">" + address + "</p>");
             message.setMessage(messageBuilder.toString());
 
             MailService mailService = new MailService();
@@ -46,7 +46,8 @@ public class SendRequestConfirmAccountCommand implements ActionCommand {
     }
 
     private String generateAddress(HttpServletRequest request) throws UnknownHostException {
-        StringBuilder address = new StringBuilder(InetAddress.getLocalHost().getHostAddress())
+        StringBuilder address = new StringBuilder("http://")
+                .append(InetAddress.getLocalHost().getHostAddress())
                 .append(":8080/html/controller?command=receive_confirm_email&id=")
                 .append(request.getParameter("id"));
         return address.toString();
