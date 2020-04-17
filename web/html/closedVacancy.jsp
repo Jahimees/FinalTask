@@ -142,6 +142,7 @@
     </body>
 </html>
 
+<script type="text/javascript" src="../js/popup_generator.js"></script>
 <script>
     $(document).ready(function () {
 

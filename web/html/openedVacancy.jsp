@@ -42,7 +42,11 @@
 					<th><l:locale name="ahnvacdescription"/></th>
                     <th><l:locale name="candidatecount"/></th>
 					<th></th>
-                    <th></th>
+                    <c:choose>
+                        <c:when test="${hr.equals('true')}">
+                            <th></th>
+                        </c:when>
+                    </c:choose>
 				</tr>
 				<c:forEach var="row" items="${resultList}">
 					<tr>
@@ -73,11 +77,15 @@
 								</c:otherwise>
 							</c:choose>
 						</td>
-                        <td>
-                            <a type="button" href='#changeVacancyForm' id="changeBtn_${row.idVacancy}" class="button">
-                                <l:locale name="mchange"/>
-                            </a>
-                        </td>
+                        <c:choose>
+                            <c:when test="${hr.equals('true')}">
+                                <td>
+                                    <a type="button" href='#changeVacancyForm' id="changeBtn_${row.idVacancy}" class="button">
+                                        <l:locale name="mchange"/>
+                                    </a>
+                                </td>
+                            </c:when>
+                        </c:choose>
 					</tr>
 				</c:forEach>
 			</table>
