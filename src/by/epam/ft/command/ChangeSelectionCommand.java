@@ -3,6 +3,7 @@ package by.epam.ft.command;
 import by.epam.ft.dao.SelectionDAO;
 import by.epam.ft.entity.Selection;
 import by.epam.ft.exception.InvalidEnterInformationException;
+import by.epam.ft.service.mail.EmailSenderCommon;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,6 +58,8 @@ public class ChangeSelectionCommand implements ActionCommand {
             selection.setStatus(status);
             selectionDAO.updateInfo(selection, UPDATE_SELECTION);
             logger.info("Selection " + idSelection + " was successfully changed");
+
+            new EmailSenderCommon().sendMessageIfSelectionChange(selectionDAO.showById(idSelection));
         }
         OpenAccountCommand command = new OpenAccountCommand();
         page = command.execute(request);

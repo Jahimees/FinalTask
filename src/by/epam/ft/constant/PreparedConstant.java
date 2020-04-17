@@ -85,12 +85,16 @@ public abstract class PreparedConstant {
     ///////////////////////////GET///////////////////////////
     public static final String GET_HR_BY_ID_ACCOUNT = "SELECT * FROM hr WHERE idAccount=?;";
 
+
+
     ///////////////////////////CANDIDATE/////////////////////
     ///////////////////////////GET///////////////////////////
     public static final String GET_CANDIDATE_BY_ID = "SELECT * FROM candidate WHERE idCandidate=?;";
 
     public static final String GET_CANDIDATE_BY_ACCOUNT_ID = "SELECT candidate.idCandidate, candidate.idAccount FROM" +
             " account, candidate WHERE candidate.idAccount=account.idAccount and candidate.idAccount=?;";
+    public static final String GET_CANDIDATES_IDS_BY_VACANCY_WITH_WAITING_STATUS = "select idCandidate from selection where idVacancy=? " +
+            "and (status='Заявка на рассмотрении' or status='Ожидание собеседования');";
 
     /////////////////////////////INSERT////////////////////
     public static final String INSERT_INTO_CANDIDATE = "INSERT INTO candidate(idAccount) VALUES (?)";

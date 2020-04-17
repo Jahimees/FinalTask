@@ -30,6 +30,28 @@ public class SelectionDAO implements DAO<Selection> {
      */
     @Override
     public Selection showById(int id) {
+        logger.info("Searching selection by id " + id);
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(GET_SELECTION_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                Selection selection = new Selection();
+                setSelectionParams(selection, resultSet);
+                return selection;
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Closing connection...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
         return null;
     }
 

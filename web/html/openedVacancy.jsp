@@ -25,6 +25,8 @@
 			<c:redirect url="/html/authorization.jsp"/>;
 		</c:if>
 		<jsp:include page="common/header.jsp" />
+		<jsp:include page="common/confirmPopup.jsp" />
+
 		<main class="content">
 			<div class="title">
 				<l:locale name="navVacancies"/>
@@ -40,7 +42,11 @@
 					<th><l:locale name="ahnvacdescription"/></th>
                     <th><l:locale name="candidatecount"/></th>
 					<th></th>
-                    <th></th>
+                    <c:choose>
+                        <c:when test="${hr.equals('true')}">
+                            <th></th>
+                        </c:when>
+                    </c:choose>
 				</tr>
 				<c:forEach var="row" items="${resultList}">
 					<tr>
@@ -67,15 +73,19 @@
 									</c:choose>
 								</c:when>
 								<c:otherwise>
-									<a type="button" class="button" href='/html/controller?command=close_vacancy&idVacancy=${row.idVacancy}'><l:locale name="ahdeletevac"/></a>
+									<a type="button" class="button" id="closeVacancyAction_${row.idVacancy}" href='#confirmPopup'><l:locale name="ahdeletevac"/></a>
 								</c:otherwise>
 							</c:choose>
 						</td>
-                        <td>
-                            <a type="button" href='#changeVacancyForm' id="changeBtn_${row.idVacancy}" class="button">
-                                <l:locale name="mchange"/>
-                            </a>
-                        </td>
+                        <c:choose>
+                            <c:when test="${hr.equals('true')}">
+                                <td>
+                                    <a type="button" href='#changeVacancyForm' id="changeBtn_${row.idVacancy}" class="button">
+                                        <l:locale name="mchange"/>
+                                    </a>
+                                </td>
+                            </c:when>
+                        </c:choose>
 					</tr>
 				</c:forEach>
 			</table>
@@ -127,6 +137,7 @@
 
 </html>
 
+<script type="text/javascript" src="../js/popup_generator.js"></script>
 <script>
     $(document).ready(function () {
 
@@ -137,6 +148,18 @@
                 $("#vacancyName_change").attr("value", "${vacancy.name}");
                 $("#vacancyDescription_change")[0].value = "${vacancy.description}"
             });
+
+			$("#closeVacancyAction_${vacancy.idVacancy}").on('click', function () {
+				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+				$("#popup_text")[0].innerText = "<l:locale name="confirm_close_vacancy_action"/>";
+				$("#popup_small_text")[0].innerText = "<l:locale name="its_will_send_email"/>";
+
+				var popup_confirm = "popup_confirm";
+				addConfirmButton(popup_confirm);
+				$("#" + popup_confirm).attr("formaction",
+						"/html/controller?command=close_vacancy&idVacancy=${vacancy.idVacancy}");
+				$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
+			});
         </c:forEach>
     })
 </script>
