@@ -26,6 +26,7 @@
 		</c:if>
 		<jsp:include page="common/header.jsp" />
 		<jsp:include page="common/confirmPopup.jsp" />
+
 		<main class="content">
 			<div class="title">
 				<l:locale name="navVacancies"/>

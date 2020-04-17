@@ -25,6 +25,8 @@
             <c:redirect url="/html/authorization.jsp"/>;
         </c:if>
         <jsp:include page="common/header.jsp"/>
+        <jsp:include page="common/confirmPopup.jsp" />
+
         <main class="content">
         <div class="title">
             <l:locale name="navVacancies"/>
@@ -58,8 +60,8 @@
                         <c:choose>
                             <c:when test="${hr.equals('true')}">
                                 <td>
-                                    <a type="button" class="button"
-                                       href='/html/controller?command=open_vacancy&idVacancy=${row.idVacancy}'><l:locale
+                                    <a type="button" class="button" id="openVacancyAction_${row.idVacancy}"
+                                       href='#confirmPopup'><l:locale
                                             name="ahopenvac"/></a>
 
                                 </td>
@@ -73,6 +75,7 @@
                     </tr>
                 </c:forEach>
             </table>
+
             <a href="#x" class="overlay" id="stats"></a>
             <div class="popup" style="overflow-x: hidden; overflow-y: scroll; height: 85%;">
                 <a class="close"title="<l:locale name="ahclose"/>" href="#close"></a>
@@ -143,6 +146,18 @@
     $(document).ready(function () {
 
         <c:forEach var="vacancy" items="${resultList}" >
+            $("#openVacancyAction_${vacancy.idVacancy}").on('click', function () {
+                $("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+                $("#popup_text")[0].innerText = "<l:locale name="confirm_open_vacancy_action"/>";
+                $("#popup_small_text")[0].innerText = "<l:locale name="its_will_send_email"/>";
+
+                var popup_confirm = "popup_confirm";
+                addConfirmButton(popup_confirm);
+                $("#" + popup_confirm).attr("formaction",
+                    "/html/controller?command=open_vacancy&idVacancy=${vacancy.idVacancy}");
+                $("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
+            });
+
             $("#showInfoBtn_${vacancy.idVacancy}").on('click', function () {
                 $("#acceptDiv")[0].textContent = "";
                 $("#failedDiv")[0].textContent = "";

@@ -2,6 +2,7 @@ package by.epam.ft.command;
 
 import by.epam.ft.dao.VacancyDAO;
 import by.epam.ft.entity.Vacancy;
+import by.epam.ft.service.mail.EmailSenderCommon;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,15 @@ public class OpenVacancyCommand implements ActionCommand {
         VacancyDAO vacancyDAO = new VacancyDAO();
         vacancyDAO.updateStatus(vacancy, OPEN_VACANCY_BY_ID);
         logger.info(idVacancy + VACANCY_WAS_OPEN);
+
+        StringBuilder messageBuilder = new StringBuilder();
+        messageBuilder.append("<h1 style=\"text-align: center;\">Good day!</h1>")
+                .append("<p style=\"font-size: 25px; font-family: 'Courier new'\">You received this email because you was registered to vacancy which was closed and opening now</p>")
+                .append("<p style=\"font-size: 25px; font-family: 'Courier new'\">You can check it in your account.</p>")
+                .append("<p style=\"font-size: 25px; font-family: 'Courier new'\">Now we will checking all requests of this vacancy. Thanks for patient. Stay with us</p>")
+                .append("<p style=\"font-size: 25px; font-family: 'Arial'\">Good luck! Regards It Road Company Inc</p>");
+
+        new EmailSenderCommon().sendMessagesIfActionWithVacancy(idVacancy, "Opening vacancy", messageBuilder);
 
         LoadClosedVacancyPageCommand command = new LoadClosedVacancyPageCommand();
         return command.execute(request);
