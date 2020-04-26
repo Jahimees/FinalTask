@@ -139,7 +139,7 @@
 								</c:choose>
 							</td>
 							<td>
-								<a type="button" class="simple-btn" href='/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}'><l:locale name="arevoke"/></a>
+								<a type="button" class="simple-btn" href="#confirmPopup" id="deleteBtn_${selection.idSelection}"><l:locale name="arevoke"/></a>
 							</td>
 							</c:forEach>
 						</tr>
@@ -204,7 +204,18 @@
             $("#" + popup_confirm).attr("formaction",
                 "/html/controller?command=send_request_confirm_account&email=${mail}&id=${accountDao.showIdAccountByLogin(login)}");
             $("#" + popup_confirm).value="<l:locale name="aconfirm"/>";
-
         });
+
+		<c:forEach items="${selections}" var="selection">
+			$("#deleteBtn_${selection.idSelection}").on('click', function () {
+				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+				$("#popup_text")[0].innerText = "<l:locale name="deleting_request"/> ${selection.idSelection}?";
+
+				var popup_confirm = "popup_confirm";
+				addConfirmButton(popup_confirm);
+				$("#popup_confirm").attr("formaction", "/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}");
+				$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
+			});
+		</c:forEach>
     });
 </script>

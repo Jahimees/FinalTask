@@ -65,7 +65,7 @@
 									</c:forEach>
 									<c:choose>
 										<c:when test="${flag.equals('false')}">
-											<a type="button" class="button" href='/html/controller?command=state_vacancy&idVacancy=${row.idVacancy}'><l:locale name="registration"/></a>
+											<a type="button" class="button" id="registerToVacancy_${row.idVacancy}" href='#confirmPopup'><l:locale name="registration"/></a>
 										</c:when>
 										<c:otherwise>
 											<p class="p_simple"><l:locale name="alreadyregistered"/></p>
@@ -158,6 +158,16 @@
 				addConfirmButton(popup_confirm);
 				$("#" + popup_confirm).attr("formaction",
 						"/html/controller?command=close_vacancy&idVacancy=${vacancy.idVacancy}");
+				$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
+			});
+
+			$("#registerToVacancy_${vacancy.idVacancy}").on('click', function () {
+				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
+				$("#popup_text")[0].innerText = "<l:locale name="confirm_register_to_vacancy"/> ${vacancy.name}?";
+
+				var popup_confirm = "popup_confirm";
+				addConfirmButton(popup_confirm);
+				$("#popup_confirm").attr("formaction", "/html/controller?command=state_vacancy&idVacancy=${vacancy.idVacancy}");
 				$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
 			});
         </c:forEach>

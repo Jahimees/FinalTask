@@ -141,7 +141,7 @@
 			    			<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
 			    			<tr id="selection_row_${item.idSelection}">
 			    				<td>${item.idSelection}</td>
-			    				<td>${accountCandidate.name} ${accountCandidate.surname}</td>
+								<td><a href="#confirmPopup">${accountCandidate.name} ${accountCandidate.surname}</a></td>
 			    				<td>${accountCandidate.email}</td>
 			    				<td>${vacDao.showById(item.idVacancy).name}</td>
 			    				<c:choose>
@@ -311,7 +311,11 @@
 				$("#deleteBtn_${selection.idSelection}").on('click', function () {
 					$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
 					$("#popup_text")[0].innerText = "<l:locale name="deleting_request"/> ${selection.idSelection}?";
+
+					var popup_confirm = "popup_confirm";
+					addConfirmButton(popup_confirm);
 					$("#popup_confirm").attr("formaction", "/html/controller?command=revoke_vacancy&idSelection=${selection.idSelection}");
+					$("#" + popup_confirm)[0].value="<l:locale name="aconfirm"/>";
 				});
             </c:forEach>
 
