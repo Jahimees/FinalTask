@@ -93,6 +93,11 @@ public enum CommandEnum {
         {
             this.command = new UpdateAccountCommand();
         }
+    },
+    OPEN_ANALYTICS {
+        {
+            this.command = new OpenAnalyticsCommand();
+        }
     };
     ActionCommand command;
     public ActionCommand getCurrentCommand() {
