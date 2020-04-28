@@ -30,6 +30,7 @@ public class AttributeAndParameterConstant {
     public static final String SURNAME = "surname";
     public static final String MAIL = "mail";
     public static final String BIRTHDAY = "birthday";
+    public static final String RESUME = "resume";
     public static final String IS_CONFIRMED = "isConfirmed";
     public static final String AGE = "age";
     public static final String HR = "hr";

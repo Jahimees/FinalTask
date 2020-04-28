@@ -45,6 +45,7 @@ public class OpenAccountCommand implements ActionCommand {
         request.setAttribute(SURNAME, account.getSurname());
         request.setAttribute(MAIL, account.getEmail());
         request.setAttribute(BIRTHDAY, account.getBirthday().toString());
+        request.setAttribute(RESUME, account.getResume());
         request.setAttribute(IS_CONFIRMED, account.isConfirmed());
 
         request.setAttribute("filter_list", filterChecking(request));

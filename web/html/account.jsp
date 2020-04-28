@@ -67,6 +67,10 @@
 						<td><l:locale name="pass"/></td>
 						<td>**********</td>
 					</tr>
+                    <tr>
+                        <td><l:locale name="aresume"/></td>
+                        <td><textarea type="textArea" readonly="true" style="width: 100%; height: 250px;" id="resume">${resume}</textarea></td>
+                    </tr>
 					<tr>
 						<td colspan="2"><a type="button" style="margin: 2% auto" class="simple-btn" href="#confirmPopup" id="changeAccountInfo"><l:locale name="change_account_info"/></a></td>
 					</tr>
@@ -186,6 +190,10 @@
 			$("#p_email_label")[0].innerText = "Email";
 			$("#p_email_input")[0].value = "${mail}";
 
+            addLabelWithTextarea("p_resume_label", "p_resume_textarea", "resume");
+            $("#p_resume_label")[0].innerText = "<l:locale name="aresume"/>";
+            $("#p_resume_textarea")[0].value = $("#resume")[0].defaultValue;
+
 			var popup_confirm = "popup_confirm";
 			addConfirmButton(popup_confirm);
 			$("#" + popup_confirm).attr("formaction",
@@ -194,7 +202,8 @@
 		});
 
         $("#confirmAccountBtn").on('click', function () {
-
+			removeDefaultFields();
+			addDefaultFields();
             $("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
             $("#popup_text")[0].innerText = "<l:locale name="send_confirmation_email"/>";
             $("#popup_small_text")[0].innerText = "<l:locale name="if_message_not_received"/>";
@@ -208,6 +217,8 @@
 
 		<c:forEach items="${selections}" var="selection">
 			$("#deleteBtn_${selection.idSelection}").on('click', function () {
+				removeDefaultFields();
+				addDefaultFields();
 				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
 				$("#popup_text")[0].innerText = "<l:locale name="deleting_request"/> ${selection.idSelection}?";
 

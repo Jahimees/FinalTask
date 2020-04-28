@@ -224,7 +224,8 @@ public class AccountDAO implements DAO<Account> {
             preparedStatement.setString(1, account.getName());
             preparedStatement.setString(2, account.getSurname());
             preparedStatement.setString(3, account.getEmail());
-            preparedStatement.setInt(4, account.getIdAccount());
+            preparedStatement.setString(4, account.getResume());
+            preparedStatement.setInt(5, account.getIdAccount());
             return preparedStatement.execute();
         } catch (SQLException e) {
             logger.error("Cannot update account info", e);
@@ -328,6 +329,7 @@ public class AccountDAO implements DAO<Account> {
         account.setBirthday(rs.getDate(6));
         account.setEmail(rs.getString(7));
         account.setConfirmed(rs.getBoolean(8));
+        account.setResume(rs.getString(9));
     }
 
 }

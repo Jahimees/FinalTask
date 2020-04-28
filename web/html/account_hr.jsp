@@ -141,7 +141,7 @@
 			    			<c:set var="accountHR" value="${accountDao.showByIdUser(item.idHr, true)}"/>
 			    			<tr id="selection_row_${item.idSelection}">
 			    				<td>${item.idSelection}</td>
-								<td><a href="#confirmPopup">${accountCandidate.name} ${accountCandidate.surname}</a></td>
+								<td><a href="#confirmPopup" id="showUserInfoBtn_${item.idSelection}">${accountCandidate.name} ${accountCandidate.surname}</a></td>
 			    				<td>${accountCandidate.email}</td>
 			    				<td>${vacDao.showById(item.idVacancy).name}</td>
 			    				<c:choose>
@@ -196,6 +196,7 @@
 			    				<td>
 									<a type="button" class="simple-btn" href="#confirmPopup" id="deleteBtn_${item.idSelection}"><l:locale name="arevoke"/></a>
 			    				</td>
+								<td style="display: none" id="hidden_resume_${item.idSelection}">${accountDao.showByIdUser(item.idCandidate, false).resume}</td>
 			    			</tr>
 			    		</c:forEach>
 			    	</table>
@@ -308,7 +309,32 @@
 					checkStatusPicker();
                 });
 
+				$("#showUserInfoBtn_${selection.idSelection}").on('click', function () {
+					removeDefaultFields();
+
+					<c:set var="account" value="${accountDao.showByIdUser(selectionDao.showById(selection.idSelection).idCandidate, false)}" />
+					addLabel("p_login");
+					addLabel("p_name");
+					addLabel("p_surname");
+					addLabel("p_birthday");
+					addLabel("p_email");
+					addLabelWithTextarea("p_resume", "p_textarea_resume", "resume");
+
+
+					$("#p_login")[0].innerText = "<l:locale name="alogin"/>: ${account.login}";
+					$("#p_name")[0].innerText = "<l:locale name="aname"/>: ${account.name}";
+					$("#p_surname")[0].innerText = "<l:locale name="asur"/>: ${account.surname}";
+					$("#p_birthday")[0].innerText = "<l:locale name="abirthday"/>: ${account.birthday}";
+					$("#p_email")[0].innerText = "Email: ${account.email}";
+					$("#p_resume")[0].innerText = "<l:locale name="aresume"/>:";
+					$("#p_textarea_resume")[0].innerHTML = $("#hidden_resume_${selection.idSelection}")[0].innerText
+						!= "undefined" ? $("#hidden_resume_${selection.idSelection}")[0].innerText : "";
+					$("#p_textarea_resume").attr("readonly", "readonly");
+				});
+
 				$("#deleteBtn_${selection.idSelection}").on('click', function () {
+					removeDefaultFields();
+					addDefaultFields();
 					$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
 					$("#popup_text")[0].innerText = "<l:locale name="deleting_request"/> ${selection.idSelection}?";
 
@@ -320,6 +346,8 @@
             </c:forEach>
 
 			$("#confirmAccountBtn").on('click', function () {
+				removeDefaultFields();
+				addDefaultFields();
 				$("#popup_title")[0].innerText = "<l:locale name="confirm_action"/>";
 				$("#popup_text")[0].innerText = "<l:locale name="send_confirmation_email"/>";
 				$("#popup_small_text")[0].innerText = "<l:locale name="if_message_not_received"/>";

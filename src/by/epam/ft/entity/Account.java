@@ -10,6 +10,7 @@ public class Account extends MyEntity {
     private String surname;
     private Date birthday;
     private String email;
+    private String resume;
     private boolean isConfirmed;
 
     public int getIdAccount() {
@@ -79,5 +80,13 @@ public class Account extends MyEntity {
 
     public void setConfirmed(boolean confirmed) {
         isConfirmed = confirmed;
+    }
+
+    public String getResume() {
+        return resume;
+    }
+
+    public void setResume(String resume) {
+        this.resume = resume;
     }
 }
