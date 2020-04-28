@@ -5,6 +5,7 @@ package by.epam.ft.constant;
  */
 public class PageConstant {
     public static final String MAIN_PAGE = "/html/main.jsp";
+    public static final String ANALYTICS_PAGE = "/html/analytics.jsp";
     public static final String AUTHORIZATION_PAGE = "/html/authorization.jsp";
     public static final String ACCOUNT_PAGE = "/html/account.jsp";
     public static final String ACCOUNT_HR_PAGE = "/html/account_hr.jsp";

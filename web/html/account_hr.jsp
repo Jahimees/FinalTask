@@ -19,35 +19,37 @@
 	<body>
 		<jsp:useBean id="vacancyDao" class="by.epam.ft.dao.VacancyDAO"  scope="session"/>
 		<c:set var="topVacancies" value="${vacancyDao.takePopularVacancies()}"/>
-		<script src="https://www.google.com/jsapi"></script>
-		<%--todo REFACTOR--%>
-		<script>
 
-			google.load("visualization", "1", {packages:["corechart"]});
-			google.setOnLoadCallback(drawChart);
-				function drawChart() {
-				var data1 = new Map();
-				data1.set('Название', 'Значение');
 
-				<c:forEach var="item" items="${topVacancies}" >
-					data1.set('${item.getKey()}', '${item.getValue()}');
-				</c:forEach>
+		<%--<script src="https://www.google.com/jsapi"></script>--%>
+		<%--&lt;%&ndash;todo REFACTOR&ndash;%&gt;--%>
+		<%--<script>--%>
 
-				var data = google.visualization.arrayToDataTable([
-					['Название', 'Значение'],
-					<c:forEach var="item" items="${topVacancies}" >
-						['${item.getKey()}', ${item.getValue()}],
-					</c:forEach>
-				]);
-				var options = {
-					title: 'Самые популярные вакансии',
-					is3D: true,
-					pieResidueSliceLabel: 'Остальное'
-				};
-				var chart = new google.visualization.PieChart(document.getElementById('air'));
-				chart.draw(data, options);
-			}
-		</script>
+			<%--google.load("visualization", "1", {packages:["corechart"]});--%>
+			<%--google.setOnLoadCallback(drawChart);--%>
+				<%--function drawChart() {--%>
+				<%--var data1 = new Map();--%>
+				<%--data1.set('Название', 'Значение');--%>
+
+				<%--<c:forEach var="item" items="${topVacancies}" >--%>
+					<%--data1.set('${item.getKey()}', '${item.getValue()}');--%>
+				<%--</c:forEach>--%>
+
+				<%--var data = google.visualization.arrayToDataTable([--%>
+					<%--['Название', 'Значение'],--%>
+					<%--<c:forEach var="item" items="${topVacancies}" >--%>
+						<%--['${item.getKey()}', ${item.getValue()}],--%>
+					<%--</c:forEach>--%>
+				<%--]);--%>
+				<%--var options = {--%>
+					<%--title: 'Самые популярные вакансии',--%>
+					<%--is3D: true,--%>
+					<%--pieResidueSliceLabel: 'Остальное'--%>
+				<%--};--%>
+				<%--var chart = new google.visualization.PieChart(document.getElementById('air'));--%>
+				<%--chart.draw(data, options);--%>
+			<%--}--%>
+		<%--</script>--%>
 
 		<c:if test="${id==null}">
 			<c:redirect url="/html/authorization.jsp"/>;
@@ -113,7 +115,12 @@
 			    <jsp:useBean id="selectionDao" class="by.epam.ft.dao.SelectionDAO" />
 			    <c:set var="selectionList" value="${selectionDao.showAll()}"/>
 
-			    <div id="air" style="margin: 0 auto;"></div>
+			    <%--<div id="air" style="margin: 0 auto;"></div>--%>
+
+				<%--BUTTON GO TO ANALYTICS--%>
+				<div style="margin-bottom: 50px;">
+					<a href="/html/controller?command=open_analytics" class="simple-btn"><l:locale name="go_to_analytics"/></a>
+				</div>
 
 			    <form method="post">
 			    	<table class="vacancies">
