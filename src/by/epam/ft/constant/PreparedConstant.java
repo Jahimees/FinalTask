@@ -37,6 +37,10 @@ public abstract class PreparedConstant {
     public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
             " from vacancy join selection on " +
             "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
+    public static final String GET_VACANCIES_WITH_COUNT_AND_RANGE = "select vacancy.idVacancy, count(*), name, description" +
+            " from vacancy join selection on " +
+            "vacancy.idVacancy=selection.idVacancy where selection.registrationDate>? and selection.registrationDate<? " +
+            "group by vacancy.idVacancy order by count(*) desc;";
     public static final String GET_OPENED_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(selection.idVacancy), name, description, vacancy.status" +
             " from vacancy left outer join selection on " +
             "vacancy.idVacancy=selection.idVacancy where vacancy.status = 'opened' group by vacancy.idVacancy order by count(selection.idVacancy) desc;";

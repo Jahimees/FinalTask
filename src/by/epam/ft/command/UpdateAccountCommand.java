@@ -6,13 +6,14 @@ import by.epam.ft.entity.Account;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 public class UpdateAccountCommand implements ActionCommand {
 
     Logger logger = Logger.getLogger(UpdateAccountCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("Updating account...");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
@@ -32,6 +33,6 @@ public class UpdateAccountCommand implements ActionCommand {
         accountDAO.setConfirmEmailStatus(id, false);
 
         logger.info("Account data successfully changed!");
-        return new OpenAccountCommand().execute(request);
+        return new OpenAccountCommand().execute(request, response);
     }
 }

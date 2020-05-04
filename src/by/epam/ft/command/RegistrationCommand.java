@@ -6,6 +6,7 @@ import by.epam.ft.entity.Account;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
@@ -20,6 +21,7 @@ import static javax.management.timer.Timer.ONE_DAY;
 /**
  * Class-command which register the new user
  * implements ActionCommand interface
+ *
  * @see ActionCommand
  */
 public class RegistrationCommand implements ActionCommand {
@@ -27,7 +29,7 @@ public class RegistrationCommand implements ActionCommand {
     Logger logger = Logger.getLogger(RegistrationCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("New user trying to register...");
 
         String login = request.getParameter(LOGIN);
@@ -49,7 +51,7 @@ public class RegistrationCommand implements ActionCommand {
 
         String birthday = request.getParameter(AGE);
         Date birth = Date.valueOf(birthday);
-        birth = new Date(birth.getTime()+ONE_DAY);
+        birth = new Date(birth.getTime() + ONE_DAY);
 
         String email = validateParams(request.getParameter(MAIL));
         Account account = new Account();

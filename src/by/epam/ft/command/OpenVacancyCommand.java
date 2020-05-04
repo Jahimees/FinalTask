@@ -6,6 +6,7 @@ import by.epam.ft.service.mail.EmailSenderCommon;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_VACANCY;
 import static by.epam.ft.constant.LogConstant.VACANCY_WAS_OPEN;
@@ -16,7 +17,7 @@ public class OpenVacancyCommand implements ActionCommand {
     private final Logger logger = Logger.getLogger(OpenVacancyCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         int idVacancy = Integer.parseInt(request.getParameter(ID_VACANCY));
 
         Vacancy vacancy = new Vacancy();
@@ -35,6 +36,6 @@ public class OpenVacancyCommand implements ActionCommand {
         new EmailSenderCommon().sendMessagesIfActionWithVacancy(idVacancy, "Opening vacancy", messageBuilder);
 
         LoadClosedVacancyPageCommand command = new LoadClosedVacancyPageCommand();
-        return command.execute(request);
+        return command.execute(request, response);
     }
 }

@@ -32,13 +32,15 @@ public class ControllerServlet extends HttpServlet {
         String page = null;
         ActionFactory client = new ActionFactory();
         ActionCommand command = client.defineCommand(request);
-        page = command.execute(request);
-        if (page != null) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-            dispatcher.forward(request, response);
-        } else {
-            page = MAIN_PAGE;
-            response.sendRedirect(request.getContextPath() + page);
+        page = command.execute(request, response);
+        if (!Boolean.parseBoolean(request.getParameter("noredirect"))) {
+            if (page != null) {
+                RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+                dispatcher.forward(request, response);
+            } else {
+                page = MAIN_PAGE;
+                response.sendRedirect(request.getContextPath() + page);
+            }
         }
     }
 }

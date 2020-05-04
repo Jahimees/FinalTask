@@ -25,6 +25,9 @@ public final class Utils {
         if (accountsByNames.size() > 0) {
             for (Account account: accountsByNames) {
                 Candidate candidate = candidateDAO.showByAccountId(account.getIdAccount());
+                if (candidate == null) {
+                    continue;
+                }
                 byCandidateName.addAll(selectionDAO.showSelections(candidate.getIdCandidate(), false));
             }
             logger.info(byCandidateName.size() + " selections was found!");

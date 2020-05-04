@@ -7,6 +7,7 @@ import by.epam.ft.entity.Selection;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -17,14 +18,15 @@ import static by.epam.ft.constant.PageConstant.OPENED_VACANCY_PAGE;
  * Class-command which load all info on vacancy page
  * and transfer info about vacancies for which the user is registered
  * implements ActionCommand interface
+ *
  * @see ActionCommand
  */
-public class LoadOpenedVacancyPageCommand implements ActionCommand  {
+public class LoadOpenedVacancyPageCommand implements ActionCommand {
 
     private static final Logger logger = Logger.getLogger(LoadOpenedVacancyPageCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("Trying to open vacancy page");
         String page = null;
         HttpSession session = request.getSession();
@@ -52,6 +54,7 @@ public class LoadOpenedVacancyPageCommand implements ActionCommand  {
 
     /**
      * Takes all vacancy IDs for which the user is registered
+     *
      * @param selections
      * @return
      */

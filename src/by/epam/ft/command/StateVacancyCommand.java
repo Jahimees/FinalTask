@@ -7,6 +7,7 @@ import by.epam.ft.entity.Selection;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
@@ -15,6 +16,7 @@ import static by.epam.ft.constant.PreparedConstant.INSERT_INTO_SELECTION;
 /**
  * Class-command which register user to vacancy
  * implements ActionCommand interface
+ *
  * @see ActionCommand
  */
 public class StateVacancyCommand implements ActionCommand {
@@ -22,7 +24,7 @@ public class StateVacancyCommand implements ActionCommand {
     private static final Logger logger = Logger.getLogger(StateVacancyCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("Someone states to vacancy");
         HttpSession session = request.getSession();
         String page = null;
@@ -33,7 +35,7 @@ public class StateVacancyCommand implements ActionCommand {
         SelectionDAO selectionDAO = new SelectionDAO();
         LoadOpenedVacancyPageCommand command = new LoadOpenedVacancyPageCommand();
         if (selectionDAO.checkForExists(candidate.getIdCandidate(), Integer.parseInt(idVacancy.toString()))) {
-            page = command.execute(request);
+            page = command.execute(request, response);
             return page;
         } else {
             Selection selection = new Selection();
@@ -42,7 +44,7 @@ public class StateVacancyCommand implements ActionCommand {
             selection.setStatus(CONSIDERATION);
             selection.setRegistrationDate(new java.sql.Date(new java.util.Date().getTime()));
             selectionDAO.insertInfo(selection, INSERT_INTO_SELECTION);
-            page = command.execute(request);
+            page = command.execute(request, response);
             return page;
         }
 

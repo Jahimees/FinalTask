@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -92,6 +93,32 @@ public class VacancyDAO implements DAO<Vacancy> {
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_ALL_VACANCIES_WITH_COUNT);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                topList.put(resultSet.getString("name"), resultSet.getInt(COUNT_STAR));
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                logger.info("Closing connection...");
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return topList;
+    }
+
+    public LinkedHashMap<String, Integer> takePopularVacancies(LocalDate sinceDate, LocalDate toDate) {
+        logger.info("Getting popular vacancies");
+        LinkedHashMap<String, Integer> topList = new LinkedHashMap<>();
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_VACANCIES_WITH_COUNT_AND_RANGE);
+            statement.setString(1, sinceDate.toString());
+            statement.setString(2, toDate.toString());
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {

@@ -87,10 +87,10 @@
 						<th><l:locale name="aregistrationdate"/></th>
 						<th><l:locale name="arevoke"/></th>
 					</tr>
+					<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"/>
+					<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO"/>
 					<c:forEach var="selection" items="${selections}">
 						<tr>
-							<jsp:useBean id="vacDao" class="by.epam.ft.dao.VacancyDAO"/>
-							<jsp:useBean id="accountDao" class="by.epam.ft.dao.AccountDAO"/>
 	                        <c:set var="accountHR" value="${accountDao.showByIdUser(selection.idHr, true)}"/>
 
 							<td>${vacDao.showById(selection.idVacancy).idVacancy}</td>

@@ -4,6 +4,7 @@ import by.epam.ft.cryption.Encryption;
 import by.epam.ft.dao.AccountDAO;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
@@ -11,11 +12,12 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
 /**
  * Class-command which changes user password
  * implements ActionCommand
+ *
  * @see ActionCommand
  */
-public class ChangePasswordCommand implements ActionCommand{
+public class ChangePasswordCommand implements ActionCommand {
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
         String newPassword = request.getParameter(PASSWORD);
         String oldPassword = request.getParameter(OLD_PASSWORD);

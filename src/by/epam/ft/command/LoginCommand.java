@@ -7,6 +7,7 @@ import by.epam.ft.entity.Hr;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
@@ -17,6 +18,7 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
 /**
  * Сlass-command that authorizes the user if was entered the correct username and password
  * implements ActionCommand interface
+ *
  * @see ActionCommand
  */
 public class LoginCommand implements ActionCommand {
@@ -24,7 +26,7 @@ public class LoginCommand implements ActionCommand {
     private static final Logger logger = Logger.getLogger(LoginCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("Logging command was activated...");
         String login = request.getParameter(LOGIN);
         String passwordFromJSP = request.getParameter(PASSWORD);
@@ -45,6 +47,7 @@ public class LoginCommand implements ActionCommand {
     /**
      * Method, which initializes session attributes
      * It set next attributes: login and idAccount to define user
+     *
      * @param request
      * @param login
      */

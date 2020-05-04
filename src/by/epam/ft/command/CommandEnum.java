@@ -98,8 +98,14 @@ public enum CommandEnum {
         {
             this.command = new OpenAnalyticsCommand();
         }
+    },
+    FILTER_ANALYTICS {
+        {
+            this.command = new FilterAnalyticsCommand();
+        }
     };
     ActionCommand command;
+
     public ActionCommand getCurrentCommand() {
         return command;
     }

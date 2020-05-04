@@ -10,6 +10,7 @@ import by.epam.ft.service.Utils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ import static by.epam.ft.constant.PageConstant.ACCOUNT_PAGE;
  * Class-command which load all info on Account page
  * Also class define user-role
  * implements ActionCommand interface
+ *
  * @see ActionCommand
  */
 public class OpenAccountCommand implements ActionCommand {
@@ -31,9 +33,8 @@ public class OpenAccountCommand implements ActionCommand {
     private static final Logger logger = Logger.getLogger(OpenAccountCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         logger.info("Try to open account...");
-        String page = null;
         HttpSession session = request.getSession();
         Object id = session.getAttribute(ID);
         String role = (String) session.getAttribute(ROLE);
@@ -50,9 +51,8 @@ public class OpenAccountCommand implements ActionCommand {
 
         request.setAttribute("filter_list", filterChecking(request));
         if (role.equals(HR)) {
-            page = ACCOUNT_HR_PAGE;
             logger.info("Open HR account page...");
-            return page;
+            return ACCOUNT_HR_PAGE;
         } else {
             CandidateDAO candidateDAO = new CandidateDAO();
             Candidate candidate = candidateDAO.showByAccountId((int) id);
@@ -60,8 +60,7 @@ public class OpenAccountCommand implements ActionCommand {
             List<Selection> selections = selectionDAO.showSelections(candidate.getIdCandidate(), false);
             request.setAttribute(SELECTIONS, selections);
             logger.info("Open candidate account page...");
-            page = ACCOUNT_PAGE;
-            return page;
+            return ACCOUNT_PAGE;
         }
     }
 

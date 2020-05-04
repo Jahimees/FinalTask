@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.HttpServletResponse;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -17,7 +17,7 @@ public class SendRequestConfirmAccountCommand implements ActionCommand {
     Logger logger = Logger.getLogger(SendRequestConfirmAccountCommand.class);
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
             logger.info("Trying to send email for confirm...");
             String email = request.getParameter("email");
