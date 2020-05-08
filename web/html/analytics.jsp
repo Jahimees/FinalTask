@@ -42,28 +42,42 @@
         <input style="display: inline" type="button" value="<l:locale name="aconfirm"/>" id="datesTopVacancies">
     </div>
 
+    <div id="columnchart" style="margin: 0 auto; width: 100%; height: 400px"></div>
+
+    <div style="display: inline-block; position: relative; left: 30%;">
+        <p style="display: inline">С</p>
+        <input type="date" id="since_hr_statistic_date" style="display: inline"/>
+        <p style="display: inline">По</p>
+        <input style="display: inline" type="date" id="to_hr_statistic_date"/>
+        <input style="display: inline" type="button" value="<l:locale name="aconfirm"/>" id="datesHrStatistics">
+    </div>
+
 </main>
 <jsp:include page="common/footer.jsp"/>
 </body>
 </html>
 
-<script src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?autoload=
+{'modules':[{'name':'visualization','version':'1.1','packages':
+['corechart']}]}"></script>
 <script>
+
+    google.load("visualization", "1", {packages: ["corechart"]});
+    google.setOnLoadCallback(drawChart);
 
     $("#datesTopVacancies").on("click", function () {
             var sinceDate = $("#since_popular_vacancies_date")[0].value;
             var toDate = $("#to_popular_vacancies_date")[0].value;
             $.ajax({
-                url: "/html/controller?command=filter_analytics" +
-                    "&noredirect=true" +
-                    "&chart_name=chartName" +
-                    "&since_date=" + sinceDate +
-                    "&to_date=" + toDate,
+                url: "/html/controller",
                 dataType: "javascript",
                 method: "GET",
                 data: {
-                    "since_date": "dateTest",
-                    "to_date": "dateTest"
+                    command: "filter_analytics",
+                    since_date: sinceDate,
+                    to_date: toDate,
+                    chart_name: "topVacanciesStatistics",
+                    noredirect: true
                 },
                 success: function (data) {
                     drawChart(eval(data.responseText));
@@ -75,20 +89,54 @@
         }
     );
 
-    google.load("visualization", "1", {packages: ["corechart"]});
-    google.setOnLoadCallback(drawChart);
-    //TODO LOCALE!!!!!!
     function drawChart(dataInfo) {
+        var dataView = new google.visualization.DataView(dataInfo);
         var options = {
-            title: 'Самые популярные вакансии',
+            title: "<l:locale name="most_popular_vacancies" />",
             is3D: true,
             pieResidueSliceLabel: 'Остальное'
         };
         var chart = new google.visualization.PieChart(document.getElementById('air'));
-        chart.draw(dataInfo, options);
+        chart.draw(dataView, options);
     }
 
-    $(document).ready(function () {
-        $("#datesTopVacancies").click();
-    });
+    google.load('visualization', "1", {packages: ['corechart', 'bar']});
+    google.setOnLoadCallback(drawColumnChart);
+
+    $("#datesHrStatistics").on("click", function () {
+            var sinceDate = $("#since_hr_statistic_date")[0].value;
+            var toDate = $("#to_hr_statistic_date")[0].value;
+            $.ajax({
+                url: "/html/controller",
+                dataType: "javascript",
+                method: "GET",
+                data: {
+                    command: "filter_analytics",
+                    since_date: sinceDate,
+                    to_date: toDate,
+                    chart_name: "hrStatisticChart",
+                    noredirect: true
+                },
+                success: function (data) {
+                    drawColumnChart(eval(data.responseText));
+                },
+                error: function (data) {
+                    drawColumnChart(eval(data.responseText));
+                }
+            });
+        }
+    );
+
+    function drawColumnChart(data) {
+        var dataView = new google.visualization.DataView(data);
+        var header = {
+            title: "<l:locale name="hrs_statistics" />",
+            bar: {groupWidth: "50%"}
+        };
+        var barchart = new google.visualization.ColumnChart(document.getElementById("columnchart"));
+        barchart.draw(dataView, header);
+    }
+
+    $("#datesTopVacancies").click();
+    $("#datesHrStatistics").click();
 </script>

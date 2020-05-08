@@ -8,8 +8,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
 import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
@@ -420,6 +423,63 @@ public class SelectionDAO implements DAO<Selection> {
         }
         logger.info(selections.size() + " selections was found!");
         return  selections;
+    }
+
+    public Map<String, Integer> showHrStatistics() {
+        logger.info("Searching hrStatistics info");
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Map<String, Integer> resultMap = new HashMap<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_HR_STATISCTIS);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                int count = resultSet.getInt(1);
+                String name = resultSet.getString(NAME);
+                String surname = resultSet.getString(SURNAME);
+                int idHr = resultSet.getInt(ID_HR);
+
+                String key = name + " " + surname + " id: " + idHr;
+                resultMap.put(key, count);
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return resultMap;
+    }
+
+    public Map<String, Integer> showHrStatistics(LocalDate sinceDate, LocalDate toDate) {
+        logger.info("Searching hrStatistics info");
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Map<String, Integer> resultMap = new HashMap<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_HR_STATISTICS_WITH_RANGE);
+            preparedStatement.setString(1, sinceDate.toString());
+            preparedStatement.setString(2, toDate.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                int idHr = resultSet.getInt(ID_HR);
+                int count = resultSet.getInt(1);
+                String name = resultSet.getString(NAME);
+                String surname = resultSet.getString(SURNAME);
+                String key = name + " " + surname + " id: " + idHr;
+                resultMap.put(key, count);
+            }
+        } catch (SQLException e) {
+            logger.error(SQL_DAO_EXCEPTION, e);
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
+            }
+        }
+        return resultMap;
     }
 
     private void setSelectionParams(Selection targetSelection, ResultSet resultSet) throws SQLException {

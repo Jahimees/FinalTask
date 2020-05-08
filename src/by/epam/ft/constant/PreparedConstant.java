@@ -34,13 +34,6 @@ public abstract class PreparedConstant {
     public static final String GET_VACANCY = "SELECT * FROM vacancy WHERE idVacancy=?;";
     public static final String GET_VACANCIES_BY_NAME = "SELECT * FROM vacancy where name=?;";
 
-    public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
-            " from vacancy join selection on " +
-            "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
-    public static final String GET_VACANCIES_WITH_COUNT_AND_RANGE = "select vacancy.idVacancy, count(*), name, description" +
-            " from vacancy join selection on " +
-            "vacancy.idVacancy=selection.idVacancy where selection.registrationDate>? and selection.registrationDate<? " +
-            "group by vacancy.idVacancy order by count(*) desc;";
     public static final String GET_OPENED_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(selection.idVacancy), name, description, vacancy.status" +
             " from vacancy left outer join selection on " +
             "vacancy.idVacancy=selection.idVacancy where vacancy.status = 'opened' group by vacancy.idVacancy order by count(selection.idVacancy) desc;";
@@ -102,4 +95,21 @@ public abstract class PreparedConstant {
 
     /////////////////////////////INSERT////////////////////
     public static final String INSERT_INTO_CANDIDATE = "INSERT INTO candidate(idAccount) VALUES (?)";
+
+
+    ////////////////////////////STATISTICS///////////////////
+    public static final String GET_ALL_VACANCIES_WITH_COUNT = "select vacancy.idVacancy, count(*), name, description" +
+            " from vacancy join selection on " +
+            "vacancy.idVacancy=selection.idVacancy group by vacancy.idVacancy order by count(*) desc;";
+    public static final String GET_VACANCIES_WITH_COUNT_AND_RANGE = "select vacancy.idVacancy, count(*), name, description" +
+            " from vacancy join selection on " +
+            "vacancy.idVacancy=selection.idVacancy where selection.registrationDate>? and selection.registrationDate<? " +
+            "group by vacancy.idVacancy order by count(*) desc;";
+
+    public static final String GET_HR_STATISCTIS = "SELECT count(*), account.name, account.surname, selection.idHr " +
+            "FROM selection JOIN hr on hr.idHr=selection.idHr " +
+            "JOIN account on hr.idAccount = account.idAccount group by selection.idHr;";
+    public static final String GET_HR_STATISTICS_WITH_RANGE = "SELECT count(*), account.name, account.surname, selection.idHr " +
+            "FROM selection JOIN hr on hr.idHr=selection.idHr JOIN account on hr.idAccount = account.idAccount " +
+            "WHERE selection.registrationDate>? AND selection.registrationDate<? GROUP BY selection.idHr;";
 }
