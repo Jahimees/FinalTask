@@ -51,6 +51,24 @@
         <input style="display: inline" type="date" id="to_hr_statistic_date"/>
         <input style="display: inline" type="button" value="<l:locale name="aconfirm"/>" id="datesHrStatistics">
     </div>
+    <br>
+    <br>
+    <table style="padding: 10px" id="passedStatistic" class="vacancies">
+        <caption style="padding: 20px"><l:locale name="passed_failed_statistic" /></caption>
+        <tr>
+            <th><l:locale name="ahnvacname" /></th>
+            <th><l:locale name="passed"/></th>
+            <th><l:locale name="failed" /></th>
+            <th><l:locale name="persent" /></th>
+        </tr>
+    </table>
+    <div style="display: inline-block; margin-top: 30px; position: relative; left: 30%;">
+        <p style="display: inline">С</p>
+        <input type="date" id="since_passed_statistic_date" style="display: inline"/>
+        <p style="display: inline">По</p>
+        <input style="display: inline" type="date" id="to_passed_statistic_date"/>
+        <input style="display: inline" type="button" value="<l:locale name="aconfirm"/>" id="passedStatistics">
+    </div>
 
 </main>
 <jsp:include page="common/footer.jsp"/>
@@ -137,6 +155,64 @@
         barchart.draw(dataView, header);
     }
 
+    $("#passedStatistics").on('click', function () {
+        reloadTableData()
+    });
+
+    //TODO !!!!!
+    function reloadTableData() {
+        $("#passedStatistic > tr").remove();
+        var sinceDate = $("#since_passed_statistic_date")[0].value;
+        var toDate = $("#to_passed_statistic_date")[0].value;
+        $.ajax({
+            url: "/html/controller",
+            dataType: "javascript",
+            method: "GET",
+            data: {
+                command: "filter_analytics",
+                since_date: sinceDate,
+                to_date: toDate,
+                chart_name: "passedStatistics",
+                noredirect: true
+            },
+            success: function (data) {
+                var data1 = JSON.parse(data.responseText);
+                data1.forEach(function (item, i) {
+                    console.log(i + " a " + item);
+                    addNewRow(item.name, item.passedCount, item.failedCount, item.percent * 100)
+                });
+            },
+            error: function (data) {
+                var data1 = JSON.parse(data.responseText);
+                data1.forEach(function (item, i) {
+                    console.log(i + " a " + item);
+                    addNewRow(item.name, item.passedCount, item.failedCount, item.percent * 100)
+                });
+            }
+        });
+    }
+
+    function addNewRow(name, passed, failed, percent) {
+        var tr = document.createElement('tr');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var td3 = document.createElement('td');
+        var td4 = document.createElement('td');
+
+        td1.innerText = name;
+        td2.innerText = passed;
+        td3.innerText = failed;
+        td4.innerText = percent + "%";
+        
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        
+        $("#passedStatistic")[0].appendChild(tr)
+    }
+
     $("#datesTopVacancies").click();
     $("#datesHrStatistics").click();
+    $("#passedStatistics").click();
 </script>

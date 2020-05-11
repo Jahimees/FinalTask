@@ -482,6 +482,56 @@ public class SelectionDAO implements DAO<Selection> {
         return resultMap;
     }
 
+    public Map<String, Integer> showPassedStatistic(boolean isPassed) {
+        logger.info("Searching passed/failed statistics");
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Map<String, Integer> result = new HashMap<>();
+        try {
+            PreparedStatement preparedStatement;
+            if (!isPassed) {
+                preparedStatement = connection.prepareStatement(FAILED_SELECTIONS);
+            } else {
+                preparedStatement = connection.prepareStatement(PASSED_SELECTIONS);
+            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String vacancyName = resultSet.getString(1);
+                int count = resultSet.getInt(2);
+                result.put(vacancyName, count);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public Map<String, Integer> showPassedStatistic(LocalDate sinceDate, LocalDate toDate, boolean isPassed) {
+        logger.info("Searching passed/failed statistics");
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        Map<String, Integer> result = new HashMap<>();
+        try {
+            PreparedStatement preparedStatement;
+            if (!isPassed) {
+                preparedStatement = connection.prepareStatement(FAILED_SELECTIONS_RANGE);
+            } else {
+                preparedStatement = connection.prepareStatement(PASSED_SELECTIONS_RANGE);
+            }
+            preparedStatement.setString(1, sinceDate.toString());
+            preparedStatement.setString(2, toDate.toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String vacancyName = resultSet.getString(1);
+                int count = resultSet.getInt(2);
+                result.put(vacancyName, count);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private void setSelectionParams(Selection targetSelection, ResultSet resultSet) throws SQLException {
         targetSelection.setIdSelection(resultSet.getInt(ID_SELECTION));
         targetSelection.setIdCandidate(resultSet.getInt(ID_CANDIDATE));

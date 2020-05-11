@@ -112,4 +112,20 @@ public abstract class PreparedConstant {
     public static final String GET_HR_STATISTICS_WITH_RANGE = "SELECT count(*), account.name, account.surname, selection.idHr " +
             "FROM selection JOIN hr on hr.idHr=selection.idHr JOIN account on hr.idAccount = account.idAccount " +
             "WHERE selection.registrationDate>? AND selection.registrationDate<? GROUP BY selection.idHr;";
+    public static final String PASSED_SELECTIONS = "SELECT vacancy.name, count(*) FROM selection " +
+            "JOIN vacancy ON vacancy.idVacancy=selection.idVacancy " +
+            "WHERE selection.status='Прошел собеседование' GROUP BY vacancy.idVacancy;";
+    public static final String FAILED_SELECTIONS = "SELECT vacancy.name, count(*) FROM selection " +
+            "JOIN vacancy ON vacancy.idVacancy=selection.idVacancy " +
+            "WHERE selection.status='Не прошел собеседование' GROUP BY vacancy.idVacancy;";
+
+    public static final String PASSED_SELECTIONS_RANGE = "SELECT vacancy.name, count(*) FROM selection " +
+            "JOIN vacancy ON vacancy.idVacancy=selection.idVacancy " +
+            "WHERE selection.status='Прошел собеседование'" +
+            "  AND selection.registrationDate>? AND selection.registrationDate<? GROUP BY vacancy.idVacancy;";
+    public static final String FAILED_SELECTIONS_RANGE = "SELECT vacancy.name, count(*) FROM selection " +
+            "JOIN vacancy ON vacancy.idVacancy=selection.idVacancy " +
+            "WHERE selection.status='Не прошел собеседование' " +
+            " AND selection.registrationDate>? AND selection.registrationDate<? " +
+            "GROUP BY vacancy.idVacancy;";
 }
