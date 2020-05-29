@@ -58,6 +58,7 @@ public class SessionCheckerFilter implements Filter {
             case MAIN_PAGE: return true;
             case CONTACTS_PAGE: return true;
             case AUTHORIZATION_PAGE: return true;
+            case ABOUT_PAGE: return true;
             case REGISTER_PAGE: return true;
             default: return false;
         }

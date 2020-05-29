@@ -13,5 +13,6 @@ public class PageConstant {
     public static final String OPENED_VACANCY_PAGE = "/html/openedVacancy.jsp";
     public static final String CLOSED_VACANCY_PAGE = "/html/closedVacancy.jsp";
     public static final String CONTACTS_PAGE = "/html/contacts.jsp";
+    public static final String ABOUT_PAGE = "/html/about.jsp";
     public static final String LANG_PROPERTIES_FILE = "by/epam/ft/properties/lang";
 }

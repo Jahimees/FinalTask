@@ -48,6 +48,7 @@
                     <li><a href="/html/controller?command=change_locale&locale=en_US" name="locale" value="en_US">English</a></li>
                 </ul>
             </li>
+            <li><a href="/html/about.jsp"><i class="fa fa-question-circle"></i><l:locale name="navAbout"/></a></li>
         </ul>
     </nav>
 </header>
