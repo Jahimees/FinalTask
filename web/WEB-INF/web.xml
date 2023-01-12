@@ -17,16 +17,16 @@
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
     </resource-ref>
-    
-    <error-page>
-        <error-code>404</error-code>
-        <location>/html/error/error404.jsp</location>
-    </error-page>
+<!--    -->
+<!--    <error-page>-->
+<!--        <error-code>404</error-code>-->
+<!--        <location>/html/error/error404.jsp</location>-->
+<!--    </error-page>-->
 
-    <error-page>
-        <error-code>500</error-code>
-        <location>/html/error/error500.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/html/error/error500.jsp</location>-->
+<!--    </error-page>-->
 
     <!--ENCODING FILTER-->
     <filter>

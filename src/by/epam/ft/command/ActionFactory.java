@@ -1,21 +1,17 @@
 package by.epam.ft.command;
 
 import by.epam.ft.exception.UnknownCommandException;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.COMMAND;
 import static by.epam.ft.constant.AttributeAndParameterConstant.WRONG_ACTION;
-import static by.epam.ft.constant.LogConstant.INVALID_COMMAND;
 
 /**
  * A class that defines a command that comes from
  * a request and is converted to one of the objects of the command class
  */
 public class ActionFactory {
-
-    Logger logger = Logger.getLogger(ActionFactory.class);
 
     /**
      * define command by request
@@ -34,7 +30,6 @@ public class ActionFactory {
             current = currentEnum.getCurrentCommand();
         } catch (UnknownCommandException e) {
             request.setAttribute(WRONG_ACTION, action);
-            logger.error(INVALID_COMMAND, e);
         }
         return current;
     }

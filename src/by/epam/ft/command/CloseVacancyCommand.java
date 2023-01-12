@@ -3,13 +3,11 @@ package by.epam.ft.command;
 import by.epam.ft.dao.VacancyDAO;
 import by.epam.ft.entity.Vacancy;
 import by.epam.ft.service.mail.EmailSenderCommon;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_VACANCY;
-import static by.epam.ft.constant.LogConstant.VACANCY_WAS_CLOSE;
 import static by.epam.ft.constant.PreparedConstant.CLOSE_VACANCY_BY_ID;
 
 /**
@@ -20,18 +18,15 @@ import static by.epam.ft.constant.PreparedConstant.CLOSE_VACANCY_BY_ID;
  */
 public class CloseVacancyCommand implements ActionCommand {
 
-    private final Logger logger = Logger.getLogger(CloseVacancyCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         int idVacancy = Integer.parseInt(request.getParameter(ID_VACANCY));
-        logger.info("Closing vacancy with id " + idVacancy);
 
         Vacancy vacancy = new Vacancy();
         vacancy.setIdVacancy(idVacancy);
         VacancyDAO vacancyDAO = new VacancyDAO();
         vacancyDAO.updateStatus(vacancy, CLOSE_VACANCY_BY_ID);
-        logger.info(idVacancy + VACANCY_WAS_CLOSE);
 
         StringBuilder messageBuilder = new StringBuilder();
         messageBuilder.append("<h1 style=\"text-align: center;\">Good day!</h1>")

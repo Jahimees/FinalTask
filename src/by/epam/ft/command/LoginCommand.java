@@ -4,7 +4,6 @@ import by.epam.ft.cryption.Encryption;
 import by.epam.ft.dao.AccountDAO;
 import by.epam.ft.dao.HrDAO;
 import by.epam.ft.entity.Hr;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,11 +22,9 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
  */
 public class LoginCommand implements ActionCommand {
 
-    private static final Logger logger = Logger.getLogger(LoginCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("Logging command was activated...");
         String login = request.getParameter(LOGIN);
         String passwordFromJSP = request.getParameter(PASSWORD);
         passwordFromJSP = Encryption.encrypt(passwordFromJSP);
@@ -35,11 +32,9 @@ public class LoginCommand implements ActionCommand {
         String passwordFromDB = accountDAO.showPasswordByLogin(login);
 
         if (passwordFromDB.equals(passwordFromJSP)) {
-            logger.info("Logging complete successfully!");
             initSession(request, login);
             return MAIN_PAGE;
         }
-        logger.warn("Authorize failed!");
         request.setAttribute(ERROR_MESSAGE, INVALID_LOGIN_OR_PASSWORD);
         return AUTHORIZATION_PAGE;
     }

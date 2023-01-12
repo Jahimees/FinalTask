@@ -7,7 +7,6 @@ import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
 import by.epam.ft.entity.Selection;
 import by.epam.ft.service.Utils;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,11 +29,9 @@ import static by.epam.ft.constant.PageConstant.ACCOUNT_PAGE;
  */
 public class OpenAccountCommand implements ActionCommand {
 
-    private static final Logger logger = Logger.getLogger(OpenAccountCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("Try to open account...");
         HttpSession session = request.getSession();
         Object id = session.getAttribute(ID);
         String role = (String) session.getAttribute(ROLE);
@@ -51,7 +48,6 @@ public class OpenAccountCommand implements ActionCommand {
 
         request.setAttribute("filter_list", filterChecking(request));
         if (role.equals(HR)) {
-            logger.info("Open HR account page...");
             return ACCOUNT_HR_PAGE;
         } else {
             CandidateDAO candidateDAO = new CandidateDAO();
@@ -59,14 +55,11 @@ public class OpenAccountCommand implements ActionCommand {
             SelectionDAO selectionDAO = new SelectionDAO();
             List<Selection> selections = selectionDAO.showSelections(candidate.getIdCandidate(), false);
             request.setAttribute(SELECTIONS, selections);
-            logger.info("Open candidate account page...");
             return ACCOUNT_PAGE;
         }
     }
 
     public List<Selection> filterChecking(HttpServletRequest request) {
-        logger.info("Starting filter...");
-        logger.info("Take params from request...");
         String hrName = request.getParameter("hr_name");
         String candidateName = request.getParameter("candidate_name");
         String status = request.getParameter("status");
@@ -94,37 +87,31 @@ public class OpenAccountCommand implements ActionCommand {
             byCandidateName = Utils.getSelectionsByCandidateName(candidateName);
             returnable = byCandidateName;
             ignoreByCandidate = false;
-            logger.info("Filtering by candidate name defined");
         }
         if (hrName != null && !hrName.equals("")) {
             byHrName = Utils.getSelectionsByHrName(hrName);
             returnable = byHrName;
             ignoreByHr = false;
-            logger.info("Filtering by hr name defined");
         }
         if (status != null && !status.equals("")) {
             byStatus = Utils.getSelectionsByStatus(status);
             returnable = byStatus;
             ignoreByStatus = false;
-            logger.info("Filtering by vacancy status defined");
         }
         if (vacancyName != null && !vacancyName.equals("")) {
             byVacancyName = Utils.getSelectionByVacancy(vacancyName);
             returnable = byVacancyName;
             ignoreByVacancy = false;
-            logger.info("Filtering by vacancy name defined");
         }
         if (selectionDate != null && !selectionDate.equals("")) {
             bySelectionDate = Utils.getSelectionsByDate(selectionDate, false);
             returnable = bySelectionDate;
             ignoreBySelectionDate = false;
-            logger.info("Filtering by selection date defined");
         }
         if (registrationDate != null && !registrationDate.equals("")) {
             byRegistrationDate = Utils.getSelectionsByDate(registrationDate, true);
             returnable = byRegistrationDate;
             ignoreByRegistrationDate = false;
-            logger.info("Filtering by registration date defined");
         }
 
         if (!ignoreByCandidate) {
@@ -147,7 +134,6 @@ public class OpenAccountCommand implements ActionCommand {
         }
 
         List<Selection> selections = new ArrayList<>(returnable);
-        logger.info("Info was filter successfully");
         if (selections.size() == 0) {
             return null;
         } else {

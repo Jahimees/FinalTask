@@ -2,7 +2,6 @@ package by.epam.ft.service.mail;
 
 import by.epam.ft.entity.EmailMessage;
 import by.epam.ft.service.PropertyService;
-import org.apache.log4j.Logger;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -12,7 +11,6 @@ import java.util.Properties;
 public class MailService {
 
     private Properties mailProperties;
-    Logger logger = Logger.getLogger(MailService.class);
 
     public MailService() {
         Properties configProperties = PropertyService.getProperties();

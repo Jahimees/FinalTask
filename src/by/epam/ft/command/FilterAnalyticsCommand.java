@@ -3,7 +3,6 @@ package by.epam.ft.command;
 import by.epam.ft.dao.SelectionDAO;
 import by.epam.ft.dao.VacancyDAO;
 import by.epam.ft.entity.CustomSelection;
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +18,6 @@ import static by.epam.ft.constant.PageConstant.ANALYTICS_PAGE;
 
 public class FilterAnalyticsCommand implements ActionCommand {
 
-    private static final Logger logger = Logger.getLogger(FilterAnalyticsCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -43,7 +41,6 @@ public class FilterAnalyticsCommand implements ActionCommand {
                 try {
                     out = response.getWriter();
                 } catch (IOException e) {
-                    logger.error("Cannot get writer", e);
                 }
                 out.print("[");
                 for (int i = 0; i < customSelections.size(); i++) {
@@ -78,7 +75,6 @@ public class FilterAnalyticsCommand implements ActionCommand {
             out.print("]);");
             out.flush();
         } catch (IOException e) {
-            logger.error("Cannot get writer from response", e);
         }
 
         return ANALYTICS_PAGE;

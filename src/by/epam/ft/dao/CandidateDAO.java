@@ -3,7 +3,6 @@ package by.epam.ft.dao;
 import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.constant.PreparedConstant;
 import by.epam.ft.entity.Candidate;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,15 +13,12 @@ import java.util.List;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_ACCOUNT;
 import static by.epam.ft.constant.AttributeAndParameterConstant.ID_CANDIDATE;
-import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
-import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 
 /**
  * manages data in the Candidate table
  */
 public class CandidateDAO implements DAO<Candidate>, UserDAO {
 
-    private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     /**
      * Show info about candidate by candidate id
@@ -30,7 +26,6 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
      */
     @Override
     public Candidate showById(int id) {
-        logger.info("Getting candidate by id candidate: " + id);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement statement = null;
         Candidate candidate = new Candidate();
@@ -40,20 +35,15 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 setCandidateFields(resultSet, candidate);
-                logger.info("Candidate found!");
                 return candidate;
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info("Candidate not found!");
         return null;
     }
 
@@ -64,7 +54,6 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
      */
     @Override
     public Candidate showByAccountId(int accId) {
-        logger.info("Showing Candidate by account id: " + accId);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement statement = null;
         try {
@@ -74,20 +63,15 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
             if (rs.next()) {
                 Candidate candidate = new Candidate();
                 setCandidateFields(rs, candidate);
-                logger.info("Candidate found!");
                 return candidate;
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info("Candidate not found!");
         return null;
     }
 
@@ -100,7 +84,6 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
             List<Integer> candidatesIds = new ArrayList<>();
             while (rs.next()) {
                 candidatesIds.add(rs.getInt("idCandidate"));
-                logger.info("Candidate found!");
             }
 
             List<Candidate> candidateList = new ArrayList<>();
@@ -109,16 +92,12 @@ public class CandidateDAO implements DAO<Candidate>, UserDAO {
             }
             return candidateList;
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info("Candidate not found!");
         return null;
     }
 

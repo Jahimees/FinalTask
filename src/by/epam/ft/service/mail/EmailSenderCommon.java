@@ -6,7 +6,6 @@ import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
 import by.epam.ft.entity.EmailMessage;
 import by.epam.ft.entity.Selection;
-import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -14,10 +13,8 @@ import java.util.List;
 
 public class EmailSenderCommon {
 
-    private final Logger logger = Logger.getLogger(EmailSenderCommon.class);
 
     public void sendMessagesIfActionWithVacancy(int idVacancy, String title, StringBuilder messageBuilder) {
-        logger.info("Sending messages to accounts...");
         CandidateDAO candidateDAO = new CandidateDAO();
         AccountDAO accountDAO = new AccountDAO();
 
@@ -38,10 +35,8 @@ public class EmailSenderCommon {
 
                 MailService mailService = new MailService();
                 try {
-                    logger.info("Sending message to " + account.getEmail());
                     mailService.sendEmail(message);
                 } catch (MessagingException e) {
-                    logger.error("Cannot send email to " + account.getEmail(), e);
                 }
             }
         }
@@ -54,7 +49,6 @@ public class EmailSenderCommon {
         if (!account.isConfirmed()) {
             return;
         }
-        logger.info("Sending messages to account " + account.getEmail());
 
         EmailMessage emailMessage = new EmailMessage();
         emailMessage.setTitle("Request status was changed");
@@ -71,7 +65,6 @@ public class EmailSenderCommon {
         try {
             new MailService().sendEmail(emailMessage);
         } catch (MessagingException e) {
-            logger.error("Email cannot be sent");
         }
     }
 }

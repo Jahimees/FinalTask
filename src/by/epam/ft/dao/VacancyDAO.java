@@ -2,7 +2,6 @@ package by.epam.ft.dao;
 
 import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Vacancy;
-import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,8 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import static by.epam.ft.constant.AttributeAndParameterConstant.*;
-import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
-import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 import static by.epam.ft.constant.PreparedConstant.*;
 
 /**
@@ -23,10 +20,8 @@ import static by.epam.ft.constant.PreparedConstant.*;
  */
 public class VacancyDAO implements DAO<Vacancy> {
 
-    private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     public Vacancy showById(int id) {
-        logger.info("Showing vacancy by id: " + id);
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -39,25 +34,19 @@ public class VacancyDAO implements DAO<Vacancy> {
                 vacancy.setDescription(resultSet.getString(DESCRIPTION));
                 vacancy.setStatus(resultSet.getString(STATUS));
                 vacancy.setName(resultSet.getString(NAME));
-                logger.info("Vacancy was found!");
                 return vacancy;
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info("Vacancy was not found!");
         return null;
     }
 
     public List<Vacancy> showByName(String name) {
-        logger.info("Searching vacancies by name: " + name);
         List<Vacancy> vacancies = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         PreparedStatement preparedStatement = null;
@@ -74,21 +63,16 @@ public class VacancyDAO implements DAO<Vacancy> {
                 vacancies.add(vacancy);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info(vacancies.size() + " vacancies found!");
         return vacancies;
     }
 
     public LinkedHashMap<String, Integer> takePopularVacancies() {
-        logger.info("Getting popular vacancies");
         LinkedHashMap<String, Integer> topList = new LinkedHashMap<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -99,20 +83,16 @@ public class VacancyDAO implements DAO<Vacancy> {
                 topList.put(resultSet.getString("name"), resultSet.getInt(COUNT_STAR));
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return topList;
     }
 
     public LinkedHashMap<String, Integer> takePopularVacancies(LocalDate sinceDate, LocalDate toDate) {
-        logger.info("Getting popular vacancies");
         LinkedHashMap<String, Integer> topList = new LinkedHashMap<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -125,13 +105,10 @@ public class VacancyDAO implements DAO<Vacancy> {
                 topList.put(resultSet.getString("name"), resultSet.getInt(COUNT_STAR));
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return topList;
@@ -147,7 +124,6 @@ public class VacancyDAO implements DAO<Vacancy> {
      * @return List<Vacancy>
      */
     public List<Vacancy> showVacancies(boolean opened) {
-        logger.info("Searching vacancies by query...");
         List<Vacancy> result = new ArrayList<>();
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -164,21 +140,16 @@ public class VacancyDAO implements DAO<Vacancy> {
                 result.add(vacancy);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         }finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info("Found vacancies: " + result.size());
         return result;
     }
 
     public boolean updateStatus(Vacancy vacancy, String query) {
-        logger.info("Updating vacancy...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -186,13 +157,10 @@ public class VacancyDAO implements DAO<Vacancy> {
             preparedStatement.setInt(1, vacancy.getIdVacancy());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -204,7 +172,6 @@ public class VacancyDAO implements DAO<Vacancy> {
      */
     @Override
     public boolean updateInfo(Vacancy vacancy, String query) {
-        logger.info("Updating vacancy...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -214,13 +181,10 @@ public class VacancyDAO implements DAO<Vacancy> {
             preparedStatement.setInt(3, vacancy.getIdVacancy());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -244,7 +208,6 @@ public class VacancyDAO implements DAO<Vacancy> {
      * @return true - if successful, false - otherwise
      */
     public boolean insertInfo(Vacancy vacancy, String query) {
-        logger.info("Creating new vacancy...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -253,13 +216,10 @@ public class VacancyDAO implements DAO<Vacancy> {
             preparedStatement.setString(2, vacancy.getDescription());
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;

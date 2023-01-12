@@ -2,7 +2,6 @@ package by.epam.ft.command;
 
 import by.epam.ft.entity.EmailMessage;
 import by.epam.ft.service.mail.MailService;
-import org.apache.log4j.Logger;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +13,10 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
 
 public class SendRequestConfirmAccountCommand implements ActionCommand {
 
-    Logger logger = Logger.getLogger(SendRequestConfirmAccountCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         try {
-            logger.info("Trying to send email for confirm...");
             String email = request.getParameter("email");
             String address = generateAddress(request);
 
@@ -36,11 +33,8 @@ public class SendRequestConfirmAccountCommand implements ActionCommand {
 
             MailService mailService = new MailService();
             mailService.sendEmail(message);
-            logger.info("Request message was send to " + email + " successfully");
         } catch (UnknownHostException e) {
-            logger.error("Unknown host", e);
         } catch (MessagingException e) {
-            logger.error("Failed to send email", e);
         }
         return MAIN_PAGE;
     }

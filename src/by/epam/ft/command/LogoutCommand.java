@@ -1,6 +1,5 @@
 package by.epam.ft.command;
 
-import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +18,9 @@ import static by.epam.ft.constant.PageConstant.MAIN_PAGE;
  */
 public class LogoutCommand implements ActionCommand {
 
-    private static final Logger logger = Logger.getLogger(LogoutCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("Logout command executing...");
         String page = null;
         HttpSession session = request.getSession();
         session.removeAttribute(LOGIN);

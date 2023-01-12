@@ -3,21 +3,17 @@ package by.epam.ft.dao;
 import by.epam.ft.connection.ConnectionPool;
 import by.epam.ft.entity.Account;
 import by.epam.ft.entity.Candidate;
-import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static by.epam.ft.constant.LogConstant.SQL_CLOSE_CONNECTION_EXCEPTION;
-import static by.epam.ft.constant.LogConstant.SQL_DAO_EXCEPTION;
 import static by.epam.ft.constant.PreparedConstant.*;
 
 /**
  * manages data in the Account table
  */
 public class AccountDAO implements DAO<Account> {
-    private static final Logger logger = Logger.getLogger(AccountDAO.class);
 
     /**
      * @see DAO
@@ -26,7 +22,6 @@ public class AccountDAO implements DAO<Account> {
      */
     @Override
     public Account showById(int id) {
-        logger.info("Showing account by id: " + id);
         Connection connection = ConnectionPool.getInstance().getConnection();
         Account account = new Account();
         try {
@@ -37,13 +32,10 @@ public class AccountDAO implements DAO<Account> {
                 setAccountParams(account, rs);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return account;
@@ -55,7 +47,6 @@ public class AccountDAO implements DAO<Account> {
      * @return Account id
      */
     public int showIdAccountByLogin(String login) {
-        logger.info("Showing account by login: " + login);
         Connection connection = ConnectionPool.getInstance().getConnection();
         int idAccount = 0;
         try {
@@ -67,13 +58,10 @@ public class AccountDAO implements DAO<Account> {
                 idAccount = rsInner.getInt(1);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return idAccount;
@@ -85,7 +73,6 @@ public class AccountDAO implements DAO<Account> {
      * @return encrypted password
      */
     public String showPasswordByLogin(String login){
-        logger.info("Showing password by login...");
         String passwordFromDB ="";
         Connection connection = ConnectionPool.getInstance().getConnection();
         try {
@@ -96,13 +83,10 @@ public class AccountDAO implements DAO<Account> {
                 passwordFromDB = rs.getString(1);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return passwordFromDB;
@@ -115,7 +99,6 @@ public class AccountDAO implements DAO<Account> {
      * @return Account object
      */
     public Account showByIdUser(int id, boolean isHr) {
-        logger.info("Showing account by id user: " + id);
         Connection connection = ConnectionPool.getInstance().getConnection();
         Account account = new Account();
             try {
@@ -130,20 +113,16 @@ public class AccountDAO implements DAO<Account> {
                     ResultSet rs = statement.executeQuery();
                     if (rs.next()) {
                         setAccountParams(account, rs);
-                        logger.info("Account found!");
                         return account;
                     }
                 }
             } catch (SQLException e) {
-                logger.error(SQL_DAO_EXCEPTION, e);
             } finally {
                 try {
                     connection.close();
                 } catch (SQLException e) {
-                    logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
                 }
             }
-        logger.info("Account not found!");
         return null;
     }
 
@@ -162,20 +141,16 @@ public class AccountDAO implements DAO<Account> {
             preparedStatement.setInt(2, idAccount);
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Connection closing...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
     }
 
     public List<Account> showByNameAndSurname(String name, String surname) {
-        logger.info("Searching accounts by name and surname...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         List<Account> accounts = new ArrayList<>();
         try {
@@ -189,15 +164,12 @@ public class AccountDAO implements DAO<Account> {
                 accounts.add(account);
             }
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
-        logger.info(accounts.size() + " accounts found!");
         return accounts;
     }
 
@@ -228,7 +200,6 @@ public class AccountDAO implements DAO<Account> {
             preparedStatement.setInt(5, account.getIdAccount());
             return preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot update account info", e);
         }
         return false;
     }
@@ -249,7 +220,6 @@ public class AccountDAO implements DAO<Account> {
      */
     @Override
     public boolean insertInfo(Account account, String query) {
-        logger.info("Creating new account in database...");
         Connection connection = ConnectionPool.getInstance().getConnection();
         boolean result = false;
         try {
@@ -282,13 +252,10 @@ public class AccountDAO implements DAO<Account> {
             }
             result = true;
         } catch (SQLException e) {
-            logger.error(SQL_DAO_EXCEPTION, e);
         } finally {
             try {
-                logger.info("Closing connection...");
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         return result;
@@ -296,7 +263,6 @@ public class AccountDAO implements DAO<Account> {
 
     public boolean setConfirmEmailStatus(int idAccount, boolean confirmStatus) {
         Connection connection = ConnectionPool.getInstance().getConnection();
-        logger.info("Trying to change email status for " + idAccount + "...");
         boolean result = false;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(CHANGE_EMAIL_STATUS);
@@ -304,18 +270,14 @@ public class AccountDAO implements DAO<Account> {
             preparedStatement.setInt(2, idAccount);
             result = preparedStatement.execute();
         } catch (SQLException e) {
-            logger.error("Cannot to change email status", e);
         } finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                logger.error(SQL_CLOSE_CONNECTION_EXCEPTION, e);
             }
         }
         if (result) {
-            logger.info("Status successfully changed!");
         } else {
-            logger.info("Status not changed!");
         }
         return result;
     }

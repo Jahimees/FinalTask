@@ -1,7 +1,5 @@
 package by.epam.ft.entity;
 
-import org.apache.log4j.Logger;
-
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
@@ -15,7 +13,6 @@ import static by.epam.ft.constant.PageConstant.LANG_PROPERTIES_FILE;
 public class TagLocale extends TagSupport {
 
     private String name;
-    private static final Logger logger = Logger.getLogger(TagLocale.class);
 
     public void setName(String name) {
         this.name = name;
@@ -32,7 +29,6 @@ public class TagLocale extends TagSupport {
         try {
             out.write(rb.getString(name));
         } catch (IOException e) {
-            logger.error("Problems with locale function", e);
         }
         return SKIP_BODY;
     }
